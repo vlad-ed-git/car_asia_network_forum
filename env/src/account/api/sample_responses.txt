@@ -1,0 +1,77 @@
+RESPONSES for POST: http://127.0.0.1:8000/api/account/check_if_account_exists/
+{"response":"Account does not exist"}
+or
+{"response":"vlad.edna@gmail.com"}
+OR
+requires email else: {"response":"Provide the email"}
+
+RESPONSES for: http://127.0.0.1:8000/api/account/register
+{"error_message":"That email is already in use.","response":"Error"}
+{"response":"successfully registered new user.","email":"vlad.edna11@gmail.com","username":"mitch11","display_name":"Mitch Guy","pk":6,"token":"ac562e714fec90c35e92300448b90466f17edad8"}
+
+REQUIRED FIELDS
+{"username":["This field is required."],"display_name":["This field is required."],"password":["This field is required."],"password2":["This field is required."]}
+
+
+
+
+RESPONSES for: http://127.0.0.1:8000/api/account/change_password/
+{"response":"successfully changed password"}
+OR
+{
+    "old_password": [
+        "Wrong password."
+    ]
+}
+REQUIRED FIELDS
+{"old_password":["This field is required."],"new_password":["This field is required."],"confirm_new_password":["This field is required."]}
+
+
+
+
+RESPONSES FOR GET http://127.0.0.1:8000/api/account/properties
+{
+    "pk": 4,
+    "email": "joanneseymour@gmail.com",
+    "username": "joanne",
+    "display_name": "Joanne Seymour"
+}
+
+
+
+
+
+RESPONSES FOR POST : http://127.0.0.1:8000/api/account/login
+email & password required
+{
+    "response": "Successfully authenticated.",
+    "pk": 6,
+    "email": "vlad.edna11@gmail.com",
+    "token": "ac562e714fec90c35e92300448b90466f17edad8"
+}
+
+
+
+
+RESPONSES FOR PUT http://127.0.0.1:8000/api/account/properties/update
+{
+    "response": "Account update success"
+}
+{
+    "email": [
+        "account with this email already exists."
+    ],
+    "username": [
+        "This field is required."
+    ],
+    "display_name": [
+        "This field is required."
+    ]
+}
+
+
+
+RESPONSES FOR ACCOUNT DELETION : http://127.0.0.1:8000/api/account/delete
+{
+    "response": "Account deletion success"
+}

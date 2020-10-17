@@ -1,0 +1,51 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg sticky-top colorWhiteBg tinyBorderBottomGray">
+    <div class="navbar-collapse w-25  collapse order-1 dual-collapse2" >
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link colorBlack headingFont accentOnHover"
+                    href="{% url 'home' %}">Car Asia Network | Forum</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mx-auto w-50 order-2 w80Sm my2Sm">
+        
+        {% if show_search_bar %}
+        <form class="form-inline" method="GET">
+            <input class="form-control mr-2 w-75 bodyFont" type="search" placeholder="Search" aria-label="Search" name="query" id="id_search" value={{query}}>
+            <input type="text" value="blog" name="post_type" class="d-none">
+            <button class="btn btn-small btnOutlineAccent headingFont" type="submit">Search</button>
+          </form>
+        {% endif %}
+            
+       
+          <button class="navbar-toggler mt-2" type="button" data-toggle="collapse" data-target=".dual-collapse2">
+            {% include 'website/icons/hamburger.html' %}
+        </button>
+    </div>
+    <div class="navbar-collapse  w-25  collapse order-3 dual-collapse2" >
+        <ul class="navbar-nav ml-auto">
+            {% if request.user.is_authenticated %}
+            <li class="nav-item headingFont">
+                <a class="nav-link headingFont colorBlack accentOnHover" href="{% url 'profile' %}">
+                    Hi, {{ request.user.display_name }}
+                </a>
+            </li>
+
+            <li class="nav-item headingFont ml-2">
+                <a class="nav-item btn btnOutlineErrors headingFont" href="{% url 'logout' %}">Logout</a>
+            </li>
+
+            {% else %}
+            <li class="nav-item headingFont ml-2">
+                <a class="nav-item btn btnOutlineAccent headingFont" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif %}
+            <!-- END IF IS SIGNED IN -->
+        </ul>
+    </div>
+
+
+
+
+</nav>
