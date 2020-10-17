@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<!-- page specific meta info -->
+{% endblock meta %}
+
+{% block css %}
+<!-- page specific css -->
+{% endblock css %}
+
+{% block content %}
+
+<div class="container  py-5">
+    <div class="row">
+        <div class="offset-md-1 col-md-6 col-lg-7">
+            
+            {% if topic_posts %}
+                
+            {% include 'topic/topic_feed.html' with posts=topic_posts %}
+
+            {% include 'website/snippets/pagination.html' with posts=topic_posts post_type=post_type %}
+                
+            {% else %}
+            
+            {% include 'topic/empty_results.html' with query=query %}
+
+            {% endif %}
+        </div>
+        <div class="col-md-5 col-lg-3">
+            {% include 'topic/popular_posts.html' with posts=popular_topics %}
+            {% include 'topic/most_viewed_posts.html' with posts=most_viewed_topics %}
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<!-- page content -->
+{% endblock content %}
+
+
+{% block js %}
+<!-- page specific javascript-->     
+{% endblock js %}

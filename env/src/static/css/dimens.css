@@ -1,0 +1,38 @@
+.lgSubTitle{
+    font-size : 36px;
+}
+
+.lightText{
+    font-size: 12px;
+    font-weight: lighter;
+}
+
+.imgWrapperH155{
+    object-fit: cover;
+    width: 100% !important;
+    height : 155px ; 
+  }
+  
+  .imgWrapperH360{
+    object-fit: cover;
+    width: 100% !important;
+    height : 360px ; 
+  }
+  
+  .imgWrapperH300{
+    object-fit: cover;
+    width: 100% !important;
+    height : 300px ; 
+  }
+  
+  .imgWrapperH170{
+    object-fit: cover;
+    height : 170px ; 
+  }
+  
+  .imgWrapperH80{
+    object-fit: cover;
+    width: 100% !important;
+    height : 80px ; 
+  
+  }

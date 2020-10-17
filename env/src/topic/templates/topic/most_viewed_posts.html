@@ -1,0 +1,16 @@
+<div class="card px-0 mt-5">
+    <div class="px-2 pt-3 pb-0">
+      <h6 class="colorBlack headingFont">Most Viewed Topics</h6>
+    </div>
+    <div class="card-body px-0 py-0">
+    <ul class="list-group list-group-flush">
+        
+        {% for post in posts  %}
+        <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="list-group-item list-group-item-action bodyFont colorBlack">{{ post.title }} </a>
+        {% endfor %}
+          
+        
+      
+    </ul>
+    </div>
+  </div>

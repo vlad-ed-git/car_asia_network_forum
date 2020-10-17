@@ -1,0 +1,37 @@
+{% if success %}
+<h6 class="mb-3">
+    <small class="colorAccent headingFont"> 
+        Successful!
+    </small>
+</h6>
+{% endif %}
+
+{% if fail %}
+<h6 class="mb-3">
+    <small class="colorAccent headingFont"> 
+        An error occurred!
+    </small>
+</h6>
+{% endif %}
+
+{% if form.non_field_errors %}
+<h6 class="mb-3">
+    <small class="colorErrors headingFont"> {{ form.non_field_errors }} </small>
+</h6>
+{% endif %}
+
+{% if form.non_field_errors %}
+<h6 class="mb-3">
+    <small class="colorErrors headingFont"> {{ form.non_field_errors }} </small>
+</h6>
+{% endif %}
+
+<!-- field errors errors -->
+{% for field in form  %}
+
+{% for error in field.errors  %}
+<h6 class="colorErrors headingFont">
+    Error | {{ field.name }} , {{ error }}
+</h6>
+{% endfor %}
+{% endfor %}

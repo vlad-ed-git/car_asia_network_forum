@@ -1,0 +1,87 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12 offset-md-2 col-md-8">
+            <div class="card shadow">
+                <div class="card-body px-3 py-3">
+                <h6 class="headingFont colorBlack mb-3 clearfix">
+                    <span class="float-left">
+                        Welcome back 
+                        <span class="lightFont lightText">{{ request.user.display_name }} </span>?
+                    </span>
+                    <span class="float-right">
+                        <a class="unstyled-link-colorDarkGrey accentOnHover" href="{% url 'topic:my_topics' %}">Topics I started</a>
+                    </span>
+                </h6>
+            {% include 'website/snippets/form_errors.html' with form=update_form %}
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- title -->
+                <div class="form-group">
+                    <label for="id_title" class="headingFont colorBlack">Title</label>
+                    <input class="form-control bodyFont" type="text" name="title" id="id_title"
+                        placeholder="Title" 
+                        {% if  update_form.initial.title %}
+                        value="{{  update_form.initial.title }}" 
+                        {% endif %} required />
+                </div>
+
+                        <!--body-->
+                        <div class="form-group">
+                            <label for="id_body" class="headingFont colorBlack">Content</label>
+                            <textarea class="form-control bodyFont" rows="15" type="text" name="body" id="id_body"
+                                placeholder="Content..." 
+                                required>{% if  update_form.initial.body %}{{  update_form.initial.body }}{% endif %}</textarea>
+
+                            <small class="colorAccent headingFont">
+                                &lt;u&gt;<u>underlined text</u>&lt;/u&gt; &lt;b&gt;<b>bold text</b>&lt;/b&gt;
+                                &lt;i&gt;<i>italic text</i>&lt;/i&gt;
+                            </small>
+                        </div>
+
+                        <div>
+                            {% include 'website/snippets/photo_grid.html' with post=update_form.initial %}
+                        </div>
+                        
+                        {% include 'topic/snippets/categories.html' with post=update_form.initial %}
+
+
+                        <table class="table table-borderless">
+                            <tr>
+                                <!-- Optional Featured Image -->
+                                <td><label for="id_featured_image" class="bodyFont colorDarkGrey">Image <small>*(optional)</small></label></td>
+                                <td><input type="file" name="featured_image" id="id_featured_image" accept="image/*" /></td>
+                            </tr>
+
+                            <tr>
+                                <!-- Optional Image One -->
+                                <td><label for="id_image_one" class="bodyFont colorDarkGrey">Extra Image
+                                    <small>*(optional)</small></label></td>
+                                <td><input type="file" name="extra_image_one" id="id_image_one" accept="image/*" /></td>
+                            </tr>
+
+                            <tr>
+                                <!-- Optional Image Two -->
+                                <td><label for="id_image_two" class="bodyFont colorDarkGrey">Extra Image
+                                    <small>*(optional)</small></label></td>
+                                <td> <input type="file" name="extra_image_two" id="id_image_two" accept="image/*" /></td>
+                            </tr>
+
+                            <tr>
+                                <!-- Optional Image Three -->
+                                <td><label for="id_image_three" class="bodyFont colorDarkGrey">Extra Image
+                                    <small>*(optional)</small></label></td>
+                                <td><input type="file" name="extra_image_three" id="id_image_three" accept="image/*" /></td>
+                            </tr>
+                        </table>
+
+                        <button type="submit" class="btn btnOutlineAccent headingFont width100">Submit
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

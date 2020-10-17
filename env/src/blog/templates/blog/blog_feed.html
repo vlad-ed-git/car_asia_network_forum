@@ -1,0 +1,57 @@
+
+{% for post in posts  %}
+<div class="card mb-4">
+    <div class="card-body px-0 py-0">
+        <table>
+            <tr>
+                <td>
+                    <h6 class="py-2 text-center px-2">
+                        {{ post.views }} <br> {% include 'website/icons/views.html' %}
+                    </h6>
+                </td>
+                <td>
+                    <table>
+                        <tr>
+                            <td>
+                                <h6 class="lightFont lightText colorDarkGrey py-2">
+                                    Posted By <a href="{% url 'authors_posts' posts_by_author=post.author.username post_type='blog' %}" class="unstyled-link-colorBlack accentOnHover">{{ post.author }}</a>
+                                    {{ post.date_updated }}
+                                </h6>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <h6 class="headingFont blockElements">
+                                    <a href="{% url 'post_details' post_type='blog' slug=post.slug %}" class="unstyled-link-colorBlack darkGreyOnHover">
+                                     {{ post.title }}
+                                     </a>
+                                 </h6>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        
+        
+        
+        </table>
+        
+        {% if post.featured_image %}
+        <div class="my-2">
+            <img class="imgWrapperH360" src="{{ post.featured_image.url }}">
+        </div>
+        {% endif %}
+        <div class="px-5 py-2">
+            <h6 class="mr-4 colorBlack inlineBlocks">
+                {% include 'website/icons/thumbs_up.html' %}
+                {{ post.total_likes }}
+            </h6>
+            <h6 class="mr-4 colorBlack inlineBlocks">
+                {% include 'website/icons/thumbs_down.html' %}
+                {{ post.total_dislikes }}
+            </h6>
+        </div>
+    </div>
+  </div>
+{% endfor %}

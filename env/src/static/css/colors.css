@@ -1,0 +1,182 @@
+.colorGreenishWhite{
+color : #E8F5E9   ; 
+}
+
+.colorWhite{
+color : #FFFFFF   ; 
+}
+
+.colorBlack{
+    color : #000000   ; 
+}
+
+.colorAccent{
+color : #0079d3 ; 
+}
+
+.colorLighterAccent{
+color : #C8E6C9   ; 
+}
+
+.colorErrors{
+color : #B00020   ; 
+}
+
+.colorWhite{
+color : #FFFFFF   ; 
+}
+
+.colorGrey{
+color : #dae0e6   ; 
+}
+
+.colorYellowish{
+color : #FFA300   ; 
+}
+
+.colorBrownish{
+color : #784132   ; 
+}
+
+.colorLightGrey{
+    color : #ebebeb ;
+}
+
+.colorDarkGrey{
+    color : #808088 ;
+}
+    
+
+/********background colors ************/
+.colorGreenishWhiteBg{
+background-color : #E8F5E9   ; 
+}
+
+.colorWhiteBg{
+background-color : #FFFFFF   ; 
+}
+
+.colorAccentBg{
+background-color : #0079d3 ; 
+}
+
+.colorLighterAccentBg{
+background-color : #C8E6C9   ; 
+}
+
+.colorErrorsBg{
+background-color : #B00020   ; 
+}
+
+.colorWhiteBg{
+background-color : #FFFFFF   ; 
+}
+
+.colorGreyBg{
+background-color : #dae0e6   ; 
+}
+
+.colorYellowishBg{
+background-color : #FFA300   ; 
+}
+
+.colorBrownishBg{
+background-color : #784132   ; 
+}
+
+.colorLightGreyBg{
+    background-color : #ebebeb ;
+}
+
+
+/******* borders ***********/
+
+.borderRightLightGrey{
+    border-right: 1px solid #ebebeb;
+}
+
+.borderLeftLightGrey{
+    border-left: 1px solid #ebebeb;
+}
+
+
+/*********links *********/
+.unstyled-link-colorAccent,
+.unstyled-link-colorAccent:visited{
+    color : #0079d3;
+}
+
+.unstyled-link-colorBlack,
+.unstyled-link-colorBlack:visited{
+    color: #000000;
+}
+
+.unstyled-link-colorDarkGrey,
+.unstyled-link-colorDarkGrey:visited{
+    color: #808080;
+}
+
+.accentOnHover:hover,
+.accentOnHover:focus,
+.accentOnHover:active{
+    text-decoration: none;
+    cursor: pointer;
+    cursor: hand;
+    color: #0079d3;
+    outline: none;
+    border: none;
+}
+
+.darkGreyOnHover:hover,
+.darkGreyOnHover:focus,
+.darkGreyOnHover:active{
+    text-decoration: none;
+    cursor: pointer;
+    cursor: hand;
+    color: #808080;
+}
+
+.errorsOnHover:hover,
+.errorsOnHover:focus,
+.errorsOnHover:active{
+    text-decoration: none;
+    cursor: pointer;
+    cursor: hand;
+    color: #B00020 ;
+}
+
+
+.brownishOnHover:hover,
+.brownishOnHover:focus,
+.brownishOnHover:active{
+    text-decoration: none;
+    cursor: pointer;
+    cursor: hand;
+    color: #784132 ;
+}
+
+
+/***** buttons *******/
+.btnOutlineAccent{
+    border-color: #0079d3;
+    color: #0079d3;
+}
+
+.btnOutlineAccent:focus,
+.btnOutlineAccent:hover{
+    background-color:  #0079d3;
+    border: none;
+    color: #FFFFFF ;
+}
+
+.btnOutlineErrors{
+    border-color: #B00020 ;
+    color: #B00020 ;
+}
+
+.btnOutlineErrors:focus,
+.btnOutlineErrors:hover{
+    background-color:  #B00020;
+    border: none;
+    color: #FFFFFF;
+}
