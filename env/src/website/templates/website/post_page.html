@@ -92,7 +92,6 @@
 
                         {% endif %}
                         <!--END IF POST IS TOPIC -->
-                        
                         <!--END IF USER IS LOGGED IN -->
                         {% else %}
                         <!-- USER IS NOT LOGGED IN -->
@@ -107,10 +106,10 @@
 
 
 
-{% if topic_comments %}
-    
+{% if post_type == 'topic' %}
+{% include 'website/app_pages/comments/topic_comments.html' %}
 {% endif %}
-    {% include 'website/app_pages/comments/topic_comments.html' with posts=topic_comments %}
+
 {% endblock content %}
 
 {% block js %}

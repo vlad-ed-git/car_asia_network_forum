@@ -5,6 +5,7 @@ from topic.models import TopicPost
 from .models import CommentsPost
 from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+import json
 from django.http import HttpResponse, JsonResponse
 from django.core import serializers
 
@@ -121,16 +122,18 @@ def search_comments(query=None, page=1):
     return commentsPosts
 
 
-def get_all_comments(request, post_id, page):
-    comments_posts =  CommentsPost.objects.filter(for_post_id=post_id).order_by('-date_updated')
-    comments_posts_paginator = Paginator(comments_posts, POSTS_PER_PAGE)
-    try:
-        commentsPosts = comments_posts_paginator.page(page)
-    except PageNotAnInteger:
-        commentsPosts = comments_posts_paginator.page(POSTS_PER_PAGE)
-    except EmptyPage:
-        commentsPosts = comments_posts_paginator.page(comments_posts_paginator.num_pages)
-    return commentsPosts
+def ajax_get_topic_comments(request, post_id, page):
+    if int(page) == 1:
+        offset = 0
+    else:
+        offset = POSTS_PER_PAGE * (int(page) - 1)
+    if request.is_ajax and request.method == "GET":
+        comments =  CommentsPost.objects.filter(for_post_id=post_id).order_by('-date_updated')[offset:POSTS_PER_PAGE]
+        ser_comments_posts = serializers.serialize('json', comments, fields=('body', 'author', 'date_updated',), use_natural_foreign_keys=True)
+        return JsonResponse({"instance": ser_comments_posts}, status=200)
+    else:
+        errorMsg = "Only ajax get method is supported"
+    return JsonResponse({"error": errorMsg}, status=400)
 
 def get_all_comments_by_author(request, page, username):
     author = get_object_or_404(Account, username=username)

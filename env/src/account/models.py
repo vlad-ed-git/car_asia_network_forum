@@ -17,6 +17,8 @@ def upload_location(instance, filename):
 
 
 class MyAccountManager(BaseUserManager):
+    def get_by_natural_key(self, display_name):
+        return self.get(display_name=first_name,)
 
     def create_user(self, email, display_name, username,  password=None, is_editor = False, is_super_editor = False):
         if not email:
@@ -81,6 +83,8 @@ class Account(AbstractBaseUser):
     # set the manage defined above
     objects = MyAccountManager()
 
+    def natural_key(self):
+       return (self.display_name,)
 
     def __str__(self):
         return self.display_name

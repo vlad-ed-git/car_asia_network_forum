@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author
-from comments.views import get_all_comments
+
 
 # home page
 def home_view(request, posts_by_author = None, post_type = None ):
@@ -38,7 +38,7 @@ def post_details_view(request, post_type, slug):
     if post_type == 'topic':
        topic = get_topic_post_or_404(slug=slug)
        increment_view_count(topic.slug)
-       topic_comments = get_all_comments(request, post_id=topic.id, page=1)
+
 
     context = {}
     if request.user.is_authenticated:
@@ -49,7 +49,6 @@ def post_details_view(request, post_type, slug):
 
     context['post'] = topic
     context['post_type'] = post_type
-    context['topic_comments'] = topic_comments
     return render(request, 'website/post_page.html', context)
 
 def like_post_view(request, post_type, slug):
