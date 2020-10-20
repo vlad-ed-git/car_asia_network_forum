@@ -75,7 +75,7 @@ def compress_image(image):
 def pre_save_blog_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(
-            instance.author.username + "-" + str(nstance.pk))
+            instance.author.username + "-" + instance.title[0:48] )
     try:
         post_obj = BlogPost.objects.get(pk=instance.pk)
 

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'website',
     'blog',
     'topic',
+    'comments',
     'rest_framework',
     'rest_framework.authtoken',
 

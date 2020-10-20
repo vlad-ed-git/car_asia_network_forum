@@ -7,7 +7,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-12 offset-lg-1 col-lg-10">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body px-3 py-3">
                     <h5 class="py-0 headingFont colorBlack text-left">
                         {{ post.title }}
@@ -35,10 +35,10 @@
                             {% if is_my_post %}
                             me
                             {% else %}
-                            {{ request.user.display_name }}
+                            {{ post.author.display_name }}
                             {% endif %}
                         </span>
-                        <span class="pl-5 lightFont lightText colorDarkGrey">
+                        <span class="pl-4 lightFont lightText colorDarkGrey">
                             {{ post.date_updated }}
                         </span>
                     </div>
@@ -57,38 +57,46 @@
                         </a>
                         {% endif %}
                         
+                        <!--IF USER IS LOGGED IN -->
                         {% if request.user.is_authenticated %}
                         
+                         <!--IF POST IS TOPIC -->
                         {% if post_type == 'topic' %}
-                        <a href="{% url 'like_post' slug=post.slug post_type=post_type %}" 
-                        
-                        {% if user_likes_post %}
-                        class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont mr-4"
-                        {% else %}
-                        class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont mr-4"
-                        {% endif %}
-                        >
-                            {% include 'website/icons/thumbs_up.html' %}
-                            Like
-                        </a>
-                        <a href="{% url 'dislike_post' slug=post.slug post_type=post_type %}" 
-                        {% if user_dislikes_post %}
-                        class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont mr-4"
-                        {% else %}
-                        class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont mr-4"
-                        {% endif %}
-                        >
-                            {% include 'website/icons/thumbs_down.html' %}
-                            Dislike
-                        </a>
-                        {% endif %}
-                            
-                        
+                        <!-- LIKE BUTTPN -->
+                                <a href="{% url 'like_post' slug=post.slug post_type=post_type %}" 
+                                
+                                {% if user_likes_post %}
+                                class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont"
+                                {% else %}
+                                class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont"
+                                {% endif %}
+                                >
+                                    {% include 'website/icons/thumbs_up.html' %}
+                                    Like
+                                </a>
+                        <!-- DISLIKE BUTTON -->
+                                <a href="{% url 'dislike_post' slug=post.slug post_type=post_type %}" 
+                                {% if user_dislikes_post %}
+                                class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont"
+                                {% else %}
+                                class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont"
+                                {% endif %}
+                                >
+                                    {% include 'website/icons/thumbs_down.html' %}
+                                    Dislike
+                                </a>
 
-                        {% else %}
+                                <div class="clearfix w-100 my-3">
+                                    {% include 'comments/post_topic_comment.html' with topic=post %}
+                                </div>
 
-                        <a class="btn btnOutlineAccent headingFont w-100" href="{% url 'login' %}">Login to like or dislike this post</a>
-                            
+                        {% endif %}
+                        <!--END IF POST IS TOPIC -->
+                        
+                        <!--END IF USER IS LOGGED IN -->
+                        {% else %}
+                        <!-- USER IS NOT LOGGED IN -->
+                        <a class="btn btnOutlineAccent headingFont w-100" href="{% url 'login' %}">Login to comment on this thread</a>
                         {% endif %}
                     </div>
                 </div>
@@ -96,4 +104,15 @@
         </div>
     </div>
 </div>
+
+
+
+{% if topic_comments %}
+    
+{% endif %}
+    {% include 'website/app_pages/comments/topic_comments.html' with posts=topic_comments %}
 {% endblock content %}
+
+{% block js %}
+<!-- page specific javascript-->     
+{% endblock js %}
