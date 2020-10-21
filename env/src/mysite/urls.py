@@ -50,6 +50,9 @@ urlpatterns = [
     path('blog/', include('blog.urls'), name='blog'),
     path('discussions/', include('topic.urls'), name='topic'),
 
+    #comments
+    path('comments/', include('django_comments_xtd.urls'), name="topic_comments"),
+
     #user auth views
     path('register/', registration_view, name="register"),
     path('login/', login_view, name="login"),

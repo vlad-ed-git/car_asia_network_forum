@@ -8,6 +8,8 @@ from django.db.models.signals import pre_save, post_delete
 from django.dispatch import receiver
 from account.models import Account
 from django.utils.translation import gettext_lazy as _
+from django_comments_xtd.models import XtdComment
+from django.urls import reverse
 
 def upload_location(instance, filename):
     file_path = 'topic/{author_id}/{title}-{filename}'.format(
@@ -59,6 +61,8 @@ class TopicPost(models.Model):
     def total_dislikes(self):
         return self.dislikes.count()
 
+    def get_absolute_url(self):
+        return reverse('post_details',kwargs={'post_type': 'topic','slug': self.slug})
 
 @receiver(post_delete, sender=TopicPost)
 def submission_delete(sender, instance, **kwargs):
@@ -89,7 +93,7 @@ def compress_image(image):
 def pre_save_topic_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(
-            instance.author.username + "-" + str(instance.pk))
+            instance.author.username + "-" + instance.title[0:48] )
     try:
         post_obj = TopicPost.objects.get(pk=instance.pk)
 
@@ -120,3 +124,11 @@ def pre_save_topic_post_receiver(sender, instance, *args, **kwargs):
 
 
 pre_save.connect(pre_save_topic_post_receiver, sender=TopicPost)
+
+
+#comments-xtd
+class CustomComment(XtdComment):
+    def save(self, *args, **kwargs):
+        if self.user:
+            self.user_name = self.user.display_name
+        super(CustomComment, self).save(*args, **kwargs)

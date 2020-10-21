@@ -4,10 +4,12 @@
 {% endblock %}
 
 {% block content %}
-<div class="container py-5">
+
+{% load comments %}
+<div class="container-fluid py-5">
     <div class="row">
         <div class="col-12 offset-lg-1 col-lg-10">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-body px-3 py-3">
                     <h5 class="py-0 headingFont colorBlack text-left">
                         {{ post.title }}
@@ -35,15 +37,55 @@
                             {% if is_my_post %}
                             me
                             {% else %}
-                            {{ request.user.display_name }}
+                            {{ post.author.display_name }}
                             {% endif %}
                         </span>
-                        <span class="pl-5 lightFont lightText colorDarkGrey">
+                        <span class="pl-4 lightFont lightText colorDarkGrey">
                             {{ post.date_updated }}
                         </span>
                     </div>
 
                     <div class="my-3">
+                        <!--IF USER IS LOGGED IN -->
+                        {% if request.user.is_authenticated %}
+
+                         <!--IF POST IS TOPIC -->
+                         {% if post_type == 'topic' %}
+
+                        <!-- number of comments -->
+                       <span class="colorBlack headingFont pr-3">
+                           {% get_comment_count for post as comment_count %}
+                           {{ comment_count }} comment{{ comment_count|pluralize }}
+                       </span>
+
+                        <!-- LIKE BUTTPN -->
+                                <a href="{% url 'like_post' slug=post.slug post_type=post_type %}" 
+
+                                {% if user_likes_post %}
+                                class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont"
+                                {% else %}
+                                class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont"
+                                {% endif %}
+                                >
+                                    {% include 'website/icons/thumbs_up.html' %}
+                                    Like
+                                </a>
+                        <!-- DISLIKE BUTTON -->
+                                <a href="{% url 'dislike_post' slug=post.slug post_type=post_type %}" 
+                                {% if user_dislikes_post %}
+                                class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont"
+                                {% else %}
+                                class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont"
+                                {% endif %}
+                                >
+                                    {% include 'website/icons/thumbs_down.html' %}
+                                    Dislike
+                                </a>
+
+                        {% endif %}
+                        <!--END IF POST IS TOPIC -->
+
+                        <!-- can edit or delete -->
                         {% if is_my_post %}
                         <a {% if post_type == 'topic' %} href="{% url 'topic:edit_topic' slug=post.slug %}" {% endif %}
                             class="unstyled-link-colorDarkGrey accentOnHover headingFont mr-4">
@@ -56,39 +98,19 @@
                             {% include 'website/icons/delete.html' %} Delete
                         </a>
                         {% endif %}
-                        
-                        {% if request.user.is_authenticated %}
-                        
+
+
+                        <!--IF POST IS TOPIC show comment form -->
                         {% if post_type == 'topic' %}
-                        <a href="{% url 'like_post' slug=post.slug post_type=post_type %}" 
-                        
-                        {% if user_likes_post %}
-                        class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont mr-4"
-                        {% else %}
-                        class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont mr-4"
+                        <div class="d-block my-3">
+                            {% render_comment_form for post %}
+                        </div>
                         {% endif %}
-                        >
-                            {% include 'website/icons/thumbs_up.html' %}
-                            Like
-                        </a>
-                        <a href="{% url 'dislike_post' slug=post.slug post_type=post_type %}" 
-                        {% if user_dislikes_post %}
-                        class="mr-4 unstyled-link-colorAccent darkGreyOnHover headingFont mr-4"
-                        {% else %}
-                        class="mr-4 unstyled-link-colorDarkGrey accentOnHover headingFont mr-4"
-                        {% endif %}
-                        >
-                            {% include 'website/icons/thumbs_down.html' %}
-                            Dislike
-                        </a>
-                        {% endif %}
-                            
-                        
 
+                        <!--END IF USER IS LOGGED IN -->
                         {% else %}
-
-                        <a class="btn btnOutlineAccent headingFont w-100" href="{% url 'login' %}">Login to like or dislike this post</a>
-                            
+                        <!-- USER IS NOT LOGGED IN -->
+                        <a class="btn btnOutlineAccent headingFont w-100" href="{% url 'login' %}">Login to comment on this thread</a>
                         {% endif %}
                     </div>
                 </div>
@@ -96,4 +118,15 @@
         </div>
     </div>
 </div>
+
+<!-- COMMENTS SECTION -->
+<!--IF POST IS TOPIC -->
+{% if post_type == 'topic' %}
+    <!--display comments -->
+    {% include 'comments/topic/topic_comments.html' with post=post %}
+{% endif %}
 {% endblock content %}
+
+{% block js %}
+<!-- page specific javascript-->     
+{% endblock js %}

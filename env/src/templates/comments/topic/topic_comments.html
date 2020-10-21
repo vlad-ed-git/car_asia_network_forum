@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 offset-lg-1 col-lg-10">
+      <!-- a comment -->
+          {% load comments comments_xtd %}
+          {% get_comment_count for post as comment_count %}
+          {% if comment_count %}
+                  {% render_xtdcomment_tree for post allow_flagging allow_feedback show_feedback %}
+          {% endif %}
+
+        <!-- a comment -->
+        </div>
+  </div>
+</div>

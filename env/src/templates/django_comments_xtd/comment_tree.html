@@ -1,0 +1,86 @@
+{% load l10n %}
+{% load i18n %}
+{% load comments %}
+{% load comments_xtd %}
+{% load static %}
+
+{% for item in comments %}
+{% if not item.comment.is_removed %}
+{% if not is_children %}
+<div class="card shadow my-4">
+    <div class="card-body px-3 py-3">
+
+{% endif %}
+    
+<div class="bodyFont media">
+  <a name="c{{ item.comment.id }}"></a>
+  <div class="bodyFont mr-3">
+    {% if item.comment.user.profile_picture %}
+        <img alt="" src="{{ item.comment.user.profile_picture.url }}" class="rounded-circle z-depth-2 shadow" width="48">
+    {% else %}
+        <img alt="" src="{% static '/images/default_profile_avatar.png' %}" class="rounded-circle z-depth-2 shadow" width="48">
+    {% endif %}
+  </div>
+  <div class="colorBlack  bodyFont media-body ">
+    <div class="bodyFont comment pb-3 my-2">
+      <h6 class="bodyFont mb-1 small d-flex">
+        <div class="bodyFont mr-auto">{{ item.comment.submit_date|localize }}-{% if item.comment.url and not item.comment.is_removed %}<a href="{{ item.comment.url }}" target="_new">{% endif %}{{ item.comment.name }}{% if item.comment.url %}</a>{% endif %}{% if item.comment.user and item.comment.user|has_permission:"django_comments.can_moderate" %}<span class="bodyFont badge badge-secondary">{% trans "moderator" %}</span>{% endif %}<a class="bodyFont permalink" title="{% trans 'comment permalink' %}" href="{% get_comment_permalink item.comment %}"></a></div>
+        <span>
+          {% if not item.comment.is_removed %}
+            {% if perms.comments.can_moderate %}
+              {% if item.flagged_count %}
+                <span class="bodyFont badge badge-danger" title="{% blocktrans count counter=item.flagged_count %}A user has flagged this comment as inappropriate.{% plural %}{{ counter }} users have flagged this comment as inappropriate.{% endblocktrans %}">{{ item.flagged_count }}</span>
+              {% endif %}
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            {% if allow_flagging and item.flagged %}
+              <i class="colorErrors" title="{% trans 'comment flagged' %}">
+                {% include 'website/icons/flagged.html' %}
+              </i>
+            {% elif allow_flagging %}
+              <a class="bodyFont mutedlink"
+                 href="{% url 'comments-flag' item.comment.pk %}">
+                <i class="colorDarkGrey" title="{% trans 'flag comment' %}">
+                  {% include 'website/icons/flag.html' %}
+                </i>
+              </a>
+            {% endif %}
+            {% endif %}
+            {% if perms.comments.can_moderate %}
+              <a class="bodyFont mutedlink"
+                 href="{% url 'comments-delete' item.comment.pk %}"><i class="bodyFont colorErrors pl-2" title="{% trans 'remove comment' %}">
+                  {% include 'website/icons/delete.html' %}
+                 </i></a>
+            {% endif %}
+          {% endif %}
+        </span>
+      </h6>
+      {% if item.comment.is_removed %}
+        <h6 class="headingFont colorDarkGrey{% if not allow_feedback and not item.comment.allow_thread %} pb-3{% endif %}"><em>{% trans "This comment has been removed." %}</em></h6>
+      {% else %}
+        <div class="colorBlack py-2 bodyFont content{% if not allow_feedback and not item.comment.allow_thread %} pb-3{% endif %}">
+        {% include "includes/django_comments_xtd/comment_content.html" with content=item.comment.comment %}
+        </div>
+        {% if allow_feedback and request.user.is_authenticated %}
+          {% include "django_comments_xtd/user_feedback.html" %}
+        {% endif %}
+        {% if item.comment.allow_thread and not item.comment.is_removed %}
+          {% if request.user.is_authenticated %}
+          {% if allow_feedback %}<span class="bodyFont text-muted">&bull;</span>{% endif %}<a class="unstyled-link-colorAccent darkGreyOnHover headingFont small px-2" href="{{ item.comment.get_reply_url }}">{% trans "Reply" %}</a>{% endif %}
+        {% endif %}
+      {% endif %}
+    </div>
+    
+    {% if not is_children %}
+        </div>
+        </div>
+    {% endif %}
+        
+    
+    {% if not item.comment.is_removed and item.children %}
+      {% render_xtdcomment_tree with comments=item.children is_children='true' %}
+    {% endif %}
+  </div>
+</div>
+{% endif %} <!--skip deleted comments-->
+{% endfor %}

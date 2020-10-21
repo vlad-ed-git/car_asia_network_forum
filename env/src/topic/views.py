@@ -6,6 +6,7 @@ from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 
+
 # Create your views here.
 def create_topic_view(request):
     context = {}

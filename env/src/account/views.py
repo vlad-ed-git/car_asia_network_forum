@@ -3,7 +3,6 @@ from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, LoginForm, AccountUpdateForm
 
 
-
 def must_authenticate_view(request):
     if request.user.is_authenticated:
     	logout(request)
