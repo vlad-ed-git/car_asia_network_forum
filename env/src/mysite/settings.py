@@ -38,13 +38,25 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 # Application definition
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    #TODO specify email settings
+    EMAIL_HOST = "smtp.mail.com"
+    EMAIL_PORT = "587"
+    EMAIL_HOST_USER = "alias@mail.com"
+    EMAIL_HOST_PASSWORD = "yourpassword"
+    EMAIL_USE_TLS = True
+    DEFAULT_FROM_EMAIL = "Helpdesk <forum_help@carasianetwork>"
 
 INSTALLED_APPS = [
     'account',
     'website',
     'blog',
     'topic',
-    'comments',
+
+    'django.contrib.sites',
+    'django_comments_xtd',
+    'django_comments',
+
     'rest_framework',
     'rest_framework.authtoken',
 
@@ -57,6 +69,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# comments-xtd app settings
+SITE_ID = 1
+COMMENTS_APP = 'django_comments_xtd'
+COMMENTS_XTD_MAX_THREAD_LEVEL = 5
+COMMENTS_XTD_CONFIRM_EMAIL = False
+COMMENTS_HIDE_REMOVED = True
+COMMENTS_XTD_MODEL = 'topic.models.CustomComment'
+COMMENTS_XTD_LIST_ORDER = ('-thread_id', 'order') 
 
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
@@ -201,3 +222,14 @@ MEDIA_URL = '/media/'
 if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+
+#require login to post comments
+COMMENTS_XTD_APP_MODEL_OPTIONS = {
+    'default': {
+        'allow_flagging': True,
+        'allow_feedback': True,
+        'show_feedback': True,
+        'who_can_post': 'users'
+    }
+}

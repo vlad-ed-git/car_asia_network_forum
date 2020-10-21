@@ -1,0 +1,41 @@
+{% load i18n %}
+{% load comments %}
+
+<form method="POST" action="{% comment_form_target %}" class="my-4">
+    {% csrf_token %}
+    <fieldset>
+        <input type="hidden" name="next" value="{% url 'comments-xtd-sent' %}"/>
+    
+        <div class="alert alert-danger colorErrors headingFont" data-comment-element="errors" hidden>
+        </div>
+
+        {% for field in form %}
+        {% if field.is_hidden %}<div>{{ field }}</div>{% endif %}
+        {% endfor %}
+
+        <div style="display:none">{{ form.honeypot }}</div>
+
+        <div class="row form-group {% if 'comment' in form.errors %}has-danger{% endif %}">
+            <div class="col-12">
+                {{ form.comment }}
+            </div>
+        </div>
+
+        <!--notification-->
+        <div class="row form-group d-none">
+            <div class="col-12">
+                <div class="custom-control custom-checkbox">
+                    {{ form.followup }}
+                    <label for="id_followup{% if cid %}_{{ cid }}{% endif %}" class="custom-control-label colorBlack headingFont">&nbsp;{{ form.followup.label }}</label>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="row form-group">
+        <div class="col-12 clearfix">
+            <input type="submit" name="post" value="{% trans 'send' %}" class="w-25 float-right btn btnOutlineAccent headingFont" />
+            <input type="submit" name="preview" value="{% trans 'preview' %}" class="btn btnOutlineAccent d-none" />
+        </div>
+    </div>
+</form>

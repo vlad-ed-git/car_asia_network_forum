@@ -30,10 +30,6 @@ def home_view(request, posts_by_author = None, post_type = None ):
     return render(request, 'website/home.html', context)
 
 
-def create_comment_view(request):
-    CreateCommentsPostForm()
-    pass
-
 def post_details_view(request, post_type, slug):
     if post_type == 'topic':
        topic = get_topic_post_or_404(slug=slug)

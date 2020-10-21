@@ -18,7 +18,7 @@ def upload_location(instance, filename):
 
 class MyAccountManager(BaseUserManager):
     def get_by_natural_key(self, display_name):
-        return self.get(display_name=first_name,)
+        return self.get(display_name=display_name,)
 
     def create_user(self, email, display_name, username,  password=None, is_editor = False, is_super_editor = False):
         if not email:
@@ -86,6 +86,9 @@ class Account(AbstractBaseUser):
     def natural_key(self):
        return (self.display_name,)
 
+    def get_full_name(self):
+        return self.display_name
+
     def __str__(self):
         return self.display_name
 
@@ -96,6 +99,9 @@ class Account(AbstractBaseUser):
     # Does this user have permission to view this app? (ALWAYS YES FOR SIMPLICITY)
     def has_module_perms(self, app_label):
         return True
+
+    def has_perms(self, perm, obj=None):
+        return self.is_admin
 
 @receiver(post_delete, sender=Account)
 def submission_delete(sender, instance, **kwargs):
