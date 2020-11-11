@@ -18,6 +18,8 @@ TEMPLATES_DIR =  os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 MEDIA_DIR = os.path.join(BASE_DIR, "media")
 SITE_CONFIG_DIR = os.path.join(BASE_DIR, "config")
+LOCALE_DIR = os.path.join(BASE_DIR, "locale")
+LOCALE_PATHS = ( LOCALE_DIR, )
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'website',
     'blog',
     'topic',
+    'achievements',
 
     'django.contrib.sites',
     'django_comments_xtd',
@@ -69,6 +72,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
 
 # comments-xtd app settings
 SITE_ID = 1
@@ -99,6 +103,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -195,7 +200,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'th' #'en-us'
 
 TIME_ZONE = 'UTC'
 

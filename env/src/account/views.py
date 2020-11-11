@@ -1,7 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, LoginForm, AccountUpdateForm
-
+from rest_framework.authtoken.models import Token
+from .models import Account
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 def must_authenticate_view(request):
     if request.user.is_authenticated:
@@ -57,10 +60,25 @@ def login_view(request):
 
 	context['login_form'] = form
 
-	# print(form)
 	return render(request, "account/login.html", context)
 
-
+@csrf_exempt
+def login_from_main_site_view(request):
+    
+    if request.POST:
+        email = request.POST['email']
+        token = request.POST['token']
+        account = Account.objects.get(email=email)
+        true_token = Token.objects.get(user=account)
+        if true_token.key == token:
+            login(request, account, backend='django.contrib.auth.backends.AllowAllUsersModelBackend')
+            return redirect("home") #logged in
+        else:
+            return redirect("home") # logged out
+    
+    else:
+        return JsonResponse({'error':'Suspiscious attempt!' })
+    
 def profile_view(request):
 
 	if not request.user.is_authenticated:

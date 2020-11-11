@@ -18,11 +18,11 @@ def upload_location(instance, filename):
 
 class TopicPost(models.Model):
     class CATEGORIES(models.TextChoices):
+        GCD = 'GCD', _('General Car Discussion')
         CA ='CA', _('Car Accessories')
         CP = 'CP', _('Car Performance Parts')
         CC = 'CC', _('Continental Cars')
         CEI = 'CEI', _('Cosmetic Enhancement Items')
-        GCD = 'GCD', _('General Car Discussion')
         ICE = 'ICE', _('In Car Entertainment')
         JC = 'JC', _('Japanese Cars')
         MR = 'MR', _('Maintenance & Repairs')

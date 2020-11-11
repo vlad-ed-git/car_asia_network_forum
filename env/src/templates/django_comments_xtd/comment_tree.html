@@ -24,23 +24,34 @@
   <div class="colorBlack  bodyFont media-body ">
     <div class="bodyFont comment pb-3 my-2">
       <h6 class="bodyFont mb-1 small d-flex">
-        <div class="bodyFont mr-auto">{{ item.comment.submit_date|localize }}-{% if item.comment.url and not item.comment.is_removed %}<a href="{{ item.comment.url }}" target="_new">{% endif %}{{ item.comment.name }}{% if item.comment.url %}</a>{% endif %}{% if item.comment.user and item.comment.user|has_permission:"django_comments.can_moderate" %}<span class="bodyFont badge badge-secondary">{% trans "moderator" %}</span>{% endif %}<a class="bodyFont permalink" title="{% trans 'comment permalink' %}" href="{% get_comment_permalink item.comment %}"></a></div>
+        <div class="bodyFont mr-auto">{{ item.comment.submit_date|localize }}-{% if item.comment.url and not item.comment.is_removed %}<a href="{{ item.comment.url }}" target="_new">{% endif %}{{ item.comment.name }}{% if item.comment.url %}</a>{% endif %}{% if item.comment.user and item.comment.user|has_permission:"django_comments.can_moderate" %}<span class="bodyFont badge badge-secondary">{% trans "moderator" %}</span>{% endif %}<a class="bodyFont permalink" title="comment permalink" href="{% get_comment_permalink item.comment %}"></a></div>
         <span>
           {% if not item.comment.is_removed %}
             {% if perms.comments.can_moderate %}
               {% if item.flagged_count %}
-                <span class="bodyFont badge badge-danger" title="{% blocktrans count counter=item.flagged_count %}A user has flagged this comment as inappropriate.{% plural %}{{ counter }} users have flagged this comment as inappropriate.{% endblocktrans %}">{{ item.flagged_count }}</span>
+              <span class="bodyFont badge badge-danger" title='
+                {% block count %}
+                    {% if item.flagged_count == 1  %}
+                      {% trans "A user has flagged this comment as inappropriate." %} 
+                    {% elif item.flagged_count > 1 %} 
+                      {{ item.flagged_count }} 
+                      {% trans "users have flagged this comment as inappropriate." %}
+                    {% endif %}
+                {% endblock %}
+              '>
+                {{ item.flagged_count }}
+              </span>
               {% endif %}
             {% endif %}
             {% if request.user.is_authenticated %}
             {% if allow_flagging and item.flagged %}
-              <i class="colorErrors" title="{% trans 'comment flagged' %}">
+              <i class="colorErrors" title='{% trans "comment flagged" %}'>
                 {% include 'website/icons/flagged.html' %}
               </i>
             {% elif allow_flagging %}
               <a class="bodyFont mutedlink"
                  href="{% url 'comments-flag' item.comment.pk %}">
-                <i class="colorDarkGrey" title="{% trans 'flag comment' %}">
+                <i class="colorDarkGrey" title='{% trans "flag comment" %}'>
                   {% include 'website/icons/flag.html' %}
                 </i>
               </a>
@@ -48,7 +59,7 @@
             {% endif %}
             {% if perms.comments.can_moderate %}
               <a class="bodyFont mutedlink"
-                 href="{% url 'comments-delete' item.comment.pk %}"><i class="bodyFont colorErrors pl-2" title="{% trans 'remove comment' %}">
+                 href="{% url 'comments-delete' item.comment.pk %}"><i class="bodyFont colorErrors pl-2" title='{% trans "remove comment" %}'>
                   {% include 'website/icons/delete.html' %}
                  </i></a>
             {% endif %}
@@ -66,7 +77,13 @@
         {% endif %}
         {% if item.comment.allow_thread and not item.comment.is_removed %}
           {% if request.user.is_authenticated %}
-          {% if allow_feedback %}<span class="bodyFont text-muted">&bull;</span>{% endif %}<a class="unstyled-link-colorAccent darkGreyOnHover headingFont small px-2" href="{{ item.comment.get_reply_url }}">{% trans "Reply" %}</a>{% endif %}
+          {% if allow_feedback %}
+          <span class="bodyFont text-muted">&bull;</span>
+          {% endif %}
+          <a class="unstyled-link-colorAccent darkGreyOnHover headingFont small px-2" href="{{ item.comment.get_reply_url }}">
+            {% trans "Reply" %}
+          </a>
+          {% endif %}
         {% endif %}
       {% endif %}
     </div>

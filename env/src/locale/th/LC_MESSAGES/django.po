@@ -1,0 +1,413 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-11-05 23:09+0800\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Hi"
+msgstr "สวัสดี"
+
+msgid "Start a discussion"
+msgstr "เริ่มการสนทนา"
+
+msgid "Discussions I started"
+msgstr "ฉันเป็นผู้เริ่มต้นการสนทนา"
+
+msgid "Login"
+msgstr "เข้าสู่ระบบ"
+
+msgid "Email address"
+msgstr "อีเมล"
+
+msgid "Password"
+msgstr "รหัสผ่าน"
+
+msgid "New here?"
+msgstr "ผู้ใช้ใหม่?"
+
+msgid "Sign Up"
+msgstr "สมัครสมาชิก"
+
+msgid "Forgot your password?!"
+msgstr "ลืมรหัสผ่านของคุณ?"
+
+msgid "You must Login to view this page"
+msgstr "คุณต้องเข้าสู่ระบบเพื่อดูหน้านี้"
+
+msgid "Change password"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+msgid "Current password"
+msgstr "รหัสผ่านปัจจุบัน"
+
+msgid "New password"
+msgstr "รหัสผ่านใหม่"
+
+msgid "Confirm new password"
+msgstr "ยืนยันรหัสผ่านใหม่"
+
+msgid "Update password"
+msgstr "อัปเดตรหัสผ่าน"
+
+msgid "Your password has been Updated."
+msgstr "รหัสผ่านของคุณได้รับการอัปเดตแล้ว"
+
+msgid "Go back to"
+msgstr "กลับไป"
+
+msgid "my profile"
+msgstr "ประวัติของฉัน"
+
+msgid "Your password has been reset. You may go ahead and"
+msgstr "รีเซ็ตรหัสผ่านของคุณแล้ว คุณสามารถดำเนินการต่อ.."
+
+msgid "sign in"
+msgstr "เข้าสู่ระบบ"
+
+msgid "now"
+msgstr "เดี๋ยวนี้"
+
+msgid "Please enter your new password twice so we can verify you typed it in correctly"
+msgstr "โปรดป้อนรหัสผ่านใหม่ของคุณสองครั้ง เพื่อให้เราตรวจสอบได้ว่าคุณเป็นคนพิมพ์รหัสผ่านเอง ถูกต้อง"
+
+msgid "Confirm Password"
+msgstr "ยืนยันรหัสผ่านใหม่"
+
+msgid "Change Password"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+msgid "The password reset link was invalid, possibly because it has already been used.  Please request a new password reset"
+msgstr "ลิงค์ที่ใช้ในการรีเซ็ทรหัสผ่านไม่ถูกต้อง อาจเป็นไปได้ว่ามันได้ถูกใช้ไปแล้ว. กรุณาร้องขอการรีเซ็ทรหัสผ่านใหม่"
+
+msgid "spam folder"
+msgstr "สแปมโฟลเดอร์"
+
+msgid "Return to home page"
+msgstr "กลับไปที่หน้าแรก"
+
+msgid "To initiate the password reset process for your Account"
+msgstr "เริ่มกระบวนการรีเซ็ตรหัสผ่านสำหรับบัญชีของคุณ"
+
+msgid "click the link below"
+msgstr "คลิกลิงค์ด้านล่าง"
+
+msgid "Sincerely"
+msgstr "ขอแสดงความนับถือ"
+
+msgid "Asia Car Network | Forum"
+msgstr "เอเชียคาร์เน็ตเวิร์ก | ฟอรั่ม"
+
+msgid "Reset password"
+msgstr "รีเซ็ตรหัสผ่าน"
+
+msgid "We will send you a link for password reset to the email above"
+msgstr "เราจะส่งลิงค์สำหรับรีเซ็ตรหัสผ่านไปยังอีเมลของคุณ"
+
+msgid "Send reset email"
+msgstr "ส่งอีเมลรีเซ็ต"
+
+msgid "My Profile"
+msgstr "ประวัติของฉัน"
+
+msgid "Profile Photo"
+msgstr "รูปประจำตัว"
+
+msgid "Your Name"
+msgstr "ชื่อของคุณ"
+
+msgid "Your Username"
+msgstr "ชื่อผู้ใช้ของคุณ"
+
+msgid "Update Profile"
+msgstr "อัปเดตประวัติ"
+
+msgid "Register"
+msgstr "ลงทะเบียน"
+
+msgid "Username"
+msgstr "ชื่อผู้ใช้"
+
+msgid "A unique nickname e.g. john_doe12"
+msgstr "ชื่อเล่นเฉพาะ เช่น john_doe12"
+
+msgid "Full name"
+msgstr "ชื่อเต็ม"
+
+msgid "First & last name"
+msgstr "ชื่อจริง & นามสกุล"
+
+msgid "At least 8 characters"
+msgstr "อย่างน้อย 8 อักขระ"
+
+msgid "Re Enter the password"
+msgstr "ป้อนรหัสผ่านอีกครั้ง"
+
+msgid "Have an account?"
+msgstr "มีบัญชี?"
+
+msgid "Log In"
+msgstr "เข้าสู่ระบบ"
+
+msgid " Asia Car Network | Forum"
+msgstr "เอเชียคาร์เน็ตเวิร์ก | ฟอรั่ม"
+
+msgid "Remove comment"
+msgstr "ลบความคิดเห็น"
+
+msgid "Remove this comment?"
+msgstr "ลบความคิดเห็นนี้?"
+
+msgid ""
+"As a moderator you can delete comments. Deleting a comment does not remove "
+"it from the site, only prevents your website from showing the text. Click on "
+"the remove button to delete the following comment:"
+msgstr "ในฐานะผู้ดูแลคุณสามารถยกเลิกความคิดเห็นได้ แต่ไม่ใช่เป็นการลบความคิดเห็น"
+"เว็บไซต์ เพียงป้องกันไม่ให้ข้อความถูกแสดงในเว็บไซต์ของคุณเท่านั้น. คลิกที่" "ปุ่มลบเพื่อลบความคิดเห็นต่อไปนี้:"
+
+msgid "Remove"
+msgstr "ลบ"
+
+msgid "Flag comment"
+msgstr "บล็อคความคิดเห็น"
+
+msgid "Flag this comment?"
+msgstr "บล็อคความคิดเห็นนี้?"
+
+msgid "Click on the flag button to mark the following comment as inappropriate."
+msgstr "คลิกที่ปุ่มเพื่อบล็อคความคิดเห็นต่อไปนี้ว่า ไม่เหมาะสม"
+
+msgid "Posted under"
+msgstr "โพสต์ภายใต้"
+
+msgid "Flag"
+msgstr "บล็อค"
+
+msgid "cancel"
+msgstr "ยกเลิก"
+
+msgid "'send'"
+msgstr "ส่ง"
+
+msgid "'preview'"
+msgstr "ดูตัวอย่าง"
+
+msgid "moderator"
+msgstr "ผู้ดูแล"
+
+msgid "comment permalink"
+msgstr ""
+
+msgid "comment flagged"
+msgstr "ความคิดเห็นถูกบล็อค"
+
+msgid "flag comment"
+msgstr "บล็อคความคิดเห็น"
+
+msgid "'remove comment'"
+msgstr "ลบความคิดเห็น"
+
+msgid "This comment has been removed."
+msgstr "ความคิดเห็นนี้ถูกลบออกแล้ว"
+
+msgid "Reply"
+msgstr "ตอบกลับ"
+
+msgid "Comment reply"
+msgstr "ตอบกลับความคิดเห็น"
+
+msgid "Reply to comment"
+msgstr "ตอบกลับความคิดเห็น"
+
+msgid "Search"
+msgstr "ค้นหา"
+
+msgid "Logout"
+msgstr "ออกจากระบบ"
+
+msgid "General Car Discussion"
+msgstr "การสนทนาทั่วไปเกี่ยวกับรถยนต์"
+
+msgid "Car Accessories"
+msgstr "อุปกรณ์ตกแต่งรถยนต์"
+
+msgid "Car Performance Parts"
+msgstr "อะไหล่แต่งรถ"
+
+msgid "Continental Cars"
+msgstr "รถยุโรป"
+
+msgid "Cosmetic Enhancement Items"
+msgstr "ไอเทมเสริมความงามรถยนต์"
+
+msgid "In Car Entertainment"
+msgstr "ความบันเทิงภายในรถยนต์"
+
+msgid "Japanese Cars"
+msgstr "รถญี่ปุ่น"
+
+msgid "Maintenance & Repairs"
+msgstr "การบำรุงรักษาและการซ่อมแซม"
+
+msgid "Tyres & Rims"
+msgstr "ยาง & ขอบล้อ"
+
+msgid "NON CAR-RELATED"
+msgstr "ไม่เกี่ยวข้องกับรถยนต์"
+
+msgid "No results"
+msgstr "ไม่มีผลลัพธ์"
+
+msgid "Found no posts matching your search"
+msgstr "ไม่พบโพสต์ที่ตรงกับการค้นหาของคุณ"
+
+msgid "Looks like this section is empty!"
+msgstr "ดูเหมือนว่าส่วนนี้ยังไม่มีข้อมูล!"
+
+msgid "Most Viewed Discussions"
+msgstr "การสนทนาที่มีคนดูมากที่สุด"
+
+msgid "Top Liked Discussions"
+msgstr "การสนทนาที่ชอบมากที่สุด"
+
+msgid "NEW TOPIC"
+msgstr "หัวข้อใหม่"
+
+msgid "What category does this fall under?"
+msgstr "สิ่งนี้อยู่ใต้การจัดอยู่ในหมวดหมู่ใด?"
+
+msgid "Choose..."
+msgstr "เลือก..."
+
+msgid "Not Car Related"
+msgstr "ไม่เกี่ยวข้องกับรถยนต์"
+
+msgid "Category"
+msgstr "หมวดหมู่"
+
+msgid "New"
+msgstr "ใหม่"
+
+msgid "Discussion"
+msgstr "การอภิปราย"
+
+msgid "Title"
+msgstr "หัวข้อ"
+
+msgid "Content"
+msgstr "เนื้อหา"
+
+msgid "What's on your mind"
+msgstr "คุณกำลังคิดอะไรอยู่"
+
+msgid "italic text"
+msgstr "ข้อความตัวเอียง"
+
+msgid "Image"
+msgstr "รูปภาพ"
+
+msgid "Discussions by"
+msgstr "อภิปรายโดย"
+
+msgid "Edit"
+msgstr "แก้ไข"
+
+msgid "Delete"
+msgstr "ยกเลิก"
+
+msgid "Welcome back"
+msgstr "ยินดีต้อนรับ"
+
+msgid "Content..."
+msgstr "เนื้อหา..."
+
+msgid "Submit"
+msgstr "ส่ง"
+
+msgid "Page Not Found"
+msgstr "ไม่พบหน้านี้"
+
+msgid "The page you requested was not found. Return to"
+msgstr "ไม่พบหน้าที่คุณร้องขอ ย้อนกลับ"
+
+msgid "home page"
+msgstr "หน้าแรก"
+
+msgid "Server Error!"
+msgstr "เซิร์ฟเวอร์ขัดข้อง!"
+
+msgid "OOps! Looks like something went wrong on our end! Return to"
+msgstr "โอ๊ะ! ดูเหมือนว่ามีบางอย่างผิดพลาดในตอนท้าย! ย้อนกลับ"
+
+msgid "Posted by"
+msgstr "โพสต์โดย"
+
+msgid "me"
+msgstr "ฉัน"
+
+msgid "comment"
+msgstr "แสดงความคิดเห็น"
+
+msgid "Like"
+msgstr "ชอบ"
+
+msgid "Dislike"
+msgstr "ไม่ชอบ"
+
+msgid "Login to comment on this thread"
+msgstr "เข้าสู่ระบบเพื่อแสดงความคิดเห็นในกระทู้นี้"
+
+msgid "Successful!"
+msgstr "สำเร็จ!"
+
+msgid "Error"
+msgstr "มีข้อผิดพลาด"
+
+msgid "Previous"
+msgstr "ก่อนหน้า"
+
+msgid "Next"
+msgstr "ต่อไป"
+
+msgid "Last"
+msgstr "สุดท้าย"
+
+msgid "Update Profile Photo"
+msgstr "อัปเดตรูปโปรไฟล์"
+
+msgid "bold text"
+msgstr "ข้อความตัวหนา"
+
+msgid "underlined text"
+msgstr "ข้อความที่ขีดเส้นใต้"
+
+msgid "optional"
+msgstr "ไม่ต้องการ"
+
+msgid "Join the community"
+msgstr "เข้าร่วมชุมชน"
+
+msgid "Become an avid reader"
+msgstr "มาเป็นนักอ่านตัวยง"
+
+msgid "Get likes on a discussion you started"
+msgstr "รับไลค์ในหัวข้อของคุณ"
+
+msgid "Excel as a reader & a writer to achieve Celebrity status"
+msgstr "Excel เป็นผู้อ่านและนักเขียนเพื่อให้ได้สถานะคนดัง"
+
+msgid "Forgotten your password? Enter your email address below, and we’ll email instructions for setting a new one"
+msgstr "ลืมรหัสผ่าน?ป้อนที่อยู่อีเมลของคุณด้านล่างจากนั้นเราจะส่งอีเมลคำแนะนำในการตั้งค่าใหม่"

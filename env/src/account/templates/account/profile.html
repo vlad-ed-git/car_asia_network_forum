@@ -2,18 +2,23 @@
 
 {% block content %}
 {% load static %}
+{% load i18n %}
 <div class="container py-5">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6">
             {% include 'account/dashboard.html' %}
+            {% include 'achievements/achievements.html' %}
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6">
             <div class="card">
                 <div class="card-body">
             <!-- profile Form -->
-            <h4 class="headingFont colorAccent">
-                My Profile
+            <div class="clearfix w-100">
+            <h4 class="headingFont colorAccent float-left">
+                {{ profile_form.initial.display_name }}
             </h4>
+            {% include 'achievements/profile_badges.html' %}
+            </div>
 
 
             <p class="bodyFont">
@@ -44,35 +49,35 @@
                     height="64px">
                 </div>
                 <div class="form-group">
-                    <label for="profile_picture" class="bodyFont">Profile Photo</label>
+                    <label for="profile_picture" class="bodyFont">{% trans "Profile Photo" %}</label>
                     <input type="file" name="profile_picture" id="id_profile_picture" accept="image/*" >
                     <small class="colorErrors bodyFont"> {{ profile_form.profile_picture.errors }}
                     </small>
                 </div>
 
-                <div class="form-group">
-                    <label for="user_name" class="bodyFont">Your Name</label>
+                <div class="form-group d-none">
+                    <label for="user_name" class="bodyFont">{% trans "Your Name" %}</label>
                     <input type="text" name="display_name" class="form-control bodyFont" id="user_name"
-                        value="{{ profile_form.initial.display_name}}">
+                        value="{{ profile_form.initial.display_name}}" disabled>
                     <small class="colorErrors bodyFont"> {{ profile_form.display_name.errors }}
                     </small>
                 </div>
 
-                <div class="form-group">
-                    <label for="user_name" class="bodyFont">Your Username</label>
+                <div class="form-group d-none">
+                    <label for="user_name" class="bodyFont">{% trans "Your Username" %}</label>
                     <input type="text" name="username" class="form-control bodyFont" id="user_name"
-                        value="{{ profile_form.initial.username}}">
+                        value="{{ profile_form.initial.username}}" disabled>
                     <small class="colorErrors bodyFont"> {{ profile_form.username.errors }}
                     </small>
                 </div>
 
-                <div class="form-group">
-                    <label for="user_email" class="bodyFont">Email address</label>
+                <div class="form-group d-none">
+                    <label for="user_email" class="bodyFont">{% trans "Email address" %}</label>
                     <input type="email" name="email" class="form-control bodyFont" id="user_email"
-                        value="{{ profile_form.initial.email}}">
+                        value="{{ profile_form.initial.email}}" disabled>
                     <small class="colorErrors bodyFont"> {{ profile_form.email.errors }} </small>
                 </div>
-                <button type="submit" class="btn btnOutlineAccent bodyFont">Update Profile</button>
+                <button type="submit" class="btn btnOutlineAccent bodyFont">{% trans "Update Profile Photo" %}</button>
             </form>
 
             <!-- end form-->
@@ -80,7 +85,8 @@
             <!-- password reset-->
             <div>
                 <div class="smSpace"></div>
-                <a class="btn btnOutlineErrors bodyFont" href="{% url 'password_change' %}">Change Password</a>
+                <!--TODO replace {% url 'password_change' %} with main site url-->
+                <a class="d-none btn btnOutlineErrors bodyFont" href="#">{% trans "Change Password" %}</a>
             </div>
             </div>
             </div>

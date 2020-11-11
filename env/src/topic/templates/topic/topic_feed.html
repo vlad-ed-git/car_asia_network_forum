@@ -1,6 +1,6 @@
-
+{% load i18n %}
 {% for post in posts  %}
-<div class="card mb-4">
+<div class="card my-4">
     <div class="card-body px-0 py-0">
         <table>
             <tr>
@@ -14,7 +14,7 @@
                         <tr>
                             <td>
                                 <h6 class="lightFont lightText colorDarkGrey py-2">
-                                    Posted By <a href="{% url 'authors_posts' posts_by_author=post.author.username post_type='topic' %}" class="unstyled-link-colorBlack accentOnHover px-2">{{ post.author }}</a>
+                                    {% trans "Posted by" %} <a href="{% url 'authors_posts' posts_by_author=post.author.username post_type='topic' %}" class="unstyled-link-colorBlack accentOnHover px-2">{{ post.author }}</a>
                                     {{ post.date_updated }}
                                 </h6>
                             </td>
@@ -42,7 +42,14 @@
             <img class="imgWrapperH360" src="{{ post.featured_image.url }}">
         </div>
         {% endif %}
-        <div class="px-5 py-2">
+        <div class="px-3 py-2">
+            <h6 class="mr-4 colorBlack inlineBlocks">
+                <span class="lightFont lightText colorDarkGrey">{% trans "Category" %} | </span>
+                <span class="lightFont lightText colorAccent">
+                    {{ post.get_category_display }}
+                 </span>
+            </h6>
+
             <h6 class="mr-4 colorBlack inlineBlocks">
                 {% include 'website/icons/thumbs_up.html' %}
                 {{ post.total_likes }}
@@ -51,6 +58,7 @@
                 {% include 'website/icons/thumbs_down.html' %}
                 {{ post.total_dislikes }}
             </h6>
+           
         </div>
     </div>
   </div>

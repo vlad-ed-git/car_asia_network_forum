@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
@@ -41,11 +41,15 @@ from website.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home"),
+    path('category/<str:post_type>/<str:category>/', home_view, name="category_posts"),
     path('authors_posts/<str:posts_by_author>/<str:post_type>/',home_view, name='authors_posts'),
     path('post_details/<str:post_type>/<str:slug>/', post_details_view, name='post_details'),
     path('like_post/<str:slug>/<str:post_type>/', like_post_view , name='like_post'),
     path('dislike_post/<str:slug>/<str:post_type>/', dislike_post_view , name='dislike_post'),
     
+    #language 
+    re_path(r'^i18n/', include('django.conf.urls.i18n')),
+
     #blog views
     path('blog/', include('blog.urls'), name='blog'),
     path('discussions/', include('topic.urls'), name='topic'),

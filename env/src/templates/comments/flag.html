@@ -44,7 +44,7 @@
     {% with object_absolute_url=comment.content_object.get_absolute_url %}
     {% if object_absolute_url %}
     <h6 class="text-center bodyFont">
-      {% trans "Posted under "%}&nbsp;<a href="{{ object_absolute_url }}" class="unstyled-link-colorBlack accentOnHover headingFont">{{ comment.content_object }}</a>
+      {% trans "Posted under" %}&nbsp;<a href="{{ object_absolute_url }}" class="unstyled-link-colorBlack accentOnHover headingFont">{{ comment.content_object }}</a>
     </h6>
     {% endif %}
     {% endwith %}
@@ -59,7 +59,7 @@
       <input type="hidden" name="next" value="{{ comment.get_absolute_url }}"/>
       <div class="form-group">
         <div class="text-center">
-          <input type="submit" name="submit" class="btn btnOutlineErrors px-5 headingFont" value="{% trans "Flag" %}"/>
+          <input type="submit" name="submit" class="btn btnOutlineErrors px-5 headingFont" value='{% trans "Flag" %}'/>
           <a class="btn btnOutlineAccent px-5 headingFont" href="{{ comment.get_absolute_url }}">{% trans "cancel" %}</a>
         </div>
       </div>

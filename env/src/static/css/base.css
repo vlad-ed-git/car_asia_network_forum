@@ -188,3 +188,7 @@ a:active{
   display: list-item;
 }
 
+.achievements_icons{
+  width: 24px;
+  height: auto;
+}

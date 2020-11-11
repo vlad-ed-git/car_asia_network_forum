@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load i18n %}
 <html lang="en">
   <head>
     {% load static %}
@@ -55,7 +56,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
     {% block css %} {% endblock css %}
 
-    <title>Car Asia Network | Forum</title>
+    <title>Asia Car Network | Forum</title>
   </head>
   <body class="colorGreyBg">
     {% include 'header.html' %} {% block content %} {% endblock content %}
@@ -69,6 +70,34 @@
     <script src="{% static 'scripts/popper.min.js' %}"></script>
     <script src="{% static 'scripts/bootstrap.min.js.map' %}"></script>
     <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
+    <!--language switch -->
+    <script>
+      $('#language-list a').on('click', function(event) {
+          event.preventDefault();
+          var target = $(this);
+          var url = target.attr('href');
+          var language_code = target.data('lang');
+          $.ajax({
+              type: 'POST',
+              url: url,
+              data: {language: language_code},
+              headers: {"X-CSRFToken": getCookie('csrftoken')}
+          }).done(function(data, textStatus, jqXHR) {
+              reload_page();
+          });
+      });
+
+      function getCookie(name) {
+          var value = '; ' + document.cookie,
+              parts = value.split('; ' + name + '=');
+          if (parts.length == 2) return parts.pop().split(';').shift();
+      }
+
+      function reload_page() {
+          window.location.reload(true);
+      }
+
+    </script>
 
     {% block js %}
     <!-- page specific javascript-->     

@@ -1,0 +1,78 @@
+{% load static %}
+{% load i18n %}
+<div class="card my-5">
+  <div class="card-body py-3">
+    <h6 class="colorBlack headingFont">
+      <img
+        src="{% static 'achievements/images/achieved/NM.png' %}"
+        class="achievements_icons mr-3"
+      />
+      {% trans "Join the community" %}
+    </h6>
+
+    <h6 class="mt-4 colorBlack headingFont">
+      {% if avid_reader %}
+      <img
+        src="{% static 'achievements/images/achieved/RE.png' %}"
+        class="achievements_icons mr-3"
+      />
+
+      {% else %}
+      <img
+        src="{% static 'achievements/images/unachieved/RE.png' %}"
+        class="achievements_icons mr-3"
+      />
+      <span class="colorDarkGrey">
+        {% trans "Become an avid reader" %}</span>
+      {% endif %}
+    </h6>
+
+    <h6 class="mt-4 colorBlack headingFont">
+      {% if discussion_starter %}
+      <img
+        src="{% static 'achievements/images/achieved/DS.png' %}"
+        class="achievements_icons mr-3"
+      />
+      {% else %}
+      <img
+        src="{% static 'achievements/images/unachieved/DS.png' %}"
+        class="achievements_icons mr-3"
+      />
+      <span class="colorDarkGrey">
+        {% trans "Start a discussion" %}</span>
+      {% endif %}
+    </h6>
+
+    <h6 class="mt-4 colorBlack headingFont">
+    {% if got_likes %}
+    <img
+      src="{% static 'achievements/images/achieved/TU.png' %}"
+      class="achievements_icons mr-3"
+    />
+    {% else %}
+    <img
+      src="{% static 'achievements/images/unachieved/TU.png' %}"
+      class="achievements_icons mr-3"
+    />
+    <span class="colorDarkGrey">
+      {% trans "Get likes on a discussion you started" %}</span>
+    {% endif %}
+    </h6>
+ 
+    <h6 class="mt-4 colorBlack headingFont">
+    {% if celebrity %}
+    <img
+      src="{% static 'achievements/images/achieved/CEL.png' %}"
+      class="achievements_icons mr-3"
+    />
+    {% else %}
+    <img
+      src="{% static 'achievements/images/unachieved/CEL.png' %}"
+      class="achievements_icons mr-3"
+    />
+    <span class="colorDarkGrey">
+      {% trans "Excel as a reader & a writer to achieve Celebrity status" %}.</span>
+    {% endif %}
+    </h6>
+  </div>
+</div>

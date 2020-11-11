@@ -8,6 +8,10 @@ from django.http import HttpResponse
 
 
 # Create your views here.
+def get_topic_categories(request):
+    choices  = TopicPost._meta.get_field('category').choices
+    return choices
+
 def create_topic_view(request):
     context = {}
     user = request.user
@@ -22,6 +26,7 @@ def create_topic_view(request):
         obj.save()
         context['success'] = True
         form = CreateTopicPostForm()
+        return redirect('home')
     else:
         context['failed'] = True
         form.initial={"title": request.POST.get("title"), "body":  request.POST.get("body"), "category" : request.POST.get("category"), "is_approved" :request.POST.get("is_approved") }
@@ -132,6 +137,17 @@ def get_all_topics(request, page):
 def get_all_topics_by_author(request, page, username):
     author = get_object_or_404(Account, username=username)
     topic_posts =  TopicPost.objects.filter(author=author).order_by('-date_updated')
+    topic_posts_paginator = Paginator(topic_posts, POSTS_PER_PAGE)
+    try:
+        topicPosts = topic_posts_paginator.page(page)
+    except PageNotAnInteger:
+        topicPosts = topic_posts_paginator.page(POSTS_PER_PAGE)
+    except EmptyPage:
+        topicPosts = topic_posts_paginator.page(topic_posts_paginator.num_pages)
+    return topicPosts
+
+def get_all_topics_by_category(request, page, category):
+    topic_posts =  TopicPost.objects.filter(category=category).order_by('-date_updated')
     topic_posts_paginator = Paginator(topic_posts, POSTS_PER_PAGE)
     try:
         topicPosts = topic_posts_paginator.page(page)

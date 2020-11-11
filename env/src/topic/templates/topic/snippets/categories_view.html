@@ -1,0 +1,24 @@
+{% load static %} 
+<div class="my-4"> 
+      <div class="owl-carousel owl-theme">
+      {% for category in categories %}
+      <div class="item">
+        <div class="card">
+          {% with 'topic/images/categories/'|add:category.0|add:'.jpg' as image_static %}
+          <img src="{% static image_static %}" class="card-img-top slider-image" />
+          {% endwith %}
+
+          <div class="card-body">
+            <p class="card-title headingFont colorBlack">
+
+              <a href="{% url 'category_posts' post_type='topic' category=category.0 %}" class="unstyled-link-colorBlack accentOnHover"
+                >{{ category.1 }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+     </div>
+</div>
+

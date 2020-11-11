@@ -1,21 +1,30 @@
 {% extends 'base.html' %}
+{% load static %} 
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/owl.theme.accent.min.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/categories_multislider.css' %}" />
+{% endblock css %}
 
 {% block meta %}
 <!-- page specific meta info -->
 {% endblock meta %}
 
-{% block css %}
-<!-- page specific css -->
-{% endblock css %}
-
 {% block content %}
 
 <div class="container-fluid  py-5">
     <div class="row">
-        <div class="offset-md-1 col-md-6 col-lg-7">
+
+        <div class="offset-1 col-10">
+            {% if topic_categories %}
+            {% include 'topic/snippets/categories_view.html' with categories=topic_categories %}
+            {% endif %}
+        </div>
+
+        <div class="offset-1 col-10 col-lg-7">
             
             {% if topic_posts %}
-                
+
             {% include 'topic/topic_feed.html' with posts=topic_posts %}
 
             {% include 'website/snippets/pagination.html' with posts=topic_posts post_type=post_type %}
@@ -26,7 +35,7 @@
 
             {% endif %}
         </div>
-        <div class="col-md-5 col-lg-3">
+        <div class="offset-1 col-10 offset-lg-0 col-lg-3">
             {% include 'topic/popular_posts.html' with posts=popular_topics %}
             {% include 'topic/most_viewed_posts.html' with posts=most_viewed_topics %}
         </div>
@@ -42,6 +51,9 @@
 {% endblock content %}
 
 
+
 {% block js %}
-<!-- page specific javascript-->     
+<!-- page specific javascript-->
+<script src="{% static 'scripts/owl.carousel.min.js' %}"></script>
+<script src="{% static 'scripts/categories_multislider.js' %}"></script>
 {% endblock js %}
