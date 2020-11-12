@@ -59,7 +59,26 @@
     <title>Asia Car Network | Forum</title>
   </head>
   <body class="colorGreyBg">
-    {% include 'header.html' %} {% block content %} {% endblock content %}
+    {% include 'header.html' %}
+    <!-- LANGUAGE SET -->
+    <div class="container-fluid">
+      <div class="my=3 w-100 clearfix">
+        <div class="float-right">
+          <div class="btn-group">
+            <button class="btn btnOutlineAccent btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="{% static 'images/languages/global.png' %}" />
+                <span class="headingFont px-2">Language</span>
+            </button>
+            <div class="dropdown-menu" id="language-list">
+                <a class="dropdown-item" href='{% url "set_language" %}' data-lang="en-us"><img src="{% static 'images/languages/en-us.png' %}"/><span class="headingFont colorBlack px-2">English</span></a>
+                <a class="dropdown-item"  href='{% url "set_language" %}' data-lang="th"><img src="{% static 'images/languages/th.png' %}"/><span class="headingFont colorBlack px-2">ภาษาไทย</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block content %} {% endblock content %}
     {%include 'footer.html' %}
 
 

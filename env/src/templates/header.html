@@ -26,27 +26,20 @@
     </div>
     <div class="navbar-collapse  w-25  collapse order-3 dual-collapse2" >
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item headingFont">
-                <div class="nav-link">
-                <div class="btn-group">
-                    <button class="btn btnOutlineAccent btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img src="{% static 'images/languages/global.png' %}" />
-                        <span class="headingFont px-2">Language</span>
-                    </button>
-                    <div class="dropdown-menu" id="language-list">
-                        <a class="dropdown-item" href='{% url "set_language" %}' data-lang="en-us"><img src="{% static 'images/languages/en-us.png' %}"/><span class="headingFont colorBlack px-2">English</span></a>
-                        <a class="dropdown-item"  href='{% url "set_language" %}' data-lang="th"><img src="{% static 'images/languages/th.png' %}"/><span class="headingFont colorBlack px-2">ภาษาไทย</span></a>
-                    </div>
-                  </div>
-                </div>
-            </li>
             {% if request.user.is_authenticated %}
-            <li class="nav-item headingFont">
-                <a class="nav-link headingFont colorBlack accentOnHover" href="{% url 'profile' %}">
-                    {% trans "Hi" %}, {{ request.user.display_name }}
+            <li class="nav-item headingFont ml-2 py-2">
+                <a class="nav-item headingFont colorBlack accentOnHover" href="{% url 'profile' %}">
+                    {% trans "Hi" %}, {{ request.user.display_name|truncatewords:1 }}
+                    
+                    {% if achievement_notifications %}
+                    <span class="badge badge-pill badge-primary">{{ achievement_notifications }}</span>
+                    {% endif %}
+                        
                 </a>
+                
             </li>
 
+            
             <li class="nav-item headingFont ml-2">
                 <a class="nav-item btn btnOutlineErrors headingFont" href="{% url 'logout' %}">{% trans "Logout" %}</a>
             </li>

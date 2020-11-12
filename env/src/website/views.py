@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category
 from django.conf import settings
+from achievements.views import get_new_user_achievements_count
 
 # home page
 def home_view(request, posts_by_author = None, post_type = None, category = None ):
@@ -30,6 +31,8 @@ def home_view(request, posts_by_author = None, post_type = None, category = None
     context['popular_topics'] = get_most_liked_topics()
     context['show_search_bar'] = True
     context['topic_categories'] = get_topic_categories(request)
+    if request.user.is_authenticated:
+        context['achievement_notifications'] = get_new_user_achievements_count(request)
     return render(request, 'website/home.html', context)
 
 

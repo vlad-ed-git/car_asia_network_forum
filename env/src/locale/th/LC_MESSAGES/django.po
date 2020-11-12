@@ -411,3 +411,28 @@ msgstr "Excel เป็นผู้อ่านและนักเขียน
 
 msgid "Forgotten your password? Enter your email address below, and we’ll email instructions for setting a new one"
 msgstr "ลืมรหัสผ่าน?ป้อนที่อยู่อีเมลของคุณด้านล่างจากนั้นเราจะส่งอีเมลคำแนะนำในการตั้งค่าใหม่"
+
+msgid "Level"
+msgstr "ระดับ"
+
+msgid "You have unlocked"
+msgstr "คุณได้ปลดล็อกแล้ว"
+
+msgid "new achievement"
+msgstr "ความสำเร็จใหม่"
+
+msgid "new achievements"
+msgstr "ความสำเร็จใหม่"
+
+msgid "Avid Reader"
+msgstr "นักอ่านตัวยง"
+
+msgid "Discussion Starter"
+msgstr "การสนทนาเริ่มต้น"
+
+msgid "You have a way with words!"
+msgstr "ผู้คนชอบสิ่งที่คุณพูด"
+
+msgid "Celebrity"
+msgstr "คนดัง"
+

@@ -5,9 +5,23 @@ from .models import TopicPost
 from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
+from achievements.views import add_achievement
 
 
 # Create your views here.
+def checkAchievement(request):
+    topicsByUser = TopicPost.objects.filter(author=request.user).count()
+    if topicsByUser == 1:
+        add_achievement(request=request, achievement='DS', level=1)
+    elif topicsByUser == 10:
+        add_achievement(request=request, achievement='DS', level=2)
+    elif topicsByUser == 50:
+        add_achievement(request=request, achievement='DS', level=3)
+    elif topicsByUser == 100:
+        add_achievement(request=request, achievement='DS', level=4)
+    else:
+        return True
+
 def get_topic_categories(request):
     choices  = TopicPost._meta.get_field('category').choices
     return choices
@@ -24,6 +38,7 @@ def create_topic_view(request):
         author = Account.objects.get(email=user.email)
         obj.author = author
         obj.save()
+        checkAchievement(request)
         context['success'] = True
         form = CreateTopicPostForm()
         return redirect('home')

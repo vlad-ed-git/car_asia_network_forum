@@ -2,27 +2,27 @@
  <!--profile achievements-->
  <img src="{% static 'achievements/images/achieved/NM.png' %}" class="achievements_icons ml-5 float-left" >
 
- {% if avid_reader %}
+ {% if avid_reader > 0 %}
  <img src="{% static 'achievements/images/achieved/RE.png' %}" class="achievements_icons ml-2 float-left" > 
  {% else %}
  <img src="{% static 'achievements/images/unachieved/RE.png' %}" class="achievements_icons ml-2 float-left" >
  {% endif %}
 
 
- {% if discussion_starter %}
+ {% if discussion_starter > 0 %}
  <img src="{% static 'achievements/images/achieved/DS.png' %}" class="achievements_icons ml-2 float-left" >
  {% else %}
  <img src="{% static 'achievements/images/unachieved/DS.png' %}" class="achievements_icons ml-2 float-left" >
  {% endif %}
      
  
- {% if got_likes %}
+ {% if got_likes > 0 %}
  <img src="{% static 'achievements/images/achieved/TU.png' %}" class="achievements_icons ml-2 float-left" >
  {% else %}
  <img src="{% static 'achievements/images/unachieved/TU.png' %}" class="achievements_icons ml-2 float-left" >
  {% endif %}
 
- {% if celebrity %}
+ {% if celebrity > 0 %}
  <img src="{% static 'achievements/images/achieved/CEL.png' %}" class="achievements_icons ml-2 float-left" >
  {% else %}
  <img src="{% static 'achievements/images/unachieved/CEL.png' %}" class="achievements_icons ml-2 float-left" >

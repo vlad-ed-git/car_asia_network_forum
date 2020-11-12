@@ -5,6 +5,7 @@ from rest_framework.authtoken.models import Token
 from .models import Account
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
+from achievements.views import get_new_user_achievements_count, get_new_user_achievements, get_all_user_achievements, mark_new_user_achievements_as_viewed
 
 def must_authenticate_view(request):
     if request.user.is_authenticated:
@@ -41,7 +42,7 @@ def login_view(request):
 	context = {}
 
 	user = request.user
-	if user.is_authenticated: 
+	if user.is_authenticated:
 		return redirect("home")
 
 	if request.POST:
@@ -116,4 +117,15 @@ def profile_view(request):
 			)
 
 	context['profile_form'] = form
+	new_achievements_count = get_new_user_achievements_count(request)
+	if new_achievements_count:
+		context['new_achievements_count'] = new_achievements_count
+		context['new_achievements'] = get_new_user_achievements(request)
+		mark_new_user_achievements_as_viewed(request)
+	achievements_counts_list = get_all_user_achievements(request)
+	if achievements_counts_list:
+		context['discussion_starter'] = achievements_counts_list['discussion_starter']
+		context['got_likes'] = achievements_counts_list['got_likes']
+		context['celebrity'] = achievements_counts_list['celebrity']
+		context['avid_reader'] = achievements_counts_list['avid_reader']
 	return render(request, "account/profile.html", context)
