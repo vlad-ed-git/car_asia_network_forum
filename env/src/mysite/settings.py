@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'blog',
     'topic',
     'achievements',
+    'forum_analytics',
 
     'django.contrib.sites',
     'django_comments_xtd',

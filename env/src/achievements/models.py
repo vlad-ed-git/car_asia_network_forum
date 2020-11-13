@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils.text import slugify
-from django.conf import settings
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from account.models import Account
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
 class AchievementPost(models.Model):

@@ -6,10 +6,11 @@ from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
 from achievements.views import add_achievement
+from forum_analytics.views import saveAnalytics
 
 
 # Create your views here.
-def checkAchievement(request):
+def checkDSAchievement(request):
     topicsByUser = TopicPost.objects.filter(author=request.user).count()
     if topicsByUser == 1:
         add_achievement(request=request, achievement='DS', level=1)
@@ -19,6 +20,22 @@ def checkAchievement(request):
         add_achievement(request=request, achievement='DS', level=3)
     elif topicsByUser == 100:
         add_achievement(request=request, achievement='DS', level=4)
+    else:
+        return True
+
+def checkLikesAchievement(topic):
+    if topic.total_likes() == 10:
+        add_achievement(userWithAchievement=topic.author, achievement='TU', level=1)
+    elif topic.total_likes() == 50:
+        add_achievement(userWithAchievement=topic.author, achievement='TU', level=2)
+    elif topic.total_likes() == 100:
+        add_achievement(userWithAchievement=topic.author, achievement='TU', level=3)
+    elif topic.total_likes() == 500:
+        add_achievement(userWithAchievement=topic.author, achievement='CEL', level=1)
+    elif topic.total_likes() == 1000:
+        add_achievement(userWithAchievement=topic.author, achievement='CEL', level=2)
+    elif topic.total_likes() == 2000:
+        add_achievement(userWithAchievement=topic.author, achievement='CEL', level=3)
     else:
         return True
 
@@ -38,7 +55,7 @@ def create_topic_view(request):
         author = Account.objects.get(email=user.email)
         obj.author = author
         obj.save()
-        checkAchievement(request)
+        checkDSAchievement(request)
         context['success'] = True
         form = CreateTopicPostForm()
         return redirect('home')
@@ -74,7 +91,8 @@ def delete_post_view(request, slug, redirect_to):
         else:
             return HttpResponse("You are not the author of that post")
     except Exception as err:
-        print(str(err))
+        msg = "topic delete_post_view threw exception " + str(err) 
+        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
     return redirect(redirect_to)
 
 def edit_post_view(request, slug):
@@ -117,7 +135,8 @@ def increment_view_count(slug):
     try:
         TopicPost.objects.filter(slug = slug).update(views = F('views') + 1)
     except Exception as err:
-        print("incrementing topic post view count" + str(err))
+        msg = "topic increment_view_count threw exception " + str(err) 
+        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
 POSTS_PER_PAGE = 10
 def search_topics(query=None, page=1):
@@ -197,8 +216,10 @@ def like_topic_post(user, slug):
     try:
         topic.likes.add(user)
         topic.dislikes.remove(user)
+        checkLikesAchievement(topic)
     except Exception as err:
-        print(str(err))
+        msg = "topic like_topic_post threw exception " + str(err) 
+        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
 def dislike_topic_post(user, slug):
     if not user.is_authenticated:
@@ -208,4 +229,5 @@ def dislike_topic_post(user, slug):
         topic.dislikes.add(user)
         topic.likes.remove(user)
     except Exception as err:
-        print(str(err))
+        msg = "topic dislike_topic_post threw exception " + str(err) 
+        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)

@@ -5,6 +5,7 @@ from .models import BlogPost
 from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
+from forum_analytics.views import saveAnalytics
 
 # Create your views here.
 def create_blog_view(request):
@@ -53,7 +54,8 @@ def delete_post_view(request, slug, redirect_to):
         else:
             return HttpResponse("You are not the author of that post")
     except Exception as err:
-        print(str(err))
+        msg = "blog delete_post_view threw exception " + str(err) 
+        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
     return redirect(redirect_to)
 
 def edit_post_view(request, slug):
@@ -94,7 +96,8 @@ def increment_view_count(slug):
     try:
         BlogPost.objects.filter(slug = slug).update(views = F('views') + 1)
     except Exception as err:
-        print("incrementing blog post view count" + str(err))
+        msg = "blog increment_view_count threw exception " + str(err) 
+        saveAnalytics(request=None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
 POSTS_PER_PAGE = 10
 def search_blogs(query=None, page=1):
@@ -164,7 +167,8 @@ def like_blog_post(user, slug):
         blog.likes.add(user)
         blog.dislikes.remove(user)
     except Exception as err:
-        print(str(err))
+        msg = "blog like_blog_post threw exception " + str(err) 
+        saveAnalytics(request=None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
 def dislike_blog_post(user, slug):
     if not user.is_authenticated:
@@ -174,4 +178,5 @@ def dislike_blog_post(user, slug):
         blog.dislikes.add(user)
         blog.likes.remove(user)
     except Exception as err:
-        print(str(err))
+        msg = "blog dislike_blog_post threw exception " + str(err) 
+        saveAnalytics(request=None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)

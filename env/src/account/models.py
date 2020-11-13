@@ -110,7 +110,7 @@ def submission_delete(sender, instance, **kwargs):
         if instance.profile_picture: 
             instance.profile_picture.delete(False)
     except Exception as err:
-        print(err)
+        print(err) #importing forum analytics in here results in circular import error
 
 def compress_image(image):
         if not image:

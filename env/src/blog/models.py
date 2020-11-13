@@ -7,6 +7,7 @@ from django.core.files import File
 from django.db.models.signals import pre_save, post_delete
 from django.dispatch import receiver
 from account.models import Account
+from forum_analytics.views import saveAnalytics
 
 def upload_location(instance, filename):
     file_path = 'blog/{author_id}/{title}-{filename}'.format(
@@ -58,7 +59,8 @@ def submission_delete(sender, instance, **kwargs):
         if instance.extra_image_three:
             instance.extra_image_three.delete(False)
     except Exception as err:
-        print(err)
+        msg = "blog submission_delete threw exception " + str(err) 
+        saveAnalytics(request=None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
 
 def compress_image(image):
