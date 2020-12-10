@@ -7,7 +7,14 @@
     <ul class="list-group list-group-flush">
         
         {% for post in posts  %}
-        <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="list-group-item list-group-item-action bodyFont colorBlack">{{ post.title }} </a>
+        
+        
+          
+        <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="list-group-item list-group-item-action headingFont colorBlack">
+          {% if post.featured_image %}
+          <img src="{{ post.featured_image.url }}" class="mr-3" style="width: 32px; border-radius: 4px;"/>
+          {% endif %}
+        {{ post.title|title }} </a>
         {% endfor %}
           
         

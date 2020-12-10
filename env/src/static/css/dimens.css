@@ -12,30 +12,30 @@
 }
 
 .imgWrapperH155{
-    object-fit: cover;
+    object-fit: contain;
     width: 100% !important;
     height : 155px ; 
   }
   
   .imgWrapperH360{
-    object-fit: cover;
+    object-fit: contain;
     width: 100% !important;
     height : 360px ; 
   }
   
   .imgWrapperH300{
-    object-fit: cover;
+    object-fit: contain;
     width: 100% !important;
     height : 300px ; 
   }
   
   .imgWrapperH170{
-    object-fit: cover;
+    object-fit: contain;
     height : 170px ; 
   }
   
   .imgWrapperH80{
-    object-fit: cover;
+    object-fit: contain;
     width: 100% !important;
     height : 80px ; 
   

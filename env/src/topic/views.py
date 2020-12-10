@@ -139,7 +139,7 @@ def increment_view_count(slug):
         msg = "topic increment_view_count threw exception " + str(err) 
         saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
 
-POSTS_PER_PAGE = 10
+POSTS_PER_PAGE = 20
 def search_topics(query=None, page=1):
     queryset = []
     queries = query.split(" ")
@@ -218,6 +218,9 @@ def get_topic_post_or_404(slug):
 
 def user_likes_topic_post(user, topic):
     return user in topic.likes.all()
+
+def get_posts_liked_by_user(request, user):
+    return TopicPost.objects.filter(likes__in=[user.id])[:10]
 
 def user_dislikes_topic_post(user, topic):
     return user in topic.dislikes.all()

@@ -1,0 +1,25 @@
+{% load i18n %}
+{% load i18n %}
+{% if posts %}
+<div class="card px-0 my-4">
+    <div class="colorAccentBg px-2 pt-5 roundedTop">
+        <h6 class="card-title colorWhite headingFont">{% trans "Discussions I Liked" %}</h6>
+    </div>
+    <div class="card-body px-0">
+    <ul class="list-group list-group-flush">
+      
+      {% for post in posts  %}
+      <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="list-group-item list-group-item-action headingFont colorBlack">
+        {% if post.featured_image %}
+          <img src="{{ post.featured_image.url }}" class="mr-3" style="width: 32px; border-radius: 4px;"/>
+        {% endif %}
+        {{ post.title|title }}</a>
+      {% endfor %}
+          
+      
+    </ul>
+    </div>
+  </div>
+  
+  {% endif %}
+    

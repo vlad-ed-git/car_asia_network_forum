@@ -25,7 +25,7 @@
                             <td>
                                 <h6 class="headingFont blockElements">
                                     <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack darkGreyOnHover">
-                                     {{ post.title }}
+                                     {{ post.title|title }}
                                      </a>
                                  </h6>
                             </td>
@@ -61,13 +61,15 @@
                  </span>
             </h6>
 
-            <h6 class="mr-4 colorBlack inlineBlocks">
+            <h6 class="mr-4 inlineBlocks">
+                <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack accentOnHover">
                 {% include 'website/icons/thumbs_up.html' %}
-                {{ post.total_likes }}
+                {{ post.total_likes }}</a>
             </h6>
-            <h6 class="mr-4 colorBlack inlineBlocks">
+            <h6 class="mr-4  inlineBlocks">
+                <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack accentOnHover">
                 {% include 'website/icons/thumbs_down.html' %}
-                {{ post.total_dislikes }}
+                {{ post.total_dislikes }}</a>
             </h6>
            
         </div>

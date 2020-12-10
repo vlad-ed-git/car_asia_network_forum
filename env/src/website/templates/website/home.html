@@ -15,13 +15,12 @@
 
 <div class="container-fluid  py-5">
     <div class="row">
-
+        
+        {% if topic_categories %}
         <div class="offset-1 col-10">
-            {% if topic_categories %}
             {% include 'topic/snippets/categories_view.html' with categories=topic_categories %}
-            {% endif %}
         </div>
-
+        {% endif %}
         
         {% if displaying_filtered_posts and topic_posts %}
                         
@@ -76,8 +75,15 @@
             {% endif %}
         </div>
         <div class="offset-1 col-10 offset-lg-0 col-lg-3">
+                
             {% include 'topic/popular_posts.html' with posts=popular_topics %}
             {% include 'topic/most_viewed_posts.html' with posts=most_viewed_topics %}
+            
+            
+            {% if posts_I_like %}
+                {% include 'topic/my_liked_posts.html' with posts=posts_I_like %}
+            {% endif %}
+
         </div>
     </div>
 

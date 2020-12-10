@@ -75,7 +75,7 @@
                            {{ comment_count }} {% trans "comment" %}{{ comment_count|pluralize }}
                        </span>
 
-                        <!-- LIKE BUTTPN -->
+                        <!-- LIKE BUTTON -->
                                 <a href="{% url 'like_post' slug=post.slug post_type=post_type %}" 
 
                                 {% if user_likes_post %}
