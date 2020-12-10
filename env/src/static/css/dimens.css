@@ -2,6 +2,10 @@
     font-size : 36px;
 }
 
+.mdText{
+  font-size: 14px;
+}
+
 .lightText{
     font-size: 12px;
     font-weight: lighter;

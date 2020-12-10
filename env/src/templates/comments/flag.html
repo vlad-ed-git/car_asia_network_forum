@@ -24,7 +24,7 @@
             {% if item.comment.user.profile_picture %}
             <img alt="" src="{{ item.comment.user.profile_picture.url }}" class="rounded-circle z-depth-2 shadow" width="48">
                 {% else %}
-                    <img alt="" src="{% static '/images/default_profile_avatar.png' %}" class="rounded-circle z-depth-2 shadow" width="48">
+                    <img alt="" src="{% static 'images/default_profile_avatar.png' %}" class="rounded-circle z-depth-2 shadow" width="48">
                 {% endif %}
           </div>
           <div class="media-body">

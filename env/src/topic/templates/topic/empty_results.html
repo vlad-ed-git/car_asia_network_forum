@@ -13,7 +13,9 @@
             {% else %}
 
             {% trans "Looks like this section is empty!" %}
-            <a href="{% url 'home' %}" class="unstyled-linkColorBlack accentOnHover">Take me home</a>
+            <a href="{% url 'home' %}" class="unstyled-linkColorBlack accentOnHover">
+                {% trans 'Display all topics' %}
+            </a>
             {% endif %}
         </p>
     </div>

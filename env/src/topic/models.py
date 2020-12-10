@@ -31,6 +31,7 @@ class TopicPost(models.Model):
         OTHER = 'O', _('NON CAR-RELATED')
 
     title = models.CharField(max_length=200, null=False, blank=False)
+    tags = models.CharField(max_length=200, null=True, blank=True)
     body = models.TextField(max_length=5000, null=False, blank=False)
     category = models.CharField(max_length=5, choices=CATEGORIES.choices, default=CATEGORIES.OTHER, null=False, blank=False)
     featured_image = models.ImageField(
@@ -86,7 +87,7 @@ def compress_image(image):
     out = BytesIO()
     if im.mode in ("RGBA", "P"):
         im = im.convert("RGB")
-    im.save(out, 'JPEG', quality=30)
+    im.save(out, 'JPEG', quality=70)
     compressed = File(out, name=image.name)
     im.close()
     return compressed

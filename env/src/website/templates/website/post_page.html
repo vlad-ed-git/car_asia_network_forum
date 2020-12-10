@@ -1,4 +1,5 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load static %}
 {% block meta %}
 <title>{{ post.title }}</title>
 {% endblock %}
@@ -35,22 +36,31 @@
                     <div>
                         {% trans "Posted by" %}
                         <span class="lightFont lightText">
+                            <a href="{% url 'authors_posts' posts_by_author=post.author.id post_type='topic'%}" class="unstyled-link-colorBlack accentOnHover headingFont">
                             {% if is_my_post %}
                             {% trans "me" %}
                             {% else %}
                             {{ post.author.display_name }}
                             {% endif %}
+                            </a>
                         </span>
                         <span class="pl-4 lightFont lightText colorDarkGrey">
                             {{ post.date_updated }}
                         </span>
                     </div>
 
-                    <div class="my-2">
-                        <span class="lightFont lightText colorAccent">
-                           {{ post.get_category_display }}
+                    <div class="my-3">
+                        <span class="lightFont lightText mr-2">
+                          <a href="{% url 'category_posts' post_type='topic' category=post.category %}" class="unstyled-link-colorAccent darkGreyOnHover headingFont">{{ post.get_category_display }}</a>
                         </span>
+                        {% if post.tags %}
+                        <span class="lightFont lightText colorAccent" id="post_tags">
+                           {{ post.tags }}
+                        </span>
+                        {% endif %}
                     </div>
+                    
+                 
 
                     <div class="my-3">
                         <!--IF USER IS LOGGED IN -->
@@ -135,5 +145,6 @@
 {% endblock content %}
 
 {% block js %}
-<!-- page specific javascript-->     
+<!-- page specific javascript-->
+<script src="{% static 'scripts/make_tags_clickable.js' %}"></script>
 {% endblock js %}

@@ -62,9 +62,9 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
 
     # custom
-    email = models.EmailField(verbose_name="email", max_length=60, unique=True)
+    email = models.EmailField(verbose_name="email", max_length=120, unique=True)
     display_name = models.CharField(verbose_name="name", max_length=120)
-    username = models.CharField(max_length=36, unique=True)
+    username = models.CharField(max_length=120, unique=True)
     is_editor = models.BooleanField(default=False)
     is_super_editor = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to=upload_location, blank=True, null=True)
@@ -119,7 +119,7 @@ def compress_image(image):
         out = BytesIO()
         if im.mode in ("RGBA", "P"):
             im = im.convert("RGB")
-        im.save(out, 'JPEG', quality=30)
+        im.save(out, 'JPEG', quality=70)
         compressed = File(out, name=image.name)
         im.close()
         return compressed

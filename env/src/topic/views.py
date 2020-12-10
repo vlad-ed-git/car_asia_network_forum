@@ -61,7 +61,7 @@ def create_topic_view(request):
         return redirect('home')
     else:
         context['failed'] = True
-        form.initial={"title": request.POST.get("title"), "body":  request.POST.get("body"), "category" : request.POST.get("category"), "is_approved" :request.POST.get("is_approved") }
+        form.initial={"title": request.POST.get("title"), "tags": request.POST.get("tags"), "body":  request.POST.get("body"), "category" : request.POST.get("category"), "is_approved" :request.POST.get("is_approved") }
     context['create_form'] = form
     return render(request, 'website/app_pages/topic/create_topic.html', context)
 
@@ -111,14 +111,15 @@ def edit_post_view(request, slug):
             obj.save()
             context['success'] = True
             topic_post = obj
-            form.initial={"title": topic_post.title, "body":  topic_post.body, "featured_image" : topic_post.featured_image, "extra_image_one" : topic_post.extra_image_one, "extra_image_two" : topic_post.extra_image_two, "extra_image_three" : topic_post.extra_image_three, "category" : topic_post.category, "category_display" : topic_post.get_category_display(), "is_approved" : topic_post.is_approved  }
+            form.initial={"title": topic_post.title, "tags": topic_post.tags, "body":  topic_post.body, "featured_image" : topic_post.featured_image, "extra_image_one" : topic_post.extra_image_one, "extra_image_two" : topic_post.extra_image_two, "extra_image_three" : topic_post.extra_image_three, "category" : topic_post.category, "category_display" : topic_post.get_category_display(), "is_approved" : topic_post.is_approved  }
         else:
             context['failed'] = True
-            form.initial={"title": request.POST.get("title"), "body":  request.POST.get("body") , "featured_image" : topic_post.featured_image, "extra_image_one" : topic_post.extra_image_one, "extra_image_two" : topic_post.extra_image_two, "extra_image_three" : topic_post.extra_image_three, "category" : topic_post.category, "category_display" : topic_post.get_category_display(), "is_approved" : topic_post.is_approved }
+            form.initial={"title": request.POST.get("title"), "tags": request.POST.get("tags"), "body":  request.POST.get("body") , "featured_image" : topic_post.featured_image, "extra_image_one" : topic_post.extra_image_one, "extra_image_two" : topic_post.extra_image_two, "extra_image_three" : topic_post.extra_image_three, "category" : topic_post.category, "category_display" : topic_post.get_category_display(), "is_approved" : topic_post.is_approved }
 
     form = UpdateTopicPostForm(
                             initial={
                             "title": topic_post.title,
+                            "tags": topic_post.tags,
                             "body": topic_post.body,
                             "featured_image" : topic_post.featured_image,
                             "extra_image_one" : topic_post.extra_image_one,
@@ -143,7 +144,7 @@ def search_topics(query=None, page=1):
     queryset = []
     queries = query.split(" ")
     for q in queries:
-        posts = TopicPost.objects.filter(Q(title__contains=q)|Q(body__icontains=q)).order_by('-date_updated').distinct()
+        posts = TopicPost.objects.filter(Q(title__contains=q)|Q(tags__contains=q)|Q(body__icontains=q)).order_by('-date_updated').distinct()
         for post in posts:
             queryset.append(post)
     # create unique set and then convert to list
@@ -168,8 +169,8 @@ def get_all_topics(request, page):
         topicPosts = topic_posts_paginator.page(topic_posts_paginator.num_pages)
     return topicPosts
 
-def get_all_topics_by_author(request, page, username):
-    author = get_object_or_404(Account, username=username)
+def get_all_topics_by_author(request, page, author_id):
+    author = get_object_or_404(Account, id=author_id)
     topic_posts =  TopicPost.objects.filter(author=author).order_by('-date_updated')
     topic_posts_paginator = Paginator(topic_posts, POSTS_PER_PAGE)
     try:
@@ -183,6 +184,21 @@ def get_all_topics_by_author(request, page, username):
 def get_all_topics_by_category(request, page, category):
     topic_posts =  TopicPost.objects.filter(category=category).order_by('-date_updated')
     topic_posts_paginator = Paginator(topic_posts, POSTS_PER_PAGE)
+    try:
+        topicPosts = topic_posts_paginator.page(page)
+    except PageNotAnInteger:
+        topicPosts = topic_posts_paginator.page(POSTS_PER_PAGE)
+    except EmptyPage:
+        topicPosts = topic_posts_paginator.page(topic_posts_paginator.num_pages)
+    return topicPosts
+
+def get_all_topics_by_tag(request, page, tag):
+    queryset = []
+    posts = TopicPost.objects.filter(Q(tags__contains=tag)).order_by('-date_updated').distinct()
+    for post in posts:
+        queryset.append(post)
+    # create unique set and then convert to list
+    topic_posts_paginator = Paginator(queryset, POSTS_PER_PAGE)
     try:
         topicPosts = topic_posts_paginator.page(page)
     except PageNotAnInteger:

@@ -64,6 +64,25 @@ def login_view(request):
 	return render(request, "account/login.html", context)
 
 @csrf_exempt
+def logout_from_main_site_view(request):
+    try:
+      if request.POST:
+        email = request.POST['email']
+        token = request.POST['token']
+        account = Account.objects.get(email=email)
+        true_token = Token.objects.get(user=account)
+        if true_token.key == token:
+            logout(request)
+            return redirect('https://asiacarnetwork.com') #JsonResponse({'success':'User has been logged out!' }) #
+        else:
+            return JsonResponse({'error':'Wrong token or email' })
+      else:
+          return JsonResponse({'error':'Suspiscious attempt!' })
+    except Exception as err:
+      msg = str(err)
+      return JsonResponse({'exception raised': msg })
+        
+@csrf_exempt
 def login_from_main_site_view(request):
     
     if request.POST:

@@ -9,6 +9,7 @@ chardet==3.0.4
 Django==3.1.2
 django-comments-xtd==2.8.1
 django-contrib-comments==1.9.2
+django-cors==0.1
 django-filter==2.4.0
 django-storages==1.10.1
 djangorestframework==3.12.1

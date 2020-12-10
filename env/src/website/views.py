@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category
+from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category, get_all_topics_by_tag
 from django.conf import settings
 from achievements.views import get_new_user_achievements_count
 from forum_analytics.views import saveAnalytics, get_analytics_count
@@ -15,14 +15,15 @@ def logVisit(request, log_key, page,  user=None, extraInfo=None):
     saveAnalytics(request= request, log_key=log_key, log_value=msg, log_type='I', resolved=True, user=user)
 
 # home page
-def home_view(request, posts_by_author = None, post_type = None, category = None ):
+def home_view(request, posts_by_author = None, post_type = None, category = None, tag=None ):
     context = {}
     filter_by_query = ""
     page = request.GET.get('page', 1)
     if request.GET:
         #displaying search results
         filter_by_query =  request.GET.get('query','')
-        post_type  = request.GET['post_type'] 
+        post_type  = request.GET['post_type']
+        context['filtered_by_query'] = str(filter_by_query)
         context['query'] = str(filter_by_query)
         context['post_type'] = str(post_type)
         context['topic_posts'] = search_topics(query=filter_by_query, page=page)
@@ -33,9 +34,20 @@ def home_view(request, posts_by_author = None, post_type = None, category = None
             context['post_type'] =  post_type
         if context['post_type'] == 'topic':
             if posts_by_author != None:
-                context['topic_posts'] = get_all_topics_by_author(request, page=page, username=posts_by_author)
+                #filter by author
+                context['displaying_filtered_posts'] = True 
+                context['filtered_by_author'] = posts_by_author
+                context['topic_posts'] = get_all_topics_by_author(request, page=page, author_id=posts_by_author)
             elif category != None:
+                #filter by category
+                context['displaying_filtered_posts'] = True 
+                context['filtered_by_category'] = category
                 context['topic_posts'] = get_all_topics_by_category(request, page=page, category=category)
+            elif tag != None:
+                #filter by tags
+                context['displaying_filtered_posts'] = True 
+                context['filtered_by_tags'] = tag
+                context['topic_posts'] = get_all_topics_by_tag(request, page=page, tag=tag)
             else:
                 context['topic_posts'] = get_all_topics(request, page=page)
     context['most_viewed_topics'] = get_top_viewed_topics()

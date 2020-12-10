@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %} 
+{% load i18n %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/owl.theme.accent.min.css' %}" />
@@ -20,6 +21,45 @@
             {% include 'topic/snippets/categories_view.html' with categories=topic_categories %}
             {% endif %}
         </div>
+
+        
+        {% if displaying_filtered_posts and topic_posts %}
+                        
+        <div class="offset-1 col-10 col-lg-7 my-2">
+            <div class="card shadow">
+                <div class="card-body px-3 py-3">
+                <h6 class="lightFont mdText colorBlack">
+                    
+                {% if filtered_by_author %}
+                    {% trans 'Displaying' %}
+                    {% trans 'posts by' %} 
+                    <span class="colorAccent mx-2">
+                        {{topic_posts.0.author.display_name }}
+                    </span> 
+
+                {% elif filtered_by_category %} 
+
+                    {% trans 'Displaying' %}
+                    {% trans 'posts under' %} 
+                    <span class="colorAccent mx-2">
+                    {{ topic_posts.0.get_category_display }}
+                    </span> 
+                    {% trans 'category' %}
+
+                {% elif filtered_by_tags %}
+                    {% trans 'Displaying' %}
+                    {% trans 'posts tagged' %} 
+                    <span class="colorAccent mx-2">
+                        {{ filtered_by_tags }}
+                    </span> 
+                {% endif %}
+                </h6>
+            </div>
+            </div>
+        </div>
+
+        {% endif %}
+
 
         <div class="offset-1 col-10 col-lg-7">
             
@@ -56,4 +96,5 @@
 <!-- page specific javascript-->
 <script src="{% static 'scripts/owl.carousel.min.js' %}"></script>
 <script src="{% static 'scripts/categories_multislider.js' %}"></script>
+<script src="{% static 'scripts/make_tags_clickable.js' %}"></script>
 {% endblock js %}

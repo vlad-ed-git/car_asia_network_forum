@@ -16,7 +16,7 @@
                         
 
                     <span class="float-right">
-                        <a class="unstyled-link-colorDarkGrey accentOnHover" href="{% url 'profile' %}">{% trans "Discussions I started" %}</a>
+                        <a class="unstyled-link-colorDarkGrey accentOnHover" href="{% url 'profile' %}">{% trans "My Profile" %}</a>
                     </span>
                         
                 </h6>
@@ -51,6 +51,11 @@
 
                            <div class="my-3">
                             {% if is_my_posts %}
+                            <a href="{% url 'post_details' post_type='topic' slug=post.slug %}"
+                                class="unstyled-link-colorDarkGrey accentOnHover headingFont mr-4">
+                                {% include 'website/icons/view.html' %} {% trans "View" %}
+                            </a>
+
                             <a href="{% url 'topic:edit_topic' slug=post.slug %}"
                                 class="unstyled-link-colorDarkGrey accentOnHover headingFont mr-4">
                                 {% include 'website/icons/edit.html' %} {% trans "Edit" %}

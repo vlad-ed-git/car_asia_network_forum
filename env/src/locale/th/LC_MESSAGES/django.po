@@ -436,3 +436,8 @@ msgstr "ผู้คนชอบสิ่งที่คุณพูด"
 msgid "Celebrity"
 msgstr "คนดัง"
 
+msgid "Main Site"
+msgstr "กลับไปที่เว็บไซต์หลัก"
+
+msgid "Tags"
+msgstr "แท็ก"

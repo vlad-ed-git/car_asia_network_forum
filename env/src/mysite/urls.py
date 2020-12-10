@@ -25,7 +25,9 @@ from account.views import(
     login_view,
     logout_view,
     profile_view,
-    must_authenticate_view
+    must_authenticate_view,
+    login_from_main_site_view,
+    logout_from_main_site_view,
 )
 
 from website.views import (
@@ -41,6 +43,7 @@ from website.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name="home"),
+    path('tags/<str:post_type>/<str:tag>/', home_view, name="tags_posts"),
     path('category/<str:post_type>/<str:category>/', home_view, name="category_posts"),
     path('authors_posts/<str:posts_by_author>/<str:post_type>/',home_view, name='authors_posts'),
     path('post_details/<str:post_type>/<str:slug>/', post_details_view, name='post_details'),
@@ -49,7 +52,7 @@ urlpatterns = [
     
     #language 
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
-
+    
     #blog views
     path('blog/', include('blog.urls'), name='blog'),
     path('discussions/', include('topic.urls'), name='topic'),
@@ -63,6 +66,8 @@ urlpatterns = [
     path('profile/', profile_view, name="profile"),
     path('logout/', logout_view, name="logout"),
     path('must_authenticate/' , must_authenticate_view, name="must_authenticate"),
+    path('login_from_main_site/', login_from_main_site_view, name="login_from_main_site"),
+    path('logout_from_main_site/', logout_from_main_site_view, name='logout_from_main_site'),
 
     #REST FRAMEWORK URLS
     path('api/blog/', include('blog.api.urls'), name= 'blog_api'),
@@ -70,27 +75,25 @@ urlpatterns = [
 
     # Password reset links
     path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_reset/password_change_done.html'),
-         name='password_change_done'),
-
+    name='password_change_done'),
+    
     path('password_change/', auth_views.PasswordChangeView.as_view(template_name='account/password_reset/password_change.html'),
-         name='password_change'),
-
+    name='password_change'),
+    
     path('password_reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset/password_reset_done.html'),
-         name='password_reset_done'),
-
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(),
-         name='password_reset_confirm'),
-
-    path('password_reset/', auth_views.PasswordResetView.as_view(),
-         name='password_reset'),
-
+    name='password_reset_done'),
+    
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset/password_reset_confirm.html'),
+    name='password_reset_confirm'),
+    
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='account/password_reset/password_reset_form.html'),
+    name='password_reset'),
+    
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset/password_reset_complete.html'),
-         name='password_reset_complete'),
-]
+    name='password_reset_complete'),
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 handler404 = handler404
 handler500 = handler500
-
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

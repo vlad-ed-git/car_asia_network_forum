@@ -9,14 +9,21 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
+
 from pathlib import Path
+import os
+import mimetypes
+
+mimetypes.add_type("image/jpg", ".jpg", True)
+mimetypes.add_type("image/png", ".png", True)
+mimetypes.add_type("application/javascript", ".js", True)
+mimetypes.add_type("text/css", ".css", True)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR =  os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-MEDIA_DIR = os.path.join(BASE_DIR, "media")
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
 SITE_CONFIG_DIR = os.path.join(BASE_DIR, "config")
 LOCALE_DIR = os.path.join(BASE_DIR, "locale")
 LOCALE_PATHS = ( LOCALE_DIR, )
@@ -31,23 +38,34 @@ sk = sk_file.readline()
 sk_file.close()
 SECRET_KEY = sk
 
+#email
+e_pw_file = open(SITE_CONFIG_DIR + '/email_pw.txt', 'r')
+e_pw = e_pw_file.readline()
+e_pw_file.close()
+E_PW = e_pw
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [ 'www.forum.asiacarnetwork.com','forum.asiacarnetwork.com','localhost', '128.199.189.150']
 
 # Application definition
 if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
     #TODO specify email settings
-    EMAIL_HOST = "smtp.mail.com"
-    EMAIL_PORT = "587"
-    EMAIL_HOST_USER = "alias@mail.com"
-    EMAIL_HOST_PASSWORD = "yourpassword"
-    EMAIL_USE_TLS = True
-    DEFAULT_FROM_EMAIL = "Helpdesk <forum_help@carasianetwork>"
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'mail.infoanalyse.com'
+    EMAIL_PORT = 465
+    EMAIL_HOST_USER = "helpdesk@forum.asiacarnetwork.com"
+    EMAIL_HOST_PASSWORD = E_PW
+    EMAIL_USE_SSL = True
+    DEFAULT_FROM_EMAIL = 'Forum AsiaCarNetwork <helpdesk@forum.asiacarnetwork.com>'
+    
+# Application definition
 
 INSTALLED_APPS = [
     'account',
@@ -63,8 +81,8 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-
-    'django.contrib.postgres',
+    
+    'corsheaders',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,8 +90,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
-
 
 # comments-xtd app settings
 SITE_ID = 1
@@ -101,6 +119,8 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,6 +130,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+#CORS_ALLOWED_ORIGINS = ["https://www.asiacarnetwork.com","https://asiacarnetwork.com"]
+CORS_ALLOW_ALL_ORIGINS = True #TODO remove this
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -132,7 +155,8 @@ TEMPLATES = [
 #specify custom user model
 AUTH_USER_MODEL = "account.Account"
 WSGI_APPLICATION = 'mysite.wsgi.application'
-
+DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800 # 50 MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800 # 50 MB
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -161,20 +185,31 @@ hst_file = open(SITE_CONFIG_DIR + '/db_host.txt', 'r')
 HOST = hst_file.readline()
 hst_file.close()
 
-DATABASES = {
-    'default': {
-       'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+
+# Database
+# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+"""DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': DB_NAME,
         'USER': USER_NAME,
         'PASSWORD': PW,
         'HOST': HOST,
         'PORT': PORT,
+        }
+}"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
@@ -201,7 +236,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'th' #'en-us'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
@@ -213,7 +248,9 @@ USE_TZ = True
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True
-
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True
+    
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATICFILES_DIRS = [
@@ -221,14 +258,47 @@ STATICFILES_DIRS = [
     MEDIA_DIR,
 ]
 
-
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+# read AWS (SPACES) credentials
+if not DEBUG:
+    aws_key_id_file = open(SITE_CONFIG_DIR + '/aws_key_id.txt', 'r')
+    AWS_ACCESS_KEY_ID_TXT = aws_key_id_file.readline()
+    aws_key_id_file.close()
 
-if DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+    aws_s_key_file = open(SITE_CONFIG_DIR + '/aws_s_key.txt', 'r')
+    AWS_SECRET_ACCESS_KEY_TXT = aws_s_key_file.readline()
+    aws_s_key_file.close()
 
+    aws_bucket_name_file = open(SITE_CONFIG_DIR + '/aws_bucket_name.txt', 'r')
+    AWS_STORAGE_BUCKET_NAME_TXT = aws_bucket_name_file.readline()
+    aws_bucket_name_file.close()
+
+    aws_endpoint_file = open(SITE_CONFIG_DIR + '/aws_endpoint.txt', 'r')
+    AWS_S3_ENDPOINT_URL_TXT = aws_endpoint_file.readline()
+    aws_endpoint_file.close()
+
+    aws_loc_file = open(SITE_CONFIG_DIR + '/aws_loc.txt', 'r')
+    AWS_LOCATION_TXT = aws_loc_file.readline()
+    aws_loc_file.close()
+
+    AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY_ID_TXT
+    AWS_SECRET_ACCESS_KEY = AWS_SECRET_ACCESS_KEY_TXT
+    AWS_STORAGE_BUCKET_NAME = AWS_STORAGE_BUCKET_NAME_TXT
+    AWS_S3_ENDPOINT_URL = AWS_S3_ENDPOINT_URL_TXT
+    AWS_LOCATION = AWS_LOCATION_TXT
+    STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'  
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_SIGNATURE_VERSION = "s3v4"
+    AWS_S3_OBJECT_PARAMETERS = {
+    'ACL': 'public-read',
+    }
+
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'public/static_cdn')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media_cdn')
 
 #require login to post comments
 COMMENTS_XTD_APP_MODEL_OPTIONS = {
