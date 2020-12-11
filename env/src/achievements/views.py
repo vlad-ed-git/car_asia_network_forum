@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import AchievementPost
+from forum_analytics.models import LogKey, LogType
 from forum_analytics.views import saveAnalytics
 
 # Create your views here.
@@ -16,8 +17,8 @@ def add_achievement(achievement, level, request = None, userWithAchievement = No
         achievement = AchievementPost(user = user, achievement = achievement, level = level)
         achievement.save()
     except Exception as err:
-        msg = "add_achievement threw exception " + str(err) 
-        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err) + "  : achievements | add_achievement"
+        saveAnalytics(request =None, log_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
 
 def get_new_user_achievements_count(request):
     try:
@@ -27,8 +28,8 @@ def get_new_user_achievements_count(request):
         else:
             return None
     except Exception as err:
-        msg = "get_new_user_achievements_count threw exception " + str(err) 
-        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err) + ": achievements | get_new_user_achievements_count" 
+        saveAnalytics(request =None, log_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
         return None
 
 def get_new_user_achievements(request):
@@ -39,16 +40,16 @@ def get_new_user_achievements(request):
             found_achievements.append(new_achievement)
         return found_achievements
     except Exception as err:
-        msg = "get_new_user_achievements threw exception " + str(err) 
-        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err) + ": achievements | get_new_user_achievements"
+        saveAnalytics(request =None, og_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
         return None
 
 def mark_new_user_achievements_as_viewed(request):
     try:
         AchievementPost.objects.filter(user=request.user).update(viewed_by_user=True)
     except Exception as err:
-        msg = "mark_new_user_achievements_as_viewed threw exception " + str(err) 
-        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err) + ": achievements | mark_new_user_achievements_as_viewed"
+        saveAnalytics(request =None, og_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
 
 def get_all_user_achievements(request):
     try:
@@ -58,6 +59,6 @@ def get_all_user_achievements(request):
         avid_reader = AchievementPost.objects.filter(user=request.user, achievement='RE').count()
         return {'discussion_starter' : discussion_starter, 'got_likes' : got_likes, 'celebrity' : celebrity, 'avid_reader' : avid_reader}
     except Exception as err:
-        msg = "get_all_user_achievements threw exception " + str(err) 
-        saveAnalytics(request =None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err) + ": achievements | get_all_user_achievements" 
+        saveAnalytics(request =None, og_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
         return None

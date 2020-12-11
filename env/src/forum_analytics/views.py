@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import ForumAnalytics
+from .models import ForumAnalytics, LogKey, LogType
 
 # Create your views here.
 def get_analytics_count(log_key, user=None):

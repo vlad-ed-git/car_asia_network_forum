@@ -2,18 +2,11 @@ from django.shortcuts import render, redirect
 from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category, get_all_topics_by_tag, get_posts_liked_by_user, get_total_topics, get_total_comments
 from django.conf import settings
 from achievements.views import get_new_user_achievements_count
+from forum_analytics.models import LogKey, LogType
 from forum_analytics.views import saveAnalytics, get_analytics_count
 from achievements.views import add_achievement
 from account.views import get_total_users
 
-#analytics
-POST_PAGE_VISIT_LOG_KEY = "Read Post"
-HOME_PAGE_VISIT_LOG_KEY = "Visited Site"
-def logVisit(request, log_key, page,  user=None, extraInfo=None):
-    msg = "User Visited This Page " + page
-    if extraInfo:
-        msg = msg + " | " + extraInfo
-    saveAnalytics(request= request, log_key=log_key, log_value=msg, log_type='I', resolved=True, user=user)
 
 # home page
 def home_view(request, posts_by_author = None, post_type = None, category = None, tag=None ):
@@ -63,13 +56,13 @@ def home_view(request, posts_by_author = None, post_type = None, category = None
         user = request.user
         context['posts_I_like'] = get_posts_liked_by_user(request, user)
         context['achievement_notifications'] = get_new_user_achievements_count(request)
-    logVisit(log_key=HOME_PAGE_VISIT_LOG_KEY, page='Home Page', user=user, request=request)
+    saveAnalytics(request= request, log_key=LogKey.HOME_PAGE_VISIT, log_value="-", log_type=LogType.INFO, resolved=True)
     return render(request, 'website/home.html', context)
 
 
 # post page and reading achievement
 def checkReaderAchievement(user):
-    visits = get_analytics_count(log_key=POST_PAGE_VISIT_LOG_KEY, user=user)
+    visits = get_analytics_count(log_key=LogKey.POST_PAGE_VISIT, user=user)
     if visits == 10:
         add_achievement(userWithAchievement=user, achievement='RE', level=1)
     elif visits == 50:
@@ -78,6 +71,7 @@ def checkReaderAchievement(user):
         add_achievement(userWithAchievement=user, achievement='RE', level=3)
     else:
         return True
+    
 
 def post_details_view(request, post_type, slug):
     user = None
@@ -89,8 +83,6 @@ def post_details_view(request, post_type, slug):
     context = {}
     if request.user.is_authenticated:
         user = request.user
-        extraLogInfo = "title : " +  topic.title + " | slug : " + topic.slug
-        logVisit(log_key=POST_PAGE_VISIT_LOG_KEY, page='Post Page', user=user, extraInfo=extraLogInfo, request=request)
         checkReaderAchievement(user)
         context['user_dislikes_post'] = user_dislikes_topic_post(user=user, topic=topic)
         context['user_likes_post'] = user_likes_topic_post(user=user, topic=topic)
@@ -98,6 +90,8 @@ def post_details_view(request, post_type, slug):
 
     context['post'] = topic
     context['post_type'] = post_type
+    extraLogInfo = "title : " +  topic.title + " | slug : " + topic.slug
+    saveAnalytics(request= request, log_key=LogKey.POST_PAGE_VISIT, log_value=extraLogInfo, log_type=LogType.INFO, resolved=True)
     return render(request, 'website/post_page.html', context)
 
 def like_post_view(request, post_type, slug):

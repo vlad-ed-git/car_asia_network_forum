@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from django_comments_xtd.models import XtdComment
 from django.urls import reverse
 from forum_analytics.views import saveAnalytics
+from forum_analytics.models import LogKey, LogType
 
 def upload_location(instance, filename):
     file_path = 'topic/{author_id}/{title}-{filename}'.format(
@@ -78,8 +79,8 @@ def submission_delete(sender, instance, **kwargs):
         if instance.extra_image_three:
             instance.extra_image_three.delete(False)
     except Exception as err:
-        msg = "topic submission_delete threw exception " + str(err) 
-        saveAnalytics(request=None, log_key="Exception Thrown", log_value=msg, log_type='E', resolved=False)
+        msg = str(err)  +  ": topic | topic submission_delete"
+        saveAnalytics(request=None, log_type=LogType.ERROR, log_key=LogKey.EXCEPTION_RAISED, log_value=msg, resolved=False)
 
 
 def compress_image(image):
