@@ -54,7 +54,6 @@ urlpatterns = [
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
     
     #blog views
-    path('blog/', include('blog.urls'), name='blog'),
     path('discussions/', include('topic.urls'), name='topic'),
 
     #comments
@@ -70,7 +69,6 @@ urlpatterns = [
     path('logout_from_main_site/', logout_from_main_site_view, name='logout_from_main_site'),
 
     #REST FRAMEWORK URLS
-    path('api/blog/', include('blog.api.urls'), name= 'blog_api'),
     path('api/account/', include('account.api.urls'), name= 'account_api'),
 
     # Password reset links

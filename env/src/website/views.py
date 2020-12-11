@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category, get_all_topics_by_tag, get_posts_liked_by_user
+from topic.views import increment_view_count, search_topics, get_topic_post_or_404, get_all_topics, get_most_liked_topics, get_top_viewed_topics, like_topic_post, dislike_topic_post,user_dislikes_topic_post, user_likes_topic_post, user_owns_topic_post, get_all_topics_by_author, get_topic_categories, get_all_topics_by_category, get_all_topics_by_tag, get_posts_liked_by_user, get_total_topics, get_total_comments
 from django.conf import settings
 from achievements.views import get_new_user_achievements_count
 from forum_analytics.views import saveAnalytics, get_analytics_count
 from achievements.views import add_achievement
+from account.views import get_total_users
 
 #analytics
 POST_PAGE_VISIT_LOG_KEY = "Read Post"
@@ -54,6 +55,9 @@ def home_view(request, posts_by_author = None, post_type = None, category = None
     context['popular_topics'] = get_most_liked_topics()
     context['show_search_bar'] = True
     context['topic_categories'] = get_topic_categories(request)
+    context['total_users'] = get_total_users(request)
+    context['total_topics'] = get_total_topics(request)
+    context['total_comments'] = get_total_comments(request)
     user = None
     if request.user.is_authenticated:
         user = request.user

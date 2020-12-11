@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load comments %}
 {% for post in posts  %}
 <div class="card my-4">
     <div class="card-body px-0 py-0">
@@ -44,16 +45,20 @@
         </div>
         {% endif %}
         <div class="px-3 py-2">
-
-            <h6 class="mr-4 colorBlack inlineBlocks">
+            
+            {% if post.tags %}
+                
+            <h6 class="mr-3 colorBlack inlineBlocks">
                 <span class="lightFont lightText colorDarkGrey">{% trans "Tags" %} | </span>
-                <span class="lightFont lightText colorAccent" id="post_tags">
+                <span class="lightFont lightText colorAccent post_tags" id="post_tags{{forloop.counter}}">
                     {{ post.tags }}
                  </span>
             </h6>
 
+                
+            {% endif %}
 
-            <h6 class="mr-4 colorBlack inlineBlocks">
+            <h6 class="mr-3 colorBlack inlineBlocks">
                 <span class="lightFont lightText colorDarkGrey">{% trans "Category" %} | </span>
                 <span class="lightFont lightText colorAccent">
                    <a href="{% url 'category_posts' post_type='topic' category=post.category %}" class="unstyled-link-colorAccent darkGreyOnHover">
@@ -61,15 +66,22 @@
                  </span>
             </h6>
 
-            <h6 class="mr-4 inlineBlocks">
+            <h6 class="mr-3 inlineBlocks">
                 <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack accentOnHover">
                 {% include 'website/icons/thumbs_up.html' %}
                 {{ post.total_likes }}</a>
             </h6>
-            <h6 class="mr-4  inlineBlocks">
+            <h6 class="mr-3  inlineBlocks">
                 <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack accentOnHover">
                 {% include 'website/icons/thumbs_down.html' %}
                 {{ post.total_dislikes }}</a>
+            </h6>
+
+            <h6 class="mr-3  inlineBlocks">
+                <a href="{% url 'post_details' post_type='topic' slug=post.slug %}" class="unstyled-link-colorBlack accentOnHover">
+                {% include 'website/icons/chat.html' %}
+                {% get_comment_count for post as comment_count %}
+                {{ comment_count }}</a>
             </h6>
            
         </div>

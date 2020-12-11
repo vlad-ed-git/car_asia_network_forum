@@ -70,7 +70,6 @@ else:
 INSTALLED_APPS = [
     'account',
     'website',
-    'blog',
     'topic',
     'achievements',
     'forum_analytics',

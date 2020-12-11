@@ -54,7 +54,7 @@
                           <a href="{% url 'category_posts' post_type='topic' category=post.category %}" class="unstyled-link-colorAccent darkGreyOnHover headingFont">{{ post.get_category_display }}</a>
                         </span>
                         {% if post.tags %}
-                        <span class="lightFont lightText colorAccent" id="post_tags">
+                        <span class="lightFont lightText colorAccent post_tags" id="post_tags">
                            {{ post.tags }}
                         </span>
                         {% endif %}

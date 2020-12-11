@@ -48,7 +48,7 @@ class TopicPost(models.Model):
         auto_now=True, verbose_name="date updated")
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
     slug = models.SlugField(blank=True, unique=True)
     views = models.IntegerField(default=0)
     likes = models.ManyToManyField(Account, related_name='topic_post_likes')

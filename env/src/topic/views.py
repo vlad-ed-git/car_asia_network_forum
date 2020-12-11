@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import CreateTopicPostForm, UpdateTopicPostForm
 from account.models import Account
-from .models import TopicPost
+from .models import TopicPost, CustomComment
 from django.db.models import F, Q
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse
@@ -157,6 +157,11 @@ def search_topics(query=None, page=1):
         topicPosts = topic_posts_paginator.page(topic_posts_paginator.num_pages)
     return topicPosts
 
+def get_total_topics(request):
+    return TopicPost.objects.filter(is_approved=True).count()
+
+def get_total_comments(request):
+    return CustomComment.objects.count()
 
 def get_all_topics(request, page):
     topic_posts =  TopicPost.objects.all().order_by('-date_updated')

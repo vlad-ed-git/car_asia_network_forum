@@ -148,3 +148,9 @@ def profile_view(request):
 		context['celebrity'] = achievements_counts_list['celebrity']
 		context['avid_reader'] = achievements_counts_list['avid_reader']
 	return render(request, "account/profile.html", context)
+
+def get_total_users(request, exclude_staff=False):
+    if exclude_staff:
+        return Account.objects.filter(is_super_editor=False, is_editor=False, is_admin=False).count()
+    else:
+        return Account.objects.filter().count() 
