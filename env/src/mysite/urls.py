@@ -19,79 +19,73 @@ from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
 
-
 from account.views import(
-    registration_view,
-    login_view,
-    logout_view,
     profile_view,
     must_authenticate_view,
-    login_from_main_site_view,
-    logout_from_main_site_view,
 )
 
-from website.views import (
+from topic.views import(
+    create_topic_view,
+    edit_topic_view,
     home_view,
     post_details_view,
-    like_post_view,
-    dislike_post_view,
+    dislike_post,
+    like_post,
+    delete_topic_view,
     handler404,
     handler500,
+)
 
+from dashboard.views import(
+    announcement_details_view,
+    create_announcement_view,
+    edit_announcement_view,
+    delete_announcement_view,
+    announcements_view,
 )
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    #account
+    path('api/account/', include('account.api.urls'), name= 'account_api'),
+    path('profile/', profile_view, name="profile"),
+    path('must_authenticate/' , must_authenticate_view, name="must_authenticate"),
+    
+    #topic
     path('', home_view, name="home"),
-    path('tags/<str:post_type>/<str:tag>/', home_view, name="tags_posts"),
-    path('category/<str:post_type>/<str:category>/', home_view, name="category_posts"),
-    path('authors_posts/<str:posts_by_author>/<str:post_type>/',home_view, name='authors_posts'),
-    path('post_details/<str:post_type>/<str:slug>/', post_details_view, name='post_details'),
-    path('like_post/<str:slug>/<str:post_type>/', like_post_view , name='like_post'),
-    path('dislike_post/<str:slug>/<str:post_type>/', dislike_post_view , name='dislike_post'),
+    path('create/', create_topic_view, name='create'),
+    path('edit/<str:slug>/', edit_topic_view, name='edit'),
+    path('delete/<int:confirmed>/<str:slug>/', delete_topic_view, name='delete'),
+    path('all/<int:page>/', home_view, name='all_posts'),
+    path('search/<str:query>/<int:page>/', home_view, name='search'),
+    path('filter/<str:category>/<int:page>/', home_view, name='filter'),
+    path('author_posts/<int:author_id>/<int:page>/', home_view, name='author_posts'),
+    path('tags/<str:tag>/<int:page>/', home_view, name='tagged'),
+    path('favorites/<int:liked>/<int:page>/', home_view, name='favorites'),
+    path('post/<str:slug>/', post_details_view, name='post_details'), 
+    path('like/<str:slug>/', like_post, name='like'),
+    path('dislike/<str:slug>/', dislike_post, name='dislike'),
+     
+    #annoucements
+    path('announcements/<int:page>/', announcements_view, name='announcements' ),
+    path('announcements/<int:author_id>/<int:page>/', announcements_view, name='authors_announcements'),
+    path('announcement/<str:slug>/', announcement_details_view, name='announcement_details'),
+    path('create_announcement/', create_announcement_view, name='create_announcement'),
+    path('edit_announcement/<str:slug>/', edit_announcement_view, name='edit_announcement'),
+    path('delete_announcement/<int:confirmed>/<str:slug>/', delete_announcement_view, name='delete_announcement'),
+    
+    #comments
+    path('comments/', include('django_comments_xtd.urls'), name="topic_comments"),  
+    
     
     #language 
     re_path(r'^i18n/', include('django.conf.urls.i18n')),
-    
-    #blog views
-    path('discussions/', include('topic.urls'), name='topic'),
+]
 
-    #comments
-    path('comments/', include('django_comments_xtd.urls'), name="topic_comments"),
-
-    #user auth views
-    path('register/', registration_view, name="register"),
-    path('login/', login_view, name="login"),
-    path('profile/', profile_view, name="profile"),
-    path('logout/', logout_view, name="logout"),
-    path('must_authenticate/' , must_authenticate_view, name="must_authenticate"),
-    path('login_from_main_site/', login_from_main_site_view, name="login_from_main_site"),
-    path('logout_from_main_site/', logout_from_main_site_view, name='logout_from_main_site'),
-
-    #REST FRAMEWORK URLS
-    path('api/account/', include('account.api.urls'), name= 'account_api'),
-
-    # Password reset links
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='account/password_reset/password_change_done.html'),
-    name='password_change_done'),
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     
-    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='account/password_reset/password_change.html'),
-    name='password_change'),
-    
-    path('password_reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset/password_reset_done.html'),
-    name='password_reset_done'),
-    
-    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='account/password_reset/password_reset_confirm.html'),
-    name='password_reset_confirm'),
-    
-    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='account/password_reset/password_reset_form.html'),
-    name='password_reset'),
-    
-    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='account/password_reset/password_reset_complete.html'),
-    name='password_reset_complete'),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
 handler404 = handler404
 handler500 = handler500

@@ -1,0 +1,55 @@
+{% load static %}
+{% load i18n %}
+
+<div class="colorWhiteBg inlineBlocks">
+
+    <a class="d-block px-3 py-2 headingFont title colorDeepBlue colorOceanBlueOnHover"
+     href="{%url 'create' %}">
+        {% include 'svg_icons/lightining.html' %}
+        {% trans "Start a discussion" %}
+    </a>
+
+</div>
+<div class="colorWhiteBg mt-2 inlineBlocks">
+    <a class="d-block px-3 py-2 headingFont title colorDeepBlue colorOceanBlueOnHover"
+    href="{% url 'author_posts' author_id=request.user.id page=1 %}">
+        {% include 'svg_icons/chat_quote.html' %}
+        {% trans "Discussions I started" %}
+    </a>
+</div>
+
+<div class="colorWhiteBg mt-2 inlineBlocks">
+    <a class="d-block px-3 py-2 headingFont title colorDeepBlue colorOceanBlueOnHover"
+    href="{% url 'favorites' liked=1 page=1 %}">
+        {% include 'svg_icons/like_bookmark.html' %}
+        {% trans 'My Favorites' %}
+    </a>
+</div>
+
+
+{% if request.user.is_authenticated and request.user.is_super_editor %}
+<br>
+<div class="colorWhiteBg inlineBlocks my-3">
+
+    <a class="d-block px-3 py-2 headingFont title colorDeepBlue colorOceanBlueOnHover"
+     href="{%url 'create_announcement' %}">
+        {% include 'svg_icons/lightining.html' %}
+        {% trans "Make an announcement" %}
+    </a>
+
+</div>
+
+<div class="colorWhiteBg inlineBlocks my-3">
+
+    <a class="d-block px-3 py-2 headingFont title colorDeepBlue colorOceanBlueOnHover"
+     href="{%url 'authors_announcements' author_id=request.user.id page=1 %}">
+        {% include 'svg_icons/chat_bubble.html' %}
+        {% trans "My announcements" %}
+    </a>
+
+</div>
+{% endif %}
+    
+
+
+<!-- TODO achievements -->

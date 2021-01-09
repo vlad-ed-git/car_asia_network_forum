@@ -1,0 +1,35 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% load comments_xtd %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "Comment Removed" %}</title>
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <div class="bodyFont title colorBlack mb-4 clearfix">
+                   
+                       <h6>
+                        {% trans 'Your comment has been deleted!' %}
+                       </h6>
+                       <a  class="headingFont subTitle colorDeepBlue colorOceanBlueOnHover"
+                       href="{{ comment.content_object.get_absolute_url }}">
+                           {% trans 'Return to post' %}
+                       </a>
+                </div>
+               
+   
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

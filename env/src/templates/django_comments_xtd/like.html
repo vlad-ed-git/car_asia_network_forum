@@ -1,0 +1,60 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% load comments_xtd %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "Are you sure?" %}</title>
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <div class="bodyFont title colorBlack mb-4 clearfix">
+                   
+                       <h6 class="headingFont">
+                        {% trans 'Confirm Action | Like Comment' %}
+                       </h6>
+
+                       <p class="colorDarkGrey bodyFont subTitle">
+                            {{ comment.comment }} 
+                       </p>
+                       
+                       <form action="." method="post">
+                           {% csrf_token %}
+                       <div class="my-3 clearfix">
+                        <input type="hidden" name="next" value="{{ comment.get_absolute_url }}">
+                        
+                        <a href="{{ comment.get_absolute_url }}" class="bodyText float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/cancel.html' %}
+                            {% trans 'Cancel' %}
+                        </a>
+
+                        <button type="submit" name="submit" value="I like it"
+                        style="border: none;"
+                        class="bodyText float-end me-3 colorWhiteBg colorDeepBlue headingFont colorOceanBlueOnHover">
+                        
+                        {% if already_liked_it %}
+                        {% trans 'You already liked this comment! Click to Withdraw your opinion.' %}
+                        {% else %}
+
+                        {% include 'svg_icons/thumbs_up.html' %}
+                        {% trans 'Like' %}
+                        {% endif %}
+                        </button>
+                       </div> 
+                       </form>  
+                </div>
+               
+   
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

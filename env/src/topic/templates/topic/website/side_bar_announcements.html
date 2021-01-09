@@ -1,0 +1,28 @@
+{% load static %}
+{% load i18n %}
+
+{% if announcements  %}
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'Announcements' %}
+    </span>
+</h6>
+
+<div class="colorDarkestGreyBg p-3 mb-3">
+    
+    {% for announcement in announcements  %}
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <a class="headingFont subTitle colorBlack colorOceanBlueOnHover"
+                 href="{% url 'announcement_details' slug=announcement.slug %}"
+                >
+
+                    {{ announcement.title|title|truncatewords_html:16 }}
+                </a>
+            </div>
+        </div>
+
+    {% endfor %}
+        
+</div>
+{% endif %}

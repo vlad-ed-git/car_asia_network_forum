@@ -1,0 +1,25 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} 
+<title>Asia Car Network |  {% trans "You must Login to view this page!" %}</title>
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col text-center ">
+                <h2 class="py-3">
+                    <span class="colorErrors headingFont lgTitle">
+                    {% trans "You must Login to view this page!" %}
+                    </span>
+                    <a class="colorBlack headingFont lgTitle colorOceanBlueOnHover" 
+                    href="https://asiacarnetwork.com/member/login.php">
+                        {% trans "LOGIN" %}
+                    </a>
+                </h2>
+            </div>
+        </div>
+    </div>    
+
+{% endblock content %}

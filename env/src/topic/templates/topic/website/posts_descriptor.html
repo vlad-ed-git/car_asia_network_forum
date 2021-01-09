@@ -1,0 +1,78 @@
+{% load static %}
+{% load i18n %}
+<h6 class="headingFont colorWhite">
+    <div class="clearfix">
+        <span class="title mr-3 float-start">
+            {% trans 'Forums' %}
+        </span> 
+        
+        {% if start_topic_btn == 'show' %}
+            <a class="float-end p-2 headingFont colorGreenBluishBg colorWhite whiteBgOnHover"
+            
+            {% if request.user.is_authenticated %}
+                href="{% url 'create' %}"
+            {% else %}
+                href="https://asiacarnetwork.com/member/login.php"
+            {% endif %}
+                
+           >
+           {% if request.user.is_authenticated %}
+                {% trans 'Start a discussion' %}
+                {% else %}
+                {% trans 'LOGIN' %}
+                {% endif %} 
+            </a>
+        {% endif %}
+            
+    </div>
+
+    <div>
+    {% if filter_by_tag  %}
+    {% trans 'Displaying' %}
+    {{ total_results }} 
+    {% trans 'posts tagged as ' %}
+    <span class="headingFont">
+        <u>{{ filter_by_tag  }}</u>
+    </span>
+    <a href="{% url 'home' %}" class="colorWhite colorOceanBlueOnHover mx-2">{% trans 'x Clear Search' %}</a> 
+
+    {% elif filter_by_query %}                    
+    {% trans 'Displaying' %}
+    {{ total_results }} 
+    {% trans 'posts containing query ' %}
+    <span class="headingFont">
+        <u>{{ filter_by_query }}</u>
+    </span>
+    <a href="{% url 'home' %}" class="colorWhite colorOceanBlueOnHover mx-2">{% trans 'x Clear Search' %}</a>
+    
+    {% elif filter_by_author %}
+    {% trans 'Displaying' %}
+    {{ total_results }} 
+    {% trans 'posts made by author ' %}
+    <span class="headingFont">
+        <u>{{ filter_by_author }}</u>
+    </span>
+    <a href="{% url 'home' %}" class="colorWhite colorOceanBlueOnHover mx-2">{% trans 'x Clear Search' %}</a>
+
+    {% elif filter_by_category %}
+    {% trans 'Displaying' %}
+    {{ total_results }} 
+    {% trans 'posts under category ' %}
+    <span class="headingFont">
+        <u>{{ filter_by_category }}</u>
+    </span>
+    <a href="{% url 'home' %}" class="colorWhite colorOceanBlueOnHover mx-2">{% trans 'x Clear Search' %}</a>
+
+    {% elif filter_favorites%}
+    {% trans 'Displaying' %}
+    {{ total_results }} 
+    <span class="headingFont">
+        <u>{% trans 'posts I like' %}</u>
+    </span>
+    <a href="{% url 'home' %}" class="colorWhite colorOceanBlueOnHover mx-2">{% trans 'x Clear Search' %}</a>
+
+
+    {% endif %}
+        
+</div>
+</h6>

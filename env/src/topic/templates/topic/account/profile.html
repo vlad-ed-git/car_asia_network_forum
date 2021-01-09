@@ -1,0 +1,74 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} 
+<title>Asia Car Network |  {% trans "My Profile" %}</title>
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="col-12 col-md-7 col-lg-9">
+            <div class="my-3 mx-2 p-3">
+                {% include 'topic/user_pages/dashboard.html' %}
+            </div>
+            
+        </div>
+        <div class="col-12 col-md-5 col-lg-3">
+            <form method="post" enctype="multipart/form-data" class="my-3 mx-2 p-3 colorDarkestGreyBg">
+                {% csrf_token %}
+                <div class="form-group text-center">
+  
+                  <!-- profile picture -->
+                  
+                  {% if profile_form.initial.profile_picture %}
+                    <img src="{{ profile_form.initial.profile_picture.url }}" 
+                    class="rounded-circle" 
+                    height="70px" 
+                    width="70px"
+                    >
+                  {% else %}
+                  <h2 class="colorWhite headingFont subTitle">
+                        {% include 'svg_icons/person_avatar.html' %}
+                  </h2>
+                  {% endif %}
+                    <h2 class="colorWhite py-3 headingFont subTitle">
+                        {{ profile_form.initial.display_name|title }}
+                    </h2>
+                </div>
+                
+                  <div class="form-group my-3">
+                  <div class="custom-file">
+                    <input type="file" class="custom-file-input colorWhite" id="id_profile_picture" name="profile_picture"  accept="image/*">
+                    <small class="colorErrors bodyFont"> {{ profile_form.profile_picture.errors }}
+                    </small>
+                </div>
+                </div>
+  
+  
+                <div class="form-group d-none">
+                    <label for="id_display_name" class="bodyFont">{% trans "Your Name" %}</label>
+                    <input type="text" name="display_name" class="form-control bodyFont" id="id_display_name"
+                        value="{{ profile_form.initial.display_name}}">
+                    <small class="colorErrors bodyFont"> {{ profile_form.display_name.errors }}
+                    </small>
+                </div>
+
+                <div class="form-group d-none">
+                    <label for="id_email" class="bodyFont">{% trans "Email address" %}</label>
+                    <input type="email" name="email" class="form-control bodyFont" id="id_email"
+                        value="{{ profile_form.initial.email}}">
+                    <small class="colorErrors bodyFont"> {{ profile_form.email.errors }} </small>
+                </div>
+  
+                <div class="mt-4">
+                <button type="submit" class="no-border squareBorders btn colorGreenBluishBg headingFont colorWhite subTitle colorOceanBlueBgHover whiteOnHover w-100">{% trans "Update Profile Photo" %}</button>
+                </div>
+              </form>
+        </div>
+    </div>
+</div>      
+{% endblock content %}
+    

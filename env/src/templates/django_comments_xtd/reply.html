@@ -1,45 +1,37 @@
-{% extends "django_comments_xtd/base.html" %}
-{% load i18n %}
-{% load comments %}
-{% load comments_xtd %}
+{% extends 'base_no_secondary_header.html' %}
 {% load static %}
+{% load i18n %}
+{% load comments_xtd %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "Reply to comment" %}</title>
+{% endblock title %}
 
-{% block title %}{% trans "Comment reply" %}{% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="my-4">
-    <h3 class="text-center headingFont colorBlack">{% trans "Reply to comment" %}</h3>
-    <hr/>
-  </div>
-  <div class="row">
-    <div class="offset-md-1 col-md-10">
-      <div class="media">
-        <div class="mr-3">
-            {% if item.comment.user.profile_picture %}
-              <img alt="" src="{{ item.comment.user.profile_picture.url }}" class="rounded-circle z-depth-2 shadow" width="48">
-          {% else %}
-              <img alt="" src="{% static 'images/default_profile_avatar.png' %}" class="rounded-circle z-depth-2 shadow" width="48">
-          {% endif %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <div class="bodyFont title colorBlack mb-4 clearfix">
+                   
+                       <h6>
+                        {% trans "Reply to comment" %}
+                       </h6>
+
+                       <p class="colorDarkGrey bodyFont subTitle">
+                            {{ comment.comment }} 
+                       </p>
+                       
+                       {% include "comments/topic/form.html" %}
+                </div>
+               
+   
+            </div>
         </div>
-        <div class="media-body">
-          <div class="comment pb-3">
-            <h6 class="mb-2 small headingFont colorBlack px-2">
-              {{ comment.submit_date|date:"N j, Y, P" }}&nbsp;-&nbsp;
-              {% if comment.user_url %}
-              <a href="{{ comment.user_url }}" target="_new">{% endif %}
-                {{ comment.user_name }}{% if comment.user_url %}</a>{% endif %}
-            </h6>
-            <p class="colorBlack bodyFont p-2">{{ comment.comment }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="card mt-2 mb-2">
-        <div class="card-body shadow">
-          {% include "comments/topic/form.html" %}
-        </div>
-      </div>
     </div>
-  </div>
 </div>
+
 {% endblock %}

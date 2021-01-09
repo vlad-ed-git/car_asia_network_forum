@@ -1,16 +1,11 @@
-<!DOCTYPE html>
+{% load static %}
 {% load i18n %}
+<!doctype html>
 <html lang="en">
   <head>
-    {% load static %}
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-
-    {% block meta %} {% endblock meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- fav ico-->
     <link
@@ -33,93 +28,30 @@
     <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
 
-    <!-- font awesome css-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font_awesome_all.min.css' %}" />
-    <!-- custom css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/fonts.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/colors.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/dimens.css' %}"
-    />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    <!-- Site css-->
+    <link href="{% static 'styles/base.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/dimens.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/colors.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/fonts.css' %}" rel="stylesheet">
+
+    {% block title %} {% endblock title %}
     {% block css %} {% endblock css %}
 
-    <title>Asia Car Network | Forum</title>
+    <title>Asia Car Network | {% trans 'Forum' %}</title>
   </head>
-  <body class="colorGreyBg">
+  <body  class="colorDarkGreyBg">
     {% include 'header.html' %}
-    <!-- LANGUAGE SET -->
-    <div class="container-fluid">
-      <div class="my=3 w-100 clearfix">
-        <div class="float-right">
-          <div class="btn-group">
-            <button class="btn btnOutlineAccent btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img src="{% static 'images/languages/global.png' %}" />
-                <span class="headingFont px-2">Language</span>
-            </button>
-            <div class="dropdown-menu" id="language-list">
-                <a class="dropdown-item" href='{% url "set_language" %}' data-lang="en-us"><img src="{% static 'images/languages/en-us.png' %}"/><span class="headingFont colorBlack px-2">English</span></a>
-                <a class="dropdown-item"  href='{% url "set_language" %}' data-lang="th"><img src="{% static 'images/languages/th.png' %}"/><span class="headingFont colorBlack px-2">ภาษาไทย</span></a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% include 'secondary_header.html' %}
+    <main>
+      {% block content %} {% endblock content %}
+    </main>
+ 
 
-    {% block content %} {% endblock content %}
+    </body>
     {%include 'footer.html' %}
-
-
-    {% load static %}
-    <!-- JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'scripts/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'scripts/jquery-3.5.1.min.js' %}"></script>
-    <script src="{% static 'scripts/popper.min.js' %}"></script>
-    <script src="{% static 'scripts/bootstrap.min.js.map' %}"></script>
-    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
-    <!--language switch -->
-    <script>
-      $('#language-list a').on('click', function(event) {
-          event.preventDefault();
-          var target = $(this);
-          var url = target.attr('href');
-          var language_code = target.data('lang');
-          $.ajax({
-              type: 'POST',
-              url: url,
-              data: {language: language_code},
-              headers: {"X-CSRFToken": getCookie('csrftoken')}
-          }).done(function(data, textStatus, jqXHR) {
-              reload_page();
-          });
-      });
-
-      function getCookie(name) {
-          var value = '; ' + document.cookie,
-              parts = value.split('; ' + name + '=');
-          if (parts.length == 2) return parts.pop().split(';').shift();
-      }
-
-      function reload_page() {
-          window.location.reload(true);
-      }
-
-    </script>
-
-    {% block js %}
-    <!-- page specific javascript-->     
-    {% endblock js %}
-  </body>
+    {% block js %} {% endblock js %}
 </html>

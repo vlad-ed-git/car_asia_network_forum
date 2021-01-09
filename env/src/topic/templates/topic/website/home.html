@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+<div class="container-fluid">
+    
+
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="col-12 col-md-5 col-lg-3">
+            {% if announcements %}
+              {% include 'topic/website/side_bar_announcements.html' %}                     
+            {% endif %}
+            {% include 'topic/website/side_bar.html' %}
+        </div>
+        <div class="col-12 col-md-7 col-lg-9">
+            {% include 'topic/website/posts_descriptor.html' with start_topic_btn='show' %}
+            <div class="colorWhiteBg">
+            <div class="accordion open m-3 py-3" id="homePosts">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="topicPosts">
+                        <button class="accordion-button squareBorders colorDeepBlueBg colorWhite headingFont"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapseTopicPosts"
+                            aria-expanded="true" aria-controls="collapseTopicPosts">
+                            {% if filter_by_category %}
+                            {{ filter_by_category_name }} {% trans 'Discussions' %}
+                            {% else %}
+                            {% trans 'Car And Automobile Discussions' %}
+                            {% endif %}
+                        </button>
+                    </h2>
+                    <div id="collapseTopicPosts" class="accordion-collapse collapse show" aria-labelledby="topicPosts"
+                        data-bs-parent="#homePosts">
+                        <div class="accordion-body">
+
+                            {% if posts %}
+                            <ul class="list-group list-group-flush">
+
+                                {% for topic_post in posts %}
+                                {% if topic_post.category != 'O' %}
+                                <a href="{% url 'post_details'  slug=topic_post.slug %}"
+                                    class="colorBlack colorOceanBlueOnHover headingFont list-group-item list-group-item-action clearfix">
+                                    <img {% if topic_post.featured_image %} src="{{ topic_post.featured_image.url }}"
+                                        width="92px" {% else %} src="{% static 'images/chat.png' %}" width="24px" 
+                                        {%endif %} 
+                                        class="float-start me-3" />
+                                    <span class="float-start">
+                                        {{ topic_post.title|title }}
+                                    </span>
+                                    <br>
+                                    <span class="float-start colorBlack bodyFont bodyText"
+                                    {% if not topic_post.featured_image %}
+                                        style="padding-left:40px !important"
+                                    {% endif %}
+                                    >
+                                        {{ topic_post.body|truncatewords_html:10|capfirst }}
+                                    </span>
+                                    <br>
+                                    <span class="float-start me-3 colorDeepBlue lightFont bodyText">
+                                        <b>{{ topic_post.get_category_display }}</b>
+                                        </span>
+                                    <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                    {% include 'svg_icons/thumbs_down.html' %}
+                                    {{ topic_post.total_dislikes }}
+                                    </span>
+
+                                    <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                        {% include 'svg_icons/thumbs_up.html' %}
+                                        {{ topic_post.total_likes }}
+                                        </span>
+
+                                        <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                            {% include 'svg_icons/comment.html' %}
+                                            {% get_comment_count for topic_post as comment_count %}
+                                            {{ comment_count }}
+                                            </span>
+
+                                            <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                                {% include 'svg_icons/views.html' %}
+                                                {{ topic_post.views }}
+                                                </span>
+        
+                                </a>
+
+                                {% endif %}
+                                {% endfor %}
+
+
+                            </ul>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="topicPostsNotCarRelated">
+                        <button class="accordion-button squareBorders colorDeepBlueBg colorWhite headingFont collapsed"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapsePostsNotCarRelated"
+                            aria-expanded="false" aria-controls="collapsePostsNotCarRelated">
+                            {% trans 'Non Car Related Discussions' %}
+                        </button>
+                    </h2>
+                    <div id="collapsePostsNotCarRelated" class="accordion-collapse collapse show"
+                        aria-labelledby="topicPostsNotCarRelated" data-bs-parent="#homePosts">
+                        <div class="accordion-body">
+                           
+                            {% if posts %}
+                            <ul class="list-group list-group-flush">
+
+                                {% for topic_post in posts %}
+                                {% if topic_post.category == 'O' %}
+                                <a href="{% url 'post_details'  slug=topic_post.slug %}"
+                                class="colorBlack colorOceanBlueOnHover headingFont list-group-item list-group-item-action clearfix">
+                                <img {% if topic_post.featured_image %} src="{{ topic_post.featured_image.url }}"
+                                    width="92px" {% else %} src="{% static 'images/chat.png' %}" width="24px" 
+                                    {%endif %} 
+                                    class="float-start me-3" />
+                                <span class="float-start">
+                                    {{ topic_post.title|title }}
+                                </span>
+                                <br>
+                                <span class="float-start colorBlack bodyFont bodyText"
+                                {% if not topic_post.featured_image %}
+                                    style="padding-left:40px !important"
+                                {% endif %}
+                                >
+                                    {{ topic_post.body|truncatewords_html:10|capfirst }}
+                                </span>
+                                <br>
+                                <span class="float-start me-3 colorDeepBlue lightFont bodyText">
+                                    <b>{{ topic_post.get_category_display }}</b>
+                                    </span>
+                                <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                {% include 'svg_icons/thumbs_down.html' %}
+                                {{ topic_post.total_dislikes }}
+                                </span>
+
+                                <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                    {% include 'svg_icons/thumbs_up.html' %}
+                                    {{ topic_post.total_likes }}
+                                    </span>
+
+                                    <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                        {% include 'svg_icons/comment.html' %}
+                                        {% get_comment_count for topic_post as comment_count %}
+                                        {{ comment_count }}
+                                        </span>
+
+                                        <span class="float-end me-3 colorDarkGrey headingFont bodyText">
+                                            {% include 'svg_icons/views.html' %}
+                                            {{ topic_post.views }}
+                                            </span>
+    
+                            </a>
+                                {% endif %}
+                                {% endfor %}
+
+
+                            </ul>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="my-3">
+                <!-- pagination -->
+                {% include 'topic/website/pagination.html' with posts=posts %}
+            </div>          
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

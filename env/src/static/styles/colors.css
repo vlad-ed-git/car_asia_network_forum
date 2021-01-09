@@ -1,0 +1,147 @@
+/******* STANDARDS ******/
+input:focus,
+input:active,
+input:active,
+textarea:focus,
+textarea:active,
+textarea:active,
+button:focus,
+button:active,
+button:active
+select:focus,
+select:active,
+select:active,
+.custom-file-input:focus,
+.custom-file-input:active,
+.custom-file-input:active,
+.custom-control-input:focus,
+.custom-control-input:active,
+.custom-control-input:active{
+    outline-width: 1px !important;
+    outline-color: #1fa8dc !important;
+    box-shadow: none !important;
+}
+
+.colorWhiteBg{
+    background-color: #ffffff;
+}
+
+.colorWhite{
+    color: #ffffff;
+}
+
+.whiteOnHover:hover,
+.whiteOnHover:focus,
+.whiteOnHover:active{
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.whiteBgOnHover:hover,
+.whiteBgOnHover:focus{
+    cursor: pointer;
+    background-color: #ffffff !important;
+    border:1px solid #2b5db4 !important;
+}
+
+
+.colorBlackBg{
+    background-color: #000000;
+}
+
+.colorBlack{
+    color: #000000;
+}
+
+.blackOnHover:hover,
+.blackOnHover:focus,
+.blackOnHover:active{
+    cursor: pointer;
+    color: #000000;
+}
+
+/******** THE GREENS *******/
+.colorGreenBluishBg{
+    background-color: #079fa2;
+}
+
+.colorGreenBluish{
+    color: #079fa2;
+} 
+.colorFieldGreenBg{
+    background-color: #328b5f;
+}
+
+.colorFieldGreen{
+    color: #328b5f;
+}
+
+/********* THE GREYS **************/
+.colorDarkGreyBg{
+    background-color: #495e73;
+}
+
+
+.colorDarkestGreyBg{
+    background-color: #3e5366;
+}
+
+/* THE BLUES ******/
+.colorDeepBlueBg{
+    background-color: #2b5db4;
+}
+
+.colorDeepBlue{
+    color: #2b5db4;
+}
+
+
+
+.colorDeepBlueOnHover:hover,
+.colorDeepBlueOnHover:focus,
+.colorDeepBlueOnHover:active{
+    cursor: pointer;
+    color:  #2b5db4;
+}
+
+.colorBlue{
+    color: #1fa8dc;
+}
+
+.colorOceanBlue{
+    color : #4bbfce
+ }
+
+.colorLightOceanicBlue{
+    color: #73afc3;
+}
+
+.colorLighterOceanicBlue{
+    color : #a0c2ce;
+}
+
+.colorOceanBlueOnHover:hover,
+.colorOceanBlueOnHover:focus,
+.colorOceanBlueOnHover:active{
+    cursor: pointer;
+    color : #4bbfce !important;
+    text-decoration: none !important;
+}
+
+.colorOceanBlueBgHover:hover,
+.colorOceanBlueBgHover:focus,
+.colorOceanBlueBgHover:active{
+    cursor: pointer;
+    background-color : #4bbfce !important;
+    text-decoration: none !important;
+}
+
+
+/***** THE REDS *******/
+.colorErrors{
+    color: #B00020 ;
+}
+
+.colorErrorsBg{
+    background-color: #B00020 ;
+}

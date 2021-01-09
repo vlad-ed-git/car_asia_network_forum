@@ -1,0 +1,16 @@
+{% if filter_tag  %}
+href="{% url 'tagged' tag=filter_tag page=page_number  %}"
+
+{% elif filter_by_query %}
+href="{% url 'search' query=filter_by_query page=page_number  %}"
+
+{% elif filter_by_author %}
+href="{% url 'author_posts' author_id=filter_by_author_id  page=page_number  %}"
+
+{% elif filter_by_category %}
+href="{% url 'filter' category=filter_by_category_value  page=page_number  %}" 
+{% elif filter_favorites %}
+href="{% url 'favorites' liked=1  page=page_number  %}" 
+{% else %}
+href="{% url 'all_posts' page=page_number  %}" 
+{% endif %}

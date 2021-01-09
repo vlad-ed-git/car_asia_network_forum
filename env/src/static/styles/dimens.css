@@ -1,0 +1,30 @@
+.lgTitle{
+    font-size: 27px !important;
+}
+
+.title{
+    font-size: 19px !important;
+}
+
+.subTitle{
+    font-size: 16px !important;
+}
+
+.bodyText{
+    font-size: 13px !important;
+}
+
+.imgThumbnail400{
+	display: inline-block;
+	width: 400px;
+	height: 400px;
+	object-fit: contain;
+
+}
+
+.imgThumbnail615 {
+    display: inline-block;
+    width: 615px;
+    height: 346px;
+    object-fit: contain;
+  }

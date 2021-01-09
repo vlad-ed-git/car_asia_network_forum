@@ -1,0 +1,27 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "500 Error" %}</title>
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <h6 class="bodyFont title colorErrors mb-4">
+                   {% trans 'OOPS! Something went wrong!' %}
+                   <a href="{% url 'home' %}" class="ms-2 colorDeepBlue headingFont colorOceanBlueOnHover">
+                        {% trans 'Return home' %}
+                   </a>
+                </h6>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,24 +1,53 @@
-{% if allow_feedback %}
-<span class="small">
-    {% if show_feedback and item.likedit_users %}
-    <a class="badge badge-primary text-white cfb-counter px-2 headingFont" data-toggle="tooltip"
-       title="{{ item.likedit_users|join:'<br/>' }}">
-        {{ item.likedit_users|length }}</a>
+{% load static %}
+{% load i18n %}
+<div class="clearfix bodyText my-2">
+       <!-- like comment -->
+       <a 
+       href="{% url 'comments-xtd-like' item.comment.pk %}"
+   
+   {% if item.likedit %}
+   class="float-start me-3 colorDeepBlue colorOceanBlueOnHover headingFont" 
+   {% else %}
+   class="float-start me-3 colorBlack  colorOceanBlueOnHover headingFont" 
+   {% endif %}
+   >
+   
+   {% include 'svg_icons/thumbs_up.html' %}
+   
+   {% if  item.likedit_users  %}
+       <!-- total likes -->
+       {{ item.likedit_users|length }}
+   {% endif %}
+   
+   {% trans "Like" %}
+   
+   </a>
+
+   
+    <!-- dislike comment -->
+    <a 
+        href="{% url 'comments-xtd-dislike' item.comment.pk %}"
+
+    {% if item.dislikedit %}
+    class="float-start me-3 colorDeepBlue colorOceanBlueOnHover headingFont" 
+    {% else %}
+    class="float-start me-3 colorBlack  colorOceanBlueOnHover headingFont" 
+    {% endif %}
+    >
+    
+    
+
+    
+    {% if  item.dislikedit_users  %}
+        <!-- total likes -->
+        {{ item.dislikedit_users|length }}
     {% endif %}
 
-    <a href="{% url 'comments-xtd-like' item.comment.pk %}"
-       class="{% if not item.likedit %}mutedlink{% endif %} ">
-        <span class="px-2">{% include 'website/icons/thumbs_up.html' %}</span></a>
-    <span class="text-muted">|</span>
+    {% include 'svg_icons/thumbs_down.html' %}
+    {% trans "DisLike" %}
+    
+    </a>
 
-    {% if show_feedback and item.dislikedit_users %}
-    <a class="badge badge-primary text-white cfb-counter px-2 headingFont" data-toggle="tooltip"
-       title="{{ item.dislikedit_users|join:'<br/>' }}">
-        {{ item.dislikedit_users|length }}</a>
-    {% endif %}
-  
-    <a href="{% url 'comments-xtd-dislike' item.comment.pk %}"
-       class="{% if not item.dislikedit %}mutedlink{% endif %} ">
-        <span class="px-2 colorAccent">{% include 'website/icons/thumbs_down.html' %}</span></a>
-</span>
-{% endif %}
+
+
+</div>

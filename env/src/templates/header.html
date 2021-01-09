@@ -1,59 +1,26 @@
 {% load static %}
 {% load i18n %}
-<nav class="navbar navbar-expand-lg sticky-top colorWhiteBg tinyBorderBottomGray">
-    <div class="navbar-collapse w-25  collapse order-1 dual-collapse2" >
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link colorBlack headingFont accentOnHover"
-                    href="{% url 'home' %}">{% trans "Asia Car Network | Forum" %}</a>
-            </li>
-        </ul>
-    </div>
-    <div class="mx-auto w-50 order-2 w80Sm my2Sm">
-        
-        {% if show_search_bar %}
-        <form class="form-inline" method="GET">
-            <input class="form-control mr-2 w-75 bodyFont" type="search" placeholder='{% trans "Search" %}' aria-label="Search" name="query" id="id_search" value={{query}}>
-            <input type="text" value="topic" name="post_type" class="d-none">
-            <button class="btn btn-small btnOutlineAccent headingFont" type="submit">{% trans "Search" %}</button>
-          </form>
-        {% endif %}
-            
-       
-          <button class="navbar-toggler mt-2" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-            {% include 'website/icons/hamburger.html' %}
-        </button>
-    </div>
-    <div class="navbar-collapse  w-25  collapse order-3 dual-collapse2" >
-        <ul class="navbar-nav ml-auto">
-            {% if request.user.is_authenticated %}
-            <li class="nav-item headingFont ml-2 py-2">
-                <a class="nav-item headingFont colorBlack accentOnHover" href="{% url 'profile' %}">
-                    {% trans "Hi" %}, {{ request.user.display_name|truncatewords:1 }}
-                    
-                    {% if achievement_notifications %}
-                    <span class="badge badge-pill badge-primary">{{ achievement_notifications }}</span>
-                    {% endif %}
-                        
-                </a>
-                
-            </li>
+<div id="headerImgContainer">
+    <img src="{% static 'images/navbar_car.png' %}" id="headerImg">
+    <div id="headerImgTxt">
+        <div class="clearfix w-100" >
+            <a  class="float-start inlineBlocks m-0  py-0 px-5 headingFont lgTitle colorGreenBluish whiteOnHover" href="{% url 'home' %}">
+                <i>{% trans "ASIA CAR NETWORK FORUM" %}</i>
+            </a>
+            <div  class="float-end inlineBlocks px-5 py-0" >
+                <div class="input-group">
+                <button id="languageBtn" type="button" class="btn no-border dropdown-toggle headingFont subTitle colorWhite whiteBgOnHover colorOceanBlueOnHover" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% include 'svg_icons/globe.html' %}
+                    Language
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" id="language-list" >
+                    <li><a class="dropdown-item colorBlack headingFont" href='{% url "set_language" %}' data-lang="en-us">English</a></li>
+                    <li><a class="dropdown-item colorBlack headingFont" href='{% url "set_language" %}' data-lang="th">ภาษาไทย</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+          
+        </div>
 
-            
-            <li class="nav-item headingFont ml-2">
-                <a class="nav-item btn btnOutlineAccent headingFont" href="https://asiacarnetwork.com">{% trans "Main Site" %}</a>
-            </li>
-
-            {% else %}
-            <li class="nav-item headingFont ml-2">
-                <a class="nav-item btn btnOutlineAccent headingFont" href="https://asiacarnetwork.com/member/login.php">{% trans "Login" %}</a>
-            </li>
-            {% endif %}
-            <!-- END IF IS SIGNED IN -->
-        </ul>
-    </div>
-
-
-
-
-</nav>
+</div>

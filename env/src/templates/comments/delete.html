@@ -1,57 +1,53 @@
-{% extends "django_comments_xtd/base.html" %}
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
 {% load i18n %}
 {% load comments_xtd %}
-{% load static %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "Remove this comment" %}</title>
+{% endblock title %}
 
-{% block title %}{% trans "Remove comment" %}{% endblock %}
 
 {% block content %}
-<div class="my-4">
-  <h3 class="text-center headingFont colorBlack">{% trans "Remove this comment?" %}</h3>
-  <hr/>
-</div>
-<h6 class="lead text-center bodyFont">{% trans "As a moderator you can delete comments. Deleting a comment does not remove it from the site, only prevents your website from showing the text. Click on the remove button to delete the following comment:" %}</h6>
-<div class="row">
-  <div class="offset-md-1 col-md-10">
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="media">
-          <div class="mr-3">
-            {% if item.comment.user.profile_picture %}
-            <img alt="" src="{{ item.comment.user.profile_picture.url }}" class="rounded-circle z-depth-2 shadow" width="48">
-                {% else %}
-                    <img alt="" src="{% static 'images/default_profile_avatar.png' %}" class="rounded-circle z-depth-2 shadow" width="48">
-                {% endif %}
-          </div>
-          <div class="media-body">
-            <h6 class="mb-1 small bodyFont colorBlack">
-              {{ comment.submit_date|date:"N j, Y, P" }}&nbsp;-&nbsp;
-              {% if comment.user_url %}
-              <a href="{{ comment.user_url }}" target="_new">
-                {{ comment.user_name }}
-              </a>
-              {% else %}
-              {{ comment.user_name }}
-              {% endif %}
-            </h6>
-            <p class="colorBlack bodyFont p-2">{{ comment.comment }}</p>
-          </div>
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <div class="bodyFont title colorBlack mb-4 clearfix">
+                   
+                       <h6>
+                        {% trans 'Remove this comment?' %}
+                       </h6>
+
+                       <p class="colorDarkGrey bodyFont subTitle">
+                            {{ comment.comment }} 
+                       </p>
+                       
+                       <form action="." method="post">
+                           {% csrf_token %}
+                       <div class="my-3 clearfix">
+                        
+                        <a href="{{ comment.get_absolute_url }}" class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/cancel.html' %}
+                            {% trans 'Cancel' %}
+                        </a>
+
+                        <button type="submit" name="submit" value="remove"
+                        style="border: none;"
+                        class="float-end me-3 colorErrors colorWhiteBg headingFont colorOceanBlueOnHover">
+                        {% include 'svg_icons/delete.html' %}
+                        {% trans 'Delete' %}
+                        </button>
+                       </div> 
+                       </form>  
+                </div>
+               
+   
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
-<div class="row">
-  <div class="offset-md-1 col-md-10">
-    <form action="." method="post">{% csrf_token %}
-      <input type="hidden" name="next" value="{{ comment.get_absolute_url }}"/>
-        <div class="form-group">
-          <div class="text-center">
-            <input type="submit" name="submit" class="btn btnOutlineErrors px-5 headingFont" value='{% trans "Remove" %}'/>
-            <a class="btn btnOutlineAccent px-5 headingFont" href="{{ comment.get_absolute_url }}">cancel</a>
-          </div>
-        </div>
-    </form>
-  </div>
-</div>
+
 {% endblock %}

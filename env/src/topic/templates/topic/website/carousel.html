@@ -1,0 +1,23 @@
+<!-- extra images -->
+<div id="extraImagesCarousel{{idCounter}}" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner">
+      {% if post.extra_image_one %}
+      <div class="carousel-item text-center active" >
+          <img src="{{ post.extra_image_one.url }}" class="imgThumbnail615">
+      </div>
+      {% endif %} 
+  
+      {% if post.extra_image_two %}
+      <div class="carousel-item text-center" >
+          <img src="{{ post.extra_image_two.url }}" class="imgThumbnail615">
+      </div>
+      {% endif %} 
+  
+          {% if post.extra_image_three %}
+      <div class="carousel-item text-center" >
+          <img src="{{ post.extra_image_three.url }}" class="imgThumbnail615">
+      </div>
+      {% endif %} 
+     
+    </div>
+  </div>

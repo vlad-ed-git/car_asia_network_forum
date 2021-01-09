@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg mb-3 mt-0">
+        <div class="col-12 col-md-5 col-lg-3">
+            {% include 'topic/website/side_bar.html' %}
+        </div>
+        <div class="col-12 col-md-7 col-lg-9">
+            <h6 class="headingFont colorWhite">
+                <span class="title mr-3">
+                    {{ post.title|title }}
+                </span> 
+            </h6>
+            <div class="colorWhiteBg p-3">
+                <div>
+
+                    {% if post.featured_image %}
+                    <div class="my-3 text-center">
+                        <!-- featured image -->
+                            <img class="img-fluid" 
+                            src="{{ post.featured_image.url }}">
+                    </div>
+                    {% endif %}
+                    
+                    <p class="bodyFont colorBlack maintainNewLines mb-3 mt-0">
+                        {{ post.body|safe|capfirst }}
+                    </p>
+
+                    <div>
+                        {% include 'topic/website/carousel.html' with post=post idCounter=1%}
+                    </div>
+
+      
+                    <div class="mb-3 mt-0 lightFont">
+                        {% trans "Posted by" %}
+                        <span>
+                            <a href="{% url 'author_posts' author_id=post.author.id page=1 %}" class="colorBlack colorOceanBlueOnHover">
+                            {% if request.user.is_authenticated and request.user.id == post.author.id %}
+                            <b>{% trans "me" %}</b>
+                            {% else %}
+                            {{ post.author.display_name }}
+                            {% endif %}
+                            </a>
+                        </span>
+                        
+                        <span class="colorDarkGrey">
+                            {% trans 'on' %}  <b>{{ post.date_updated }}</b>
+                        </span>
+                    </div>
+
+                    <!-- editing  -->
+                    <div class="mb-3 mt-0">
+                        <div class="clearfix">
+                            <span class="float-start me-3 colorDarkGrey headingFont">
+                                {% include 'svg_icons/views.html' %}
+                                {{ post.total_viewed_by }}
+                                {% trans 'Views' %}
+                              </span>
+                        
+                        {% if can_edit  %}
+                        <a href="{% url 'delete_announcement' confirmed=0 slug=post.slug %}" class="float-end me-3 colorErrors headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/delete.html' %}
+                            {% trans 'Delete' %}
+                        </a>
+
+
+                        <a href="{% url 'edit_announcement' slug=post.slug %}" class="float-end me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/edit.html' %}
+                            {% trans 'Edit' %}
+                        </a>     
+                        {% endif %}
+                    </div>
+                            
+                    </div>
+                        
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}

@@ -19,14 +19,17 @@ mimetypes.add_type("image/png", ".png", True)
 mimetypes.add_type("application/javascript", ".js", True)
 mimetypes.add_type("text/css", ".css", True)
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR =  os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
-MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+MEDIA_DIR = os.path.join(BASE_DIR, "media")
 SITE_CONFIG_DIR = os.path.join(BASE_DIR, "config")
 LOCALE_DIR = os.path.join(BASE_DIR, "locale")
 LOCALE_PATHS = ( LOCALE_DIR, )
+
+DATETIME_INPUT_FORMATS = ['%Y/%m/%d %H:%M',]
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,25 +41,17 @@ sk = sk_file.readline()
 sk_file.close()
 SECRET_KEY = sk
 
-#email
-e_pw_file = open(SITE_CONFIG_DIR + '/email_pw.txt', 'r')
-e_pw = e_pw_file.readline()
-e_pw_file.close()
-E_PW = e_pw
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 if DEBUG:
-    ALLOWED_HOSTS = []
-else:
-    ALLOWED_HOSTS = [ 'www.forum.asiacarnetwork.com','forum.asiacarnetwork.com','localhost', '128.199.189.150']
-
-# Application definition
-if DEBUG:
     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 else:
-    #TODO specify email settings
+    #email
+    e_pw_file = open(SITE_CONFIG_DIR + '/email_pw.txt', 'r')
+    e_pw = e_pw_file.readline()
+    e_pw_file.close()
+    E_PW = e_pw
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
     EMAIL_HOST = 'mail.infoanalyse.com'
     EMAIL_PORT = 465
@@ -64,25 +59,29 @@ else:
     EMAIL_HOST_PASSWORD = E_PW
     EMAIL_USE_SSL = True
     DEFAULT_FROM_EMAIL = 'Forum AsiaCarNetwork <helpdesk@forum.asiacarnetwork.com>'
-    
-# Application definition
 
+if DEBUG:
+    ALLOWED_HOSTS = []
+else:
+    [ 'www.forum.asiacarnetwork.com','forum.asiacarnetwork.com','localhost', '128.199.189.150']
+
+# Application definition
+# TODO achievements
 INSTALLED_APPS = [
     'account',
-    'website',
     'topic',
-    'achievements',
-    'forum_analytics',
-
+    'dashboard',
+    
+    
     'django.contrib.sites',
     'django_comments_xtd',
     'django_comments',
-
+    
     'rest_framework',
     'rest_framework.authtoken',
     
-    'corsheaders',
-
+     'corsheaders',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -92,7 +91,7 @@ INSTALLED_APPS = [
     'storages',
 ]
 
-# comments-xtd app settings
+#COMMENTS
 SITE_ID = 1
 COMMENTS_APP = 'django_comments_xtd'
 COMMENTS_XTD_MAX_THREAD_LEVEL = 5
@@ -101,6 +100,8 @@ COMMENTS_HIDE_REMOVED = True
 COMMENTS_XTD_MODEL = 'topic.models.CustomComment'
 COMMENTS_XTD_LIST_ORDER = ('-thread_id', 'order') 
 
+
+# REST API
 AUTHENTICATION_BACKENDS = ( 
     'django.contrib.auth.backends.AllowAllUsersModelBackend', 
     'account.backends.CaseInsensitiveModelBackend',
@@ -130,8 +131,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-#CORS_ALLOWED_ORIGINS = ["https://www.asiacarnetwork.com","https://asiacarnetwork.com"]
-CORS_ALLOW_ALL_ORIGINS = True #TODO remove this
+#TODO CORS_ALLOWED_ORIGINS = ["https://www.asiacarnetwork.com","https://asiacarnetwork.com"]
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'mysite.urls'
 
@@ -151,64 +152,68 @@ TEMPLATES = [
     },
 ]
 
-#specify custom user model
 AUTH_USER_MODEL = "account.Account"
 WSGI_APPLICATION = 'mysite.wsgi.application'
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800 # 50 MB
 FILE_UPLOAD_MAX_MEMORY_SIZE = 52428800 # 50 MB
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-dn_file = open(SITE_CONFIG_DIR + '/db_name.txt', 'r')
-DB_NAME = dn_file.readline()
-dn_file.close()
-
-# set the user name
-un_file = open(SITE_CONFIG_DIR + '/db_user.txt', 'r')
-USER_NAME = un_file.readline()
-un_file.close()
-
-# set the password
-pw_file = open(SITE_CONFIG_DIR + '/db_pw.txt', 'r')
-PW = pw_file.readline()
-pw_file.close()
-
-# set the port
-port_file = open(SITE_CONFIG_DIR + '/db_port.txt', 'r')
-PORT = port_file.readline()
-port_file.close()
-
-
-# set the host
-hst_file = open(SITE_CONFIG_DIR + '/db_host.txt', 'r')
-HOST = hst_file.readline()
-hst_file.close()
-
-
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-"""DATABASES = {
+
+if DEBUG:
+    DATABASES = {
         'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': USER_NAME,
-        'PASSWORD': PW,
-        'HOST': HOST,
-        'PORT': PORT,
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
-}"""
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
     }
-}
+    
+else:
+    dn_file = open(SITE_CONFIG_DIR + '/db_name.txt', 'r')
+    DB_NAME = dn_file.readline()
+    dn_file.close()
+
+    # set the user name
+    un_file = open(SITE_CONFIG_DIR + '/db_user.txt', 'r')
+    USER_NAME = un_file.readline()
+    un_file.close()
+
+    # set the password
+    pw_file = open(SITE_CONFIG_DIR + '/db_pw.txt', 'r')
+    PW = pw_file.readline()
+    pw_file.close()
+
+    # set the port
+    port_file = open(SITE_CONFIG_DIR + '/db_port.txt', 'r')
+    PORT = port_file.readline()
+    port_file.close()
+
+
+    # set the host
+    hst_file = open(SITE_CONFIG_DIR + '/db_host.txt', 'r')
+    HOST = hst_file.readline()
+    hst_file.close()
+
+
+
+    # Database
+    # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+    DATABASES = {
+            'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': DB_NAME,
+            'USER': USER_NAME,
+            'PASSWORD': PW,
+            'HOST': HOST,
+            'PORT': PORT,
+            }
+    }
 
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+
 PASSWORD_HASHERS = [
     'django.contrib.auth.hashers.Argon2PasswordHasher',
     'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
@@ -249,18 +254,22 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = True
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
-    
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 STATICFILES_DIRS = [
     STATIC_DIR,
     MEDIA_DIR,
 ]
-
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-# read AWS (SPACES) credentials
-if not DEBUG:
+
+if DEBUG:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'cdn/static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'cdn/media')
+    
+else:
+    # read AWS (SPACES) credentials
     aws_key_id_file = open(SITE_CONFIG_DIR + '/aws_key_id.txt', 'r')
     AWS_ACCESS_KEY_ID_TXT = aws_key_id_file.readline()
     aws_key_id_file.close()
@@ -295,9 +304,7 @@ if not DEBUG:
     'ACL': 'public-read',
     }
 
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'public/static_cdn')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'public/media_cdn')
+    
 
 #require login to post comments
 COMMENTS_XTD_APP_MODEL_OPTIONS = {
