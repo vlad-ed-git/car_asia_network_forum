@@ -1,0 +1,147 @@
+{% load static %}
+{% load i18n %}
+
+<!-- Categories -->
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'Categories' %}
+    </span>
+</h6>
+
+<div class="colorDarkestGreyBg p-3 mb-3">
+    <div class="card shadow squareBorders mb-2">
+        <div class="card-body">
+    <div class="list-group list-group-flush">
+        {% for category in categories  %}
+        <a href="{% url 'filter' category=category.category page=1 %}" class="list-group-item list-group-item-action headingFont subTitle colorBlack colorOceanBlueOnHover"
+        >
+        {{ category.category_display }}
+        </a>
+        
+    {% endfor %}
+        
+      </div>
+        </div>
+    </div>
+        
+</div>
+
+{% if  my_liked_posts  %}
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'My Favorites' %}
+    </span>
+</h6>
+
+<div class="colorDarkestGreyBg p-3 mb-3">
+    
+    {% for favorite in my_liked_posts  %}
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ favorite.title|title|truncatewords_html:16 }}
+                </h6>
+            </div>
+        </div>
+
+    {% endfor %}
+        
+</div>
+{% endif %}
+    
+
+
+{% if  top_liked_posts %}
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'Popular Posts' %}
+    </span>
+</h6>
+
+<div class="colorDarkestGreyBg p-3 mb-3">
+    
+    {% for liked in top_liked_posts  %}
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ liked.title|title|truncatewords_html:16 }}
+                </h6>
+            </div>
+        </div>
+
+    {% endfor %}
+        
+</div>
+{% endif %}
+
+
+
+{% if  top_viewed_posts %}
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'Most Viewed Posts' %}
+    </span>
+</h6>
+
+<div class="colorDarkestGreyBg p-3 mb-3">
+    
+    {% for viewed in top_viewed_posts  %}
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ viewed.title|title|truncatewords_html:16 }}
+                </h6>
+            </div>
+        </div>
+
+    {% endfor %}
+        
+</div>
+{% endif %}
+
+
+
+<h6 class="headingFont colorWhite mb-4 pb-1">
+    <span class="title">
+        {% trans 'Forum Stats' %}
+    </span>
+</h6>
+<div class="colorDarkestGreyBg p-3 mb-3">
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ total_users_stats }} {% trans 'Members' %} 
+                </h6>
+            </div>
+        </div>
+
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ total_posts_stats }} {% trans 'Topics' %}
+                </h6>
+            </div>
+        </div>
+
+        <div class="card shadow squareBorders mb-2">
+            <div class="card-body">
+                <h6 class="headingFont subTitle colorBlack colorOceanBlueOnHover">
+                    {{ total_comments_stats }} {% trans 'Comments' %} 
+                </h6>
+            </div>
+        </div>
+        
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

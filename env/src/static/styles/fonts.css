@@ -1,0 +1,28 @@
+@font-face {
+    font-family: customHeadingFont;
+    src: url('../fonts/OpenSansCondensed-Bold.ttf');
+}
+
+
+@font-face {
+    font-family: customBodyFont;
+    src: url('../fonts/OpenSans-Regular.ttf');
+}
+
+@font-face {
+    font-family: customLightFont;
+    src: url('../fonts/OpenSansCondensed-Light.ttf');
+}
+
+
+.headingFont{
+    font-family: customHeadingFont !important;
+}
+
+.bodyFont{
+    font-family: customBodyFont !important;
+}
+
+.lightFont{
+    font-family: customLightFont !important;
+}

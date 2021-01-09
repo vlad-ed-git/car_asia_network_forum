@@ -1,12 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from account.forms import RegistrationForm, LoginForm, AccountUpdateForm
-
+from rest_framework.authtoken.models import Token
+from .models import Account
+from django.http import JsonResponse
 
 def must_authenticate_view(request):
     if request.user.is_authenticated:
     	logout(request)
-    return render(request, 'account/must_authenticate.html', {})
+    return render(request, 'topic/account/must_authenticate.html', {})
 
 def registration_view(request):
 	context = {}
@@ -25,7 +27,7 @@ def registration_view(request):
 	else:
 		form = RegistrationForm()
 		context['registration_form'] = form
-	return render(request, 'account/register.html', context)
+	return render(request, 'topic/account/register.html', context)
 
 
 def logout_view(request):
@@ -38,7 +40,7 @@ def login_view(request):
 	context = {}
 
 	user = request.user
-	if user.is_authenticated: 
+	if user.is_authenticated:
 		return redirect("home")
 
 	if request.POST:
@@ -57,8 +59,7 @@ def login_view(request):
 
 	context['login_form'] = form
 
-	# print(form)
-	return render(request, "account/login.html", context)
+	return render(request, "topic/account/login.html", context)
 
 
 def profile_view(request):
@@ -72,8 +73,7 @@ def profile_view(request):
 		if form.is_valid():
 			form.save()
 			form.initial = {
-				"email": request.user.email, 
-				"username": request.user.username,
+				"email": request.user.email,
 				"display_name": request.user.display_name,
 				"profile_picture": request.user.profile_picture,
 			}
@@ -82,7 +82,6 @@ def profile_view(request):
     		#preserve initial data
 			form.initial = {
 				"email": request.POST['email'],
-				"username": request.POST['username'],
 				"display_name": request.POST['display_name'],
 				"profile_picture": request.user.profile_picture,
 			}
@@ -91,11 +90,10 @@ def profile_view(request):
 
 			initial={
 					"email": request.user.email, 
-					"username": request.user.username,
 					"display_name": request.user.display_name,
 					"profile_picture": request.user.profile_picture,
 				}
 			)
 
 	context['profile_form'] = form
-	return render(request, "account/profile.html", context)
+	return render(request, "topic/account/profile.html", context)

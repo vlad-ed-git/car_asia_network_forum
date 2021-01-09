@@ -6,19 +6,20 @@ class CreateTopicPostForm(forms.ModelForm):
 
     class Meta:
         model = TopicPost
-        fields = ['title', 'body', 'featured_image',
+        fields = ['title', 'body', 'tags', 'featured_image',
                   'extra_image_one', 'extra_image_two', 'extra_image_three', 'category', 'is_approved']
 
 class UpdateTopicPostForm(forms.ModelForm):
     class Meta:
         model = TopicPost
-        fields = ['title', 'body', 'featured_image',
+        fields = ['title', 'body', 'tags', 'featured_image',
                   'extra_image_one', 'extra_image_two', 'extra_image_three', 'category', 'is_approved' ]
 
     def save(self, commit=True):
         #override save so that only these fields are updated
         topic_post = self.instance
         topic_post.title = self.cleaned_data['title']
+        topic_post.tags = self.cleaned_data['tags']
         topic_post.body = self.cleaned_data['body']
         topic_post.category  = self.cleaned_data['category']
         topic_post.is_approved = self.cleaned_data['is_approved']

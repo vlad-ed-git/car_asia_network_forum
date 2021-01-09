@@ -1,0 +1,43 @@
+
+{% load i18n %}
+<div class="my-3">
+    <!-- extra images -->
+<div id="extraImagesCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="2000">
+    <div class="carousel-inner">
+    
+    {% if post.featured_image %}
+    <div class="carousel-item active text-center" >
+        <img src="{{ post.featured_image.url }}" class="imgThumbnail400">
+        <br>
+        <small class="headingFont colorDarkGrey">{% trans 'Image 1' %}</small>
+    </div>
+    {% endif %} 
+
+
+      {% if post.extra_image_one %}
+      <div class="carousel-item  text-center" >
+          <img src="{{ post.extra_image_one.url }}" class="imgThumbnail400">
+          <br>
+          <small class="headingFont colorDarkGrey">{% trans 'Image 2' %}</small>
+      </div>
+      {% endif %} 
+  
+      {% if post.extra_image_two %}
+      <div class="carousel-item text-center" >
+          <img src="{{ post.extra_image_two.url }}" class="imgThumbnail400">
+          <br>
+          <small class="headingFont colorDarkGrey">{% trans 'Image 3' %}</small>
+      </div>
+      {% endif %} 
+  
+          {% if post.extra_image_three %}
+      <div class="carousel-item text-center" >
+          <img src="{{ post.extra_image_three.url }}" class="imgThumbnail400">
+          <br>
+          <small class="headingFont colorDarkGrey">{% trans 'Image 4' %}</small>
+      </div>
+      {% endif %} 
+     
+    </div>
+  </div>
+</div>

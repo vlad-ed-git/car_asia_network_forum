@@ -1,0 +1,97 @@
+main {
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+a{
+  text-decoration: none !important;
+}
+ 
+
+  #headerImgContainer {
+    position: relative;
+  }
+  
+  #headerImgTxt{
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    background-image: url('../images/transparent_black.png');
+  }
+  
+  #headerImg{
+    margin: 0%;
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  
+  #id_search,
+  #id_search_btn,
+  #filter_btn{
+    border: none !important;
+    border-radius: 0% !important;
+    height: calc(1.5em + .75rem + 2px) !important;
+  }
+  
+  #id_search:focus,
+  #id_search:active,
+  #id_search_btn:focus,
+  #id_search_btn:active,
+  #filter_btn:focus,
+  #filter_btn:active{
+    box-shadow: none !important;
+    outline-color: #3e5366 !important;
+  }
+  
+  #id_search::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+  
+  #id_search:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white;
+  }
+  
+  #id_search::-ms-input-placeholder { /* Microsoft Edge */
+    color:white;
+  }
+  
+  #languageBtn{
+    border-radius: 0% !important;
+    background-color: transparent !important;
+  }
+  
+  .squareBorders{
+    border-radius: 0% !important;
+  }
+
+  .no-border{
+    border: none !important;
+  }
+  
+  .footer {
+    min-height: 50px;
+  }
+
+  .blocks{
+    display: block !important;
+  }
+
+  .inlineBlocks{
+    display: inline-block !important
+  }
+
+  .inlines{
+    display: inline !important;
+  }
+
+  
+/* maintain-new-lines */
+.maintainNewLines {
+  white-space: pre-line !important;
+}

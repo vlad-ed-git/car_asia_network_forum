@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load comments %}
 
-<form method="POST" action="{% comment_form_target %}" class="my-4">
+<form method="POST" action="{% comment_form_target %}">
     {% csrf_token %}
     <fieldset>
         <input type="hidden" name="next" value="{% url 'comments-xtd-sent' %}"/>
@@ -16,7 +16,7 @@
         <div style="display:none">{{ form.honeypot }}</div>
 
         <div class="row form-group {% if 'comment' in form.errors %}has-danger{% endif %}">
-            <div class="col-12">
+            <div class="col-12 bodyFont colorBlack">
                 {{ form.comment }}
             </div>
         </div>
@@ -34,7 +34,7 @@
 
     <div class="row form-group">
         <div class="col-12 clearfix">
-            <input type="submit" name="post" value="{% trans 'send' %}" class="w-25 float-right btn btnOutlineAccent headingFont" />
+            <input type="submit" name="post" value="{% trans 'send' %}" class="float-end px-5 my-3 btn squareBorders headingFont colorWhite colorDeepBlueBg whiteBgOnHover colorDeepBlueOnHover" />
             <input type="submit" name="preview" value="{% trans 'preview' %}" class="btn btnOutlineAccent d-none" />
         </div>
     </div>

@@ -7,10 +7,15 @@ requires email else: {"response":"Provide the email"}
 
 RESPONSES for: http://127.0.0.1:8000/api/account/register
 {"error_message":"That email is already in use.","response":"Error"}
-{"response":"successfully registered new user.","email":"vlad.edna11@gmail.com","username":"mitch11","display_name":"Mitch Guy","pk":6,"token":"ac562e714fec90c35e92300448b90466f17edad8"}
-
+{
+    "response": "successfully registered new user.",
+    "email": "emerson@gmail.com",
+    "display_name": "Emerson",
+    "pk": 2,
+    "token": "19e9c4187d3a36a0fdd6d59db667e19deba95b64"
+}
 REQUIRED FIELDS
-{"username":["This field is required."],"display_name":["This field is required."],"password":["This field is required."],"password2":["This field is required."]}
+{"display_name":["This field is required."],"password":["This field is required."],"password2":["This field is required."]}
 
 
 
@@ -33,7 +38,6 @@ RESPONSES FOR GET http://127.0.0.1:8000/api/account/properties
 {
     "pk": 4,
     "email": "joanneseymour@gmail.com",
-    "username": "joanne",
     "display_name": "Joanne Seymour"
 }
 
@@ -61,9 +65,7 @@ RESPONSES FOR PUT http://127.0.0.1:8000/api/account/properties/update
     "email": [
         "account with this email already exists."
     ],
-    "username": [
-        "This field is required."
-    ],
+
     "display_name": [
         "This field is required."
     ]

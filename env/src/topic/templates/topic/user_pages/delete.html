@@ -1,0 +1,70 @@
+{% extends 'base_no_secondary_header.html' %}
+{% load static %}
+{% load i18n %}
+{% block title %} 
+<link rel="stylesheet" href="{% static 'styles/bootstrap-tagsinput.css' %}">
+<title>Asia Car Network |  {% trans "Deleting Post" %}</title>
+{% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="offset-1 col-10 offset-lg-2 col-lg-8">
+            <div class="m-3 p-3 colorWhiteBg">
+
+                <div class="bodyFont title colorBlack mb-4 clearfix">
+                   
+                   {% if post %}
+                       <!-- the post is yet to be deleted -->
+                       <h6>
+                        {% trans 'Are you sure you want to delete this post?' %}
+                       </h6>
+
+                       <h5 class="colorDarkGrey headingFont">
+                           {{ post.title|title }}
+                       </h5>
+                       
+                       <div class="my-3 clearfix">
+                        
+                        <a href="{% url 'post_details' slug=post.slug %}" class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/cancel.html' %}
+                            {% trans 'Cancel' %}
+                        </a>
+
+                        <a href="{% url 'delete' confirmed=1 slug=post.slug %}" class="float-end me-3 colorErrors headingFont colorOceanBlueOnHover">
+                        {% include 'svg_icons/delete.html' %}
+                        {% trans 'Delete' %}
+                        </a>
+                       </div>
+
+                    {% elif deleted %}
+                        <h6>
+                        {% trans 'The post has been deleted!' %}
+
+                        <div class="my-3 clearfix">
+                        
+                            <a href="{% url 'home' %}" class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                         
+                                {% trans 'Return home' %}
+                            </a>
+    
+                            <a href="{% url 'profile' %}" class="float-end me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+  
+                            {% trans 'Return to my profile' %}
+                            </a>
+                           </div>
+
+                       </h6>
+                   {% endif %}
+                       
+                </div>
+               
+   
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

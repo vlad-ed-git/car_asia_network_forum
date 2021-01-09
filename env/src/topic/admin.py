@@ -9,7 +9,7 @@ class CustomCommentAdmin(XtdCommentsAdmin):
                     'is_removed')
     fieldsets = (
         (None, {'fields': ('content_type', 'object_pk', 'site')}),
-        ('Content', {'fields': ('user', 'user_name', 'user_email',
+        ('Content', {'fields': ('user',
                                 'user_url', 'comment', 'followup')}),
         ('Metadata', {'fields': ('submit_date', 'ip_address',
                                  'is_public', 'is_removed')}),
@@ -17,4 +17,3 @@ class CustomCommentAdmin(XtdCommentsAdmin):
 
 admin.site.register(CustomComment, CustomCommentAdmin)
 admin.site.register(TopicPost)
-

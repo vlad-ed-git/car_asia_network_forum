@@ -29,19 +29,12 @@ def registration_view(request):
             data['response'] = 'Error'
             return Response(data)
 
-        username = request.data.get('username', '0')
-        if validate_username(username) != None:
-            data['error_message'] = 'That username is already in use.'
-            data['response'] = 'Error'
-            return Response(data)
-
         serializer = RegistrationSerializer(data=request.data)
 
         if serializer.is_valid():
             account = serializer.save()
             data['response'] = 'successfully registered new user.'
             data['email'] = account.email
-            data['username'] = account.username
             data['display_name'] = account.display_name
             data['pk'] = account.pk
             token = Token.objects.get(user=account).key
@@ -60,15 +53,6 @@ def validate_email(email):
     if account != None:
         return email
 
-
-def validate_username(username):
-    account = None
-    try:
-        account = Account.objects.get(username=username)
-    except Account.DoesNotExist:
-        return None
-    if account != None:
-        return username
 
 
 # Account properties

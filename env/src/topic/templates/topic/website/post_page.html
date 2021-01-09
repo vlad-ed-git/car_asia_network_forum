@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% load comments %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg mb-3 mt-0">
+        <div class="col-12 col-md-5 col-lg-3">
+            {% include 'topic/website/side_bar.html' %}
+        </div>
+        <div class="col-12 col-md-7 col-lg-9">
+            <h6 class="headingFont colorWhite">
+                <span class="title mr-3">
+                    {{ post.title|title }}
+                </span> 
+            </h6>
+            <div class="colorWhiteBg p-3">
+                <div class="py-3">
+
+                    {% if post.featured_image %}
+                    <div class="mb-3 mt-0 text-center">
+                        <!-- featured image -->
+                            <img class="img-fluid" 
+                            src="{{ post.featured_image.url }}">
+                    </div>
+                    {% endif %}
+                    
+                    <p class="bodyFont colorBlack maintainNewLines mb-3 mt-0">
+                        {{ post.body|safe|capfirst }}
+                    </p>
+
+                    <div>
+                        {% include 'topic/website/carousel.html' with post=post idCounter=1%}
+                    </div>
+
+                    <div class="my-3 headingFont">
+                        <span class="me-2">
+                            <a href="{% url 'filter' category=post.category page=1 %}" class="colorDeepBlue colorOceanBlueOnHover">{{ post.get_category_display }}</a>
+                        </span>
+                        {% if post.tags %}
+                        <span class="post_tags" id="post_tags">
+                            {{ post.tags }}
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3 mt-0 lightFont">
+                        {% trans "Posted by" %}
+                        <span>
+                            <a href="{% url 'author_posts' author_id=post.author.id page=1 %}" class="colorBlack colorOceanBlueOnHover">
+                            {% if request.user.is_authenticated and request.user.id == post.author.id %}
+                            <b>{% trans "me" %}</b>
+                            {% else %}
+                            {{ post.author.display_name }}
+                            {% endif %}
+                            </a>
+                        </span>
+                        
+                        <span class="colorDarkGrey">
+                            {% trans 'on' %}  <b>{{ post.date_updated }}</b>
+                        </span>
+                    </div>
+
+                    <!-- editing and likes -->
+                    <div class="mb-3 mt-0">
+
+                        
+
+                        <div class="clearfix">
+                            <span class="float-start me-3 colorDarkGrey headingFont">
+                                {% include 'svg_icons/views.html' %}
+                                {{ post.views }}
+                                {% trans 'Views' %}
+                              </span>
+
+                              <span class="float-start me-3 colorDarkGrey headingFont">
+                                {% include 'svg_icons/comment.html' %}
+                                {% get_comment_count for post as comment_count %}
+                                {{ comment_count }} {% trans 'Comment' %}{{ comment_count|pluralize }}
+                               
+                              </span>
+
+                        {% if request.user.is_authenticated %}
+ 
+
+                              <a href="{% url 'like' slug=post.slug %}" 
+                              
+                              
+                              {% if user_likes_post %}
+                              class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover" 
+                              {% else %}
+                              class="float-start me-3 colorBlack headingFont colorOceanBlueOnHover"
+                              {% endif %}  
+                              >
+                                {% include 'svg_icons/thumbs_up.html' %}
+                                {{ post.total_likes }}
+                                {% trans 'Like' %}
+                              </a>
+                              
+                              <a href="{% url 'dislike' slug=post.slug %}" 
+                                
+                                {% if user_dislikes_post %}
+                                class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover"
+                                {% else %}
+                                class="float-start me-3 colorBlack headingFont colorOceanBlueOnHover"
+                                {% endif %}
+                              >
+                                {% include 'svg_icons/thumbs_down.html' %} 
+                                
+                                {{ post.total_dislikes }}
+                                {% trans 'Dislike' %}
+                              </a>      
+                            
+                        {% else %}
+                            <span class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                                {% include 'svg_icons/thumbs_up.html' %}
+                                {{ post.total_likes }}
+                                {% trans 'Likes' %}
+                            </span>
+                            
+                            <span class="float-start me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                                {% include 'svg_icons/thumbs_down.html' %}
+                                {{ post.total_dislikes }}
+                                {% trans 'Dislikes' %}
+                            </span>  
+
+                        {% endif %}
+                            
+                        
+                        {% if can_edit  %}
+                        <a href="{% url 'delete' confirmed=0 slug=post.slug %}" class="float-end me-3 colorErrors headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/delete.html' %}
+                            {% trans 'Delete' %}
+                        </a>
+
+
+                        <a href="{% url 'edit' slug=post.slug %}" class="float-end me-3 colorDeepBlue headingFont colorOceanBlueOnHover">
+                            {% include 'svg_icons/edit.html' %}
+                            {% trans 'Edit' %}
+                        </a>     
+                        {% endif %}
+                    </div>
+                            
+                    </div>
+
+                    <!-- commenting -->
+                    
+                    {% if request.user.is_authenticated %}
+                    
+                    <div class="mb-3 mt-0">
+                        
+                        {% render_comment_form for post %}
+
+
+                    </div>
+                    
+                    {% else %}
+                    
+                    <div class="mb-3 mt-0">
+                        <div class="clearfix">
+                            <a class="float-end colorBlack headingFont colorOceanBlueOnHover"
+                             href="https://asiacarnetwork.com/member/login.php">
+                                {% trans 'Login to comment' %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                        
+                </div>
+            </div>
+
+            <!-- POST COMMENTS -->
+            <div>
+                {% include 'topic/comments/post_comments.html' with post=post %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock%}
+{% block js %}
+<!-- page specific javascript-->
+<script src="{% static 'scripts/make_tags_clickable.js' %}"></script>
+{% endblock js %}

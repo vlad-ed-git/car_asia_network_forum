@@ -10,6 +10,7 @@ from account.models import Account
 from django.utils.translation import gettext_lazy as _
 from django_comments_xtd.models import XtdComment
 from django.urls import reverse
+from topic.topic_categories import CATEGORIES
 
 def upload_location(instance, filename):
     file_path = 'topic/{author_id}/{title}-{filename}'.format(
@@ -17,20 +18,9 @@ def upload_location(instance, filename):
     return file_path
 
 class TopicPost(models.Model):
-    class CATEGORIES(models.TextChoices):
-        CA ='CA', _('Car Accessories')
-        CP = 'CP', _('Car Performance Parts')
-        CC = 'CC', _('Continental Cars')
-        CEI = 'CEI', _('Cosmetic Enhancement Items')
-        GCD = 'GCD', _('General Car Discussion')
-        ICE = 'ICE', _('In Car Entertainment')
-        JC = 'JC', _('Japanese Cars')
-        MR = 'MR', _('Maintenance & Repairs')
-        TR = 'TR', _('Tyres & Rims')
-        OTHER = 'O', _('NON CAR-RELATED')
-
-    title = models.CharField(max_length=200, null=False, blank=False)
-    body = models.TextField(max_length=5000, null=False, blank=False)
+    title = models.CharField(max_length=220, null=False, blank=False)
+    tags = models.CharField(max_length=220, null=True, blank=True)
+    body = models.TextField(max_length=60000, null=False, blank=False)
     category = models.CharField(max_length=5, choices=CATEGORIES.choices, default=CATEGORIES.OTHER, null=False, blank=False)
     featured_image = models.ImageField(
         upload_to=upload_location, null=True, blank=True)
@@ -46,7 +36,7 @@ class TopicPost(models.Model):
         auto_now=True, verbose_name="date updated")
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    is_approved = models.BooleanField(default=False)
+    is_approved = models.BooleanField(default=True)
     slug = models.SlugField(blank=True, unique=True)
     views = models.IntegerField(default=0)
     likes = models.ManyToManyField(Account, related_name='topic_post_likes')
@@ -62,7 +52,7 @@ class TopicPost(models.Model):
         return self.dislikes.count()
 
     def get_absolute_url(self):
-        return reverse('post_details',kwargs={'post_type': 'topic','slug': self.slug})
+        return reverse('post_details',kwargs={'slug': self.slug})
 
 @receiver(post_delete, sender=TopicPost)
 def submission_delete(sender, instance, **kwargs):
@@ -76,15 +66,15 @@ def submission_delete(sender, instance, **kwargs):
         if instance.extra_image_three:
             instance.extra_image_three.delete(False)
     except Exception as err:
-        print(err)
-
+        msg = str(err)  +  ": topic | topic submission_delete"
+       
 
 def compress_image(image):
     im = Image.open(image)
     out = BytesIO()
     if im.mode in ("RGBA", "P"):
         im = im.convert("RGB")
-    im.save(out, 'JPEG', quality=30)
+    im.save(out, 'JPEG', quality=70)
     compressed = File(out, name=image.name)
     im.close()
     return compressed
@@ -93,7 +83,7 @@ def compress_image(image):
 def pre_save_topic_post_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(
-            instance.author.username + "-" + instance.title[0:48] )
+            str(instance.author.id) + "-" + instance.title[0:48] )
     try:
         post_obj = TopicPost.objects.get(pk=instance.pk)
 

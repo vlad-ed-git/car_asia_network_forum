@@ -1,0 +1,27 @@
+{% load i18n %}
+
+{% if failed %}
+<h6 class="my-3">
+    <small class="colorErrors headingFont"> 
+        {% trans 'An error occurred!' %}
+    </small>
+</h6>
+{% endif %}
+
+{% if form.non_field_errors %}
+<h6 class="my-3">
+    <small class="colorErrors headingFont"> {{ form.non_field_errors }} </small>
+</h6>
+{% endif %}
+
+<!-- field errors errors -->
+
+{% if form.errors %}
+{% for field in form  %}
+{% for error in field.errors  %}
+<h6 class="colorErrors headingFont my-3">
+  {% trans "Error" %} | {{ field.name }} , {{ error }}
+</h6>
+{% endfor %}
+{% endfor %}
+{% endif %}

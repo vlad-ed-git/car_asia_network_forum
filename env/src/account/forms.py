@@ -8,7 +8,7 @@ from account.models import Account
 class RegistrationForm(UserCreationForm):
 	class Meta:
 		model = Account
-		fields = ("email", "username", 'display_name', "password1", "password2")
+		fields = ("email",  'display_name', "password1", "password2")
 
 
 class LoginForm(forms.ModelForm):
@@ -31,7 +31,7 @@ class AccountUpdateForm(forms.ModelForm):
 
 	class Meta:
 		model = Account
-		fields = ('email', 'username', 'display_name', 'profile_picture')
+		fields = ('email',  'display_name', 'profile_picture')
 
 	def clean_email(self):
 		if self.is_valid():
@@ -41,15 +41,6 @@ class AccountUpdateForm(forms.ModelForm):
 			except Account.DoesNotExist:
 				return email
 			raise forms.ValidationError('Email "%s" is already in use.' % email)
-
-	def clean_username(self):
-		if self.is_valid():
-			username = self.cleaned_data['username']
-			try:
-				account = Account.objects.exclude(pk=self.instance.pk).get(username=username)
-			except Account.DoesNotExist:
-				return username
-			raise forms.ValidationError('Username "%s" is already in use.' % username)
 
 	def clean_display_name(self):
 		display_name = self.cleaned_data['display_name']

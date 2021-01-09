@@ -17,21 +17,18 @@ def upload_location(instance, filename):
 
 
 class MyAccountManager(BaseUserManager):
-    def get_by_natural_key(self, display_name):
-        return self.get(display_name=display_name,)
+    def get_by_natural_key(self, email):
+        return self.get(email=email,)
 
-    def create_user(self, email, display_name, username,  password=None, is_editor = False, is_super_editor = False):
+    def create_user(self, email, display_name,   password=None, is_editor = False, is_super_editor = False):
         if not email:
             raise ValueError('Users must have an email address')
         if not display_name:
             raise ValueError('Users must have a name')
-        if not username:
-            raise ValueError('Users must have a username')
 
         user = self.model(
             email=self.normalize_email(email),
             display_name=display_name,
-            username=username,
             is_editor = is_editor,
             is_super_editor = is_super_editor
         )
@@ -44,11 +41,10 @@ class MyAccountManager(BaseUserManager):
         return user
 
 
-    def create_superuser(self, email, display_name, username, password):
+    def create_superuser(self, email, display_name,  password):
         user = self.create_user(
             email=self.normalize_email(email),
             display_name=display_name,
-            username=username,
             password=password,
             is_editor=True,
             is_super_editor = True,
@@ -62,9 +58,8 @@ class MyAccountManager(BaseUserManager):
 class Account(AbstractBaseUser):
 
     # custom
-    email = models.EmailField(verbose_name="email", max_length=60, unique=True)
-    display_name = models.CharField(verbose_name="name", max_length=120)
-    username = models.CharField(max_length=36, unique=True)
+    email = models.EmailField(verbose_name="email", max_length=94, unique=True)
+    display_name = models.CharField(verbose_name="name", max_length=200)
     is_editor = models.BooleanField(default=False)
     is_super_editor = models.BooleanField(default=False)
     profile_picture = models.ImageField(upload_to=upload_location, blank=True, null=True)
@@ -77,14 +72,17 @@ class Account(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['display_name', 'username']
+    REQUIRED_FIELDS = ['display_name',]
 
   
     # set the manage defined above
     objects = MyAccountManager()
+    
+    def username(self):
+        return str(self.email)
 
     def natural_key(self):
-       return (self.display_name,)
+       return (self.email,)
 
     def get_full_name(self):
         return self.display_name
@@ -119,7 +117,7 @@ def compress_image(image):
         out = BytesIO()
         if im.mode in ("RGBA", "P"):
             im = im.convert("RGB")
-        im.save(out, 'JPEG', quality=30)
+        im.save(out, 'JPEG', quality=70)
         compressed = File(out, name=image.name)
         im.close()
         return compressed

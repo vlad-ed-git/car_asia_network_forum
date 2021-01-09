@@ -1,15 +1,11 @@
-<!DOCTYPE html>
+{% load static %}
+{% load i18n %}
+<!doctype html>
 <html lang="en">
   <head>
-    {% load static %}
     <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-
-    {% block meta %} {% endblock meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- fav ico-->
     <link
@@ -32,46 +28,30 @@
     <link rel="manifest" href="{% static 'favicon_io/site.webmanifest' %}" />
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}" />
+    <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
 
-    <!-- font awesome css-->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font_awesome_all.min.css' %}" />
-    <!-- custom css -->
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/fonts.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/colors.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/dimens.css' %}"
-    />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+    <!-- Site css-->
+    <link href="{% static 'styles/base.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/dimens.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/colors.css' %}" rel="stylesheet">
+    <link href="{% static 'styles/fonts.css' %}" rel="stylesheet">
+
+    {% block title %} {% endblock title %}
     {% block css %} {% endblock css %}
 
-    <title>Car Asia Network | Forum</title>
+    <title>Asia Car Network | {% trans 'Forum' %}</title>
   </head>
-  <body class="colorGreyBg">
-    {% include 'header.html' %} {% block content %} {% endblock content %}
+  <body  class="colorDarkGreyBg">
+    {% include 'header.html' %}
+    {% include 'secondary_header.html' %}
+    <main>
+      {% block content %} {% endblock content %}
+    </main>
+ 
+
+    </body>
     {%include 'footer.html' %}
-
-
-    {% load static %}
-    <!-- JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="{% static 'scripts/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'scripts/jquery-3.5.1.min.js' %}"></script>
-    <script src="{% static 'scripts/popper.min.js' %}"></script>
-    <script src="{% static 'scripts/bootstrap.min.js.map' %}"></script>
-    <script src="{% static 'scripts/bootstrap.min.js' %}"></script>
-
-    {% block js %}
-    <!-- page specific javascript-->     
-    {% endblock js %}
-  </body>
+    {% block js %} {% endblock js %}
 </html>

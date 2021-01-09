@@ -1,0 +1,75 @@
+{% load static %}
+{% load i18n %}
+<div class="container-fluid">
+    <div class="row no-gutters colorDarkGreyBg">
+        <div class="col-12 col-md-5 col-lg-3">
+            
+            {% if request.user.is_authenticated %}
+            <div class="clearfix my-3 pt-4 px-3 w-100 colorDarkestGreyBg" style="height: 70px !important;">
+                <a class="float-start colorWhite subTitle headingFont colorOceanBlueOnHover" 
+                href="{% url 'profile' %}">
+                        
+                        {% if  request.user.profile_picture.url %}
+                        <img class="rounded-circle" height="30px" src="{{ request.user.profile_picture.url }}">
+                        {% else %}
+                        {% include 'svg_icons/power.html' %}
+                        {% endif %}
+                            
+                    
+                    {% trans "My Profile" %}
+                </a>
+                <a class="float-end colorWhite subTitle headingFont colorOceanBlueOnHover" 
+                href="https://asiacarnetwork.com">
+                    {% include 'svg_icons/power.html' %}
+                    {% trans "MAIN SITE" %}
+                </a>
+            </div>
+
+            {% else %}
+            <div class="clearfix my-3 pt-4 px-3 w-100 colorDarkestGreyBg" style="height: 70px !important;">
+                <a class="float-start colorWhite subTitle headingFont colorOceanBlueOnHover" 
+                href="https://asiacarnetwork.com/member/login.php">
+                    {% include 'svg_icons/person_avatar.html' %}
+                    {% trans "LOGIN" %}
+                </a>
+                <a class="float-end colorWhite subTitle headingFont colorOceanBlueOnHover" 
+                href="https://asiacarnetwork.com">
+                    {% include 'svg_icons/power.html' %}
+                    {% trans "MAIN SITE" %}
+                </a>
+            </div>
+
+            {% endif %}
+                
+        </div>
+        <div class="col-12 col-md-7 col-lg-9">
+            <div class="clearfix my-3 py-3 px-3 w-100 colorDarkestGreyBg">
+                <form class="form-inline float-end w-100" method="GET">
+                    <div class="input-group my-0 py-0">
+                        <input id="id_search" type="text" class="form-control colorGreenBluishBg headingFont colorWhite subTitle" placeholder='{% trans "Search Community" %}' aria-label="Search Community" name="query" id="id_search">
+                        <button id="id_search_btn" type="submit" class="btn btn-outline-secondary colorGreenBluishBg headingFont colorWhite subTitle whiteBgOnHover colorOceanBlueOnHover" type="button">{% include 'svg_icons/search.html' %}</button>
+                        <button id="filter_btn" type="button" class="btn btn-outline-secondary dropdown-toggle headingFont subTitle colorWhite whiteBgOnHover colorOceanBlueOnHover" type="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans 'Filter' %}</button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='CA' page=1 %}">{% trans "Car Accessories" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='CP' page=1 %}">{% trans "Car Performance Parts" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='CC' page=1  %}">{% trans "Continental Cars" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='CEI'  page=1 %}">{% trans "Cosmetic Enhancement Items" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='GCD' page=1  %}">{% trans "General Car Discussion" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='ICE' page=1  %}">{% trans "In Car Entertainment" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='JC'  page=1 %}">{% trans "Japanese Cars" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='MR' page=1  %}">{% trans "Maintenance & Repairs" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='TR' page=1  %}">{% trans "Tyres & Rims" %}</a></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'filter' category='O' page=1  %}">{% trans "Not Car Related" %}</a></li>
+                            {% if request.user.is_authenticated %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item colorBlack headingFont" href="{% url 'author_posts' author_id=request.user.id  page=1 %}">{% trans 'Discussions I Started' %}</a></li>
+                            {% endif %}
+                          </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</div>
